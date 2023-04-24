@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderComponent } from './header.component';
-import { AuthService } from 'src/presentation/core/security/services/userAuth/auth.service';
+// import { AuthService } from 'src/presentation/core/security/services/userAuth/auth.service';
 import { ShowForRolesDirective } from '../../directives/show-for-roles.directive';
 
 describe('HeaderComponent', () => {
@@ -17,9 +17,9 @@ describe('HeaderComponent', () => {
         }
       }],
       providers: [{
-        provide: AuthService, useValue: {
-          SignOut: () => { }
-        }
+        // provide: AuthService, useValue: {
+        //   SignOut: () => { }
+        // }
       }]
     })
       .compileComponents();

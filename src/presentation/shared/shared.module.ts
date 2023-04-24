@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
 import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-to-relative-time.pipe';
@@ -16,7 +15,6 @@ import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-
     BackButtonComponent,
     HeaderComponent,
     FooterComponent,
-    AccessDeniedComponent,
     AppLayoutComponent,
     ShowForRolesDirective,
     DateToRelativeTimePipe,
@@ -26,7 +24,6 @@ import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-
     BackButtonComponent,
     HeaderComponent,
     FooterComponent,
-    AccessDeniedComponent,
     AppLayoutComponent,
     ShowForRolesDirective,
     DateToRelativeTimePipe,
