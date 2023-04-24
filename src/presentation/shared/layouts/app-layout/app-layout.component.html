@@ -2,7 +2,6 @@
   <sofka-header></sofka-header>
 </div>
 <div class="body">
-  <sofka-access-denied *ngIf="!allowToAccess"></sofka-access-denied>
   <router-outlet *ngIf="allowToAccess"><!-- Aqui llegan todas las paginas para mostrar --></router-outlet>
 </div>
 <div class="footer">
