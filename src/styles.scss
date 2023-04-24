@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "~bootstrap/dist/css/bootstrap.css";
+@import 'ngx-toastr/toastr';
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400&family=Ubuntu:ital,wght@0,300;0,400;1,300&display=swap');
+
+.header {
+  font-size: larger;
+  background-color: $gray-800;
+  font-family: 'Cairo', sans-serif;
+}
+
+.footer {
+  background-color: $gray-800;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.body {
+  height: 100%;
+  font-family: 'Cairo', sans-serif;
+  background:
+    url(https://www.freepik.es/foto-gratis/composicion-geometrica_6563636.htm#query=background%20minimalist&position=6&from_view=search&track=ais) no-repeat center center fixed;
+  background-size: cover;
+}
+
+.btn-outline-teal {
+  color: $teal-400;
+  background-color: transparent;
+  background-image: none;
+  border-color: $teal-400;
+}
+
+.btn-outline-teal:hover {
+  color: $teal-500;
+  background-color: $teal-500;
+  border-color: $teal-500;
+}
+
+.btn-outline-pink {
+  color: $pink-400;
+  background-color: transparent;
+  background-image: none;
+  border-color: $pink-400;
+}
+
+.btn-outline-pink:hover {
+  color: $pink-500;
+  background-color: $pink-500;
+  border-color: $pink-500;
+}
