@@ -5,10 +5,11 @@
 @import 'ngx-toastr/toastr';
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400&family=Ubuntu:ital,wght@0,300;0,400;1,300&display=swap');
 
+//structure
 .header {
   font-size: larger;
-  background-color: $gray-800;
-  font-family: 'Cairo', sans-serif;
+  background: #2A358C;
+  font-family: 'Cairo', sans-serif,
 }
 
 .footer {
@@ -20,32 +21,81 @@
   height: 100%;
   font-family: 'Cairo', sans-serif;
   background:
-    url(https://www.freepik.es/foto-gratis/composicion-geometrica_6563636.htm#query=background%20minimalist&position=6&from_view=search&track=ais) no-repeat center center fixed;
+    url(https://img.freepik.com/foto-gratis/composicion-geometrica_24972-787.jpg?w=1060&t=st=1682371989~exp=1682372589~hmac=829c93e55306dd4a13f9717887db2a6fe0447f3dd988864fbf159984e33397d4) no-repeat center center fixed;
   background-size: cover;
+  height: 100vh;
+  width: 100%;
+}
+
+//end structure
+
+//text colors
+.title {
+  font-family: 'Cairo', sans-serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.text-king-blue {
+  font-family: 'Cairo', sans-serif;
+  color: #090947;
+}
+
+.text-pink {
+  font-family: 'Cairo', sans-serif;
+  color: #FF3EAF;
+}
+
+.text-purple {
+  font-family: 'Cairo', sans-serif;
+  color: #6F00D0;
+}
+
+.text-blue {
+  font-family: 'Cairo', sans-serif;
+  color: #2A358C;
+}
+
+//end text colors
+
+//buttons
+.btn-action {
+  background: linear-gradient(45deg, rgba(111, 0, 208, 1) 35%, rgba(255, 62, 162, 1) 100%);
+  background-size: 200% 100%;
+  background-position: right bottom;
+  transition: all 0.2s ease;
+  color: $white;
+
+  &:hover {
+    background-position: left bottom;
+    color: $white;
+  }
 }
 
 .btn-outline-teal {
-  color: $teal-400;
+  color: $gray-800;
   background-color: transparent;
   background-image: none;
   border-color: $teal-400;
 }
 
 .btn-outline-teal:hover {
-  color: $teal-500;
+  color: white;
   background-color: $teal-500;
   border-color: $teal-500;
 }
 
 .btn-outline-pink {
-  color: $pink-400;
+  color: $gray-800;
   background-color: transparent;
   background-image: none;
   border-color: $pink-400;
 }
 
 .btn-outline-pink:hover {
-  color: $pink-500;
+  color: white;
   background-color: $pink-500;
   border-color: $pink-500;
 }
+
+//end buttons
