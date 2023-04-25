@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RegistrationModule } from 'src/data/repositories/registration/registration.module';
 import { UserModule } from 'src/data/repositories/user/user.module';
+import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 
 @NgModule({
   declarations: [
@@ -26,11 +27,12 @@ import { UserModule } from 'src/data/repositories/user/user.module';
     BrowserAnimationsModule,
     RegistrationModule,
     UserModule,
+    DeliveryModule,
     ToastrModule.forRoot(),
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
