@@ -8,6 +8,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RegistrationModule } from 'src/data/repositories/registration/registration.module';
+import { UserModule } from 'src/data/repositories/user/user.module';
+import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 import { ContentModule } from 'src/data/repositories/content/content.module';
 
 @NgModule({
@@ -23,12 +26,15 @@ import { ContentModule } from 'src/data/repositories/content/content.module';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RegistrationModule,
+    UserModule,
+    DeliveryModule,
     ContentModule,
     ToastrModule.forRoot(),
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

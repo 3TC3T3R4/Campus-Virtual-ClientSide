@@ -3,6 +3,6 @@ export const environment = {
 
   },
   production: true,
-  urlApiUsers: '',
-  urlApiCampus: 'https://localhost:7245/'
+  urlApiUsers: 'https://localhost:7056/api/User',
+  urlApiCampus: 'https://localhost:7245/',
 };
