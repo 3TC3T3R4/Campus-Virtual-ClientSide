@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { RegistrationModule } from 'src/data/repositories/registration/registration.module';
+import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 
 @NgModule({
   declarations: [
@@ -24,11 +25,12 @@ import { RegistrationModule } from 'src/data/repositories/registration/registrat
     HttpClientModule,
     BrowserAnimationsModule,
     RegistrationModule,
+    DeliveryModule,
     ToastrModule.forRoot(),
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAuthModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
