@@ -4,5 +4,5 @@ export const environment = {
   },
   production: true,
   urlApiUsers: '',
-  urlApiCampus: ''
+  urlApiCampus: 'https://localhost:7245/'
 };

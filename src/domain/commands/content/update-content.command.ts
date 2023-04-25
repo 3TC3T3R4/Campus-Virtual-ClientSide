@@ -1,8 +1,10 @@
+import { StateContent, TypeContent } from "src/base/utils/enums";
+
 export interface UpdateContentCommand {
     courseID : string,
     title : string,
     description : string,
-    type : number,
+    type : TypeContent,
     duration : number,
-    stateContent : number
+    stateContent : StateContent
 }
