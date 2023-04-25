@@ -5,9 +5,9 @@ import { ContentModel } from "src/domain/models/content/content.model";
 
 export abstract class ContentRepository {
     abstract CreateContentAsync( content : CreateContentCommand) : Observable<string>
-    abstract UpdateContentAsync( idContent : string, content : UpdateContentCommand) : Observable<string>
+    abstract UpdateContentAsync( params : {idContent : string, content : UpdateContentCommand}) : Observable<string>
     abstract DeleteContentAsync(idContent : string) : Observable<string>
-    abstract GetContentAsync() : Observable<ContentModel[]>
+    abstract GetAllContentAsync() : Observable<ContentModel[]>
     abstract GetContentByIdAsync(  idContent : string ) : Observable<ContentModel>
     abstract GetContentByCourseIdAsync( idCourse : string) : Observable<ContentModel[]>
 }
