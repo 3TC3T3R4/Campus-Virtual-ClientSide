@@ -1,8 +1,7 @@
 export const environment = {
-  firebase: {
-
-  },
+  firebase: {},
   production: false,
   urlApiUsers: '',
-  urlApiCampus: ''
+  urlApiCampus: '',
+  urlApiDeliveries: 'https://localhost:7245/api/Delivery',
 };
