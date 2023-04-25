@@ -8,6 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RegistrationModule } from 'src/data/repositories/registration/registration.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    RegistrationModule,
     ToastrModule.forRoot(),
     // AngularFireModule.initializeApp(environment.firebase),
     // AngularFireAuthModule,

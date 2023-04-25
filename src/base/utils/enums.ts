@@ -1,6 +1,5 @@
 //user enums
 export enum Roles {
-  Default = 0,
   Admin = 1,
   Trainee = 2,
 }
