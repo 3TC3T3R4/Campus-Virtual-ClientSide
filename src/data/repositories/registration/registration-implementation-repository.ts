@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RegistrationRepository } from 'src/bussiness/repositories/registration/registration.repository';
-import { NewRegistrationCommand } from 'src/domain/commands/registration/newRegistrationCommand';
+import { NewRegistrationCommand } from 'src/domain/commands/registration/new-registration-command';
 import { RegistrationModel } from 'src/domain/models/registration/registration.model';
 import { environment } from 'src/environments/environment';
 
