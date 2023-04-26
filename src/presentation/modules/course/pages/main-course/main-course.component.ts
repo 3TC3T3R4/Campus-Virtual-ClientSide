@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./main-course.component.scss']
 })
 export class MainCourseComponent {
+  //routes
+  routeDashboard: string[];
 
+  //variables
+  render!: boolean;
+
+  constructor() {
+    this.routeDashboard = ['../'];
+    this.render = true;
+  }
 }

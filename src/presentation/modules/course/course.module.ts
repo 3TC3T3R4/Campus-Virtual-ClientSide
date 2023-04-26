@@ -8,8 +8,7 @@ import { CreateCourseComponent } from './pages/create-course/create-course.compo
 import { RouteCourseComponent } from './pages/route-course/route-course.component';
 import { AssingPathComponent } from './pages/assing-path/assing-path.component';
 import { HttpClientModule } from '@angular/common/http';
-
-
+import { SharedModule } from 'src/presentation/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     CourseRoutingModule,

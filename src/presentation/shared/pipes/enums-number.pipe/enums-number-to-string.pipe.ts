@@ -3,9 +3,8 @@ import {
   Roles,
   StateRegistration,
   StateContent,
-  TypeContent
-  StateUser,
-
+  TypeContent,
+  StateUser
 } from '../../../../base/utils/enums';
 
 @Pipe({

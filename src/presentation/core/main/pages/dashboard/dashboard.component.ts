@@ -19,6 +19,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.toastr.success('Hello world!', 'Toastr fun!');
+    // this.toastr.success('Hello world!', 'Toastr fun!');
   }
 }
