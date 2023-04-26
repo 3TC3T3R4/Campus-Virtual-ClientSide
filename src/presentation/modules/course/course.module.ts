@@ -6,7 +6,8 @@ import { MainCourseComponent } from './pages/main-course/main-course.component';
 import { GetCourseComponent } from './pages/get-course/get-course.component';
 import { CreateCourseComponent } from './pages/create-course/create-course.component';
 import { RouteCourseComponent } from './pages/route-course/route-course.component';
-import { AssingPathComponent } from './assing-path/assing-path.component';
+import { AssingPathComponent } from './pages/assing-path/assing-path.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -23,6 +24,7 @@ import { AssingPathComponent } from './assing-path/assing-path.component';
     FormsModule,
     ReactiveFormsModule,
     CourseRoutingModule,
+    HttpClientModule,
   ]
 })
 export class CourseModule { }
