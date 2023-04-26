@@ -9,7 +9,6 @@ import { ContentRoutingModule } from './content-routing.module';
 import { ListComponent } from './components/list/list.component';
 import { SharedModule } from "../../shared/shared.module";
 import { FormComponent } from './components/form/form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
