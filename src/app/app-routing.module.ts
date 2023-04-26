@@ -10,7 +10,6 @@ import { RouterModule, Routes } from '@angular/router';
 // const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
 // const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
 
-
 const routes: Routes = [
   // {
   //   path: '',
@@ -26,9 +25,19 @@ const routes: Routes = [
   {
     path: '', // localhost:4200/dashboard
     loadChildren: () =>
-      import('../presentation/core/main/dashboard.module').then((module) => module.DashboardModule),
+      import('../presentation/core/main/dashboard.module').then(
+        (module) => module.DashboardModule
+      ),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+  {
+    path: 'dashboard/delivery',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
   },
 
   // {
@@ -49,6 +58,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -37,4 +37,4 @@ import { ContentModule } from 'src/data/repositories/content/content.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
