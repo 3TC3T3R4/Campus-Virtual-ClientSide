@@ -15,12 +15,12 @@ export abstract class LearningPathRepository{
    abstract getLearningPathByIdAsync(
     pathID:string
    ): Observable<LearningPathModel>;
-
+   
     abstract deleteLearningPathAsync(pathID:string):Observable<string>;
 
     abstract updateLearningPathByIdAsync(pathID:string,learningPath:LearningPathModel):Observable<LearningPathModel>;
 
-    abstract getLearningPathByCoahIdAsync(coachID:string):Observable<LearningPathModel[]>;
+    abstract getLearningPathByCoahAsync(coachID:string):Observable<LearningPathModel[]>;
 
     abstract updateLearningPathDurationAsync(pathID:string,totalDuration:number):Observable<string>;
 
