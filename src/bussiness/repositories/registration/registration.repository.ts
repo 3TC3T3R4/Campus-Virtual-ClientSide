@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { NewRegistrationCommand } from 'src/domain/commands/registration/newRegistrationCommand';
+import { NewRegistrationCommand } from 'src/domain/commands/registration/new-registration-command';
 import { RegistrationModel } from '../../../domain/models/registration/registration.model';
 
 export abstract class RegistrationRepository {

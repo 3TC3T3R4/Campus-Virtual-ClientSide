@@ -8,7 +8,7 @@
 //structure
 .header {
   font-size: larger;
-  background: #2A358C;
+  background: linear-gradient(45deg, rgba(111, 0, 208, 1) 35%, rgba(255, 62, 162, 1) 100%);
   font-family: 'Cairo', sans-serif,
 }
 
@@ -29,11 +29,34 @@
 
 //end structure
 
+//colors
+.bg-blue {
+  background-color: #2A358C;
+}
+
+.bg-purple {
+  background-color: #6F00D0;
+}
+
+.bg-bone {
+  background-color: #ECFABD;
+}
+
+//end colors
+
 //text colors
-.title {
+.title-login {
+  font-family: 'Cairo', sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+}
+
+.title-header {
   font-family: 'Cairo', sans-serif;
   font-size: 2rem;
   font-weight: 400;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .text-king-blue {
@@ -56,7 +79,6 @@
   color: #2A358C;
 }
 
-//#ECFABD
 //end text colors
 
 //buttons
@@ -70,6 +92,30 @@
   &:hover {
     background-position: left bottom;
     color: $white;
+  }
+}
+
+.btn-blue {
+  background-color: #2A358C;
+  transition: all 0.2s ease;
+  color: $white;
+
+  &:hover {
+    background-color: #090947;
+    background-position: left bottom;
+    color: white;
+  }
+}
+
+.btn-purple {
+  background-color: #4400ff;
+  transition: all 0.2s ease;
+  color: $white;
+
+  &:hover {
+    background-color: #410079;
+    background-position: left bottom;
+    color: white;
   }
 }
 
@@ -97,6 +143,15 @@
   color: white;
   background-color: $pink-500;
   border-color: $pink-500;
+}
+
+.btn-header {
+  border-radius: 15px;
+  height: min-content;
+
+  &:hover {
+    background-color: #410079;
+  }
 }
 
 //end buttons

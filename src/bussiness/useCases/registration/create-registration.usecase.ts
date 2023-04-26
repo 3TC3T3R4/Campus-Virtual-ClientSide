@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
 import { UseCase } from "src/base/utils/IUseCase";
 import { RegistrationRepository } from "src/bussiness/repositories/registration/registration.repository";
-import { NewRegistrationCommand } from "src/domain/commands/registration/newRegistrationCommand";
+import { NewRegistrationCommand } from "src/domain/commands/registration/new-registration-command";
 
 export class CreateRegistrationUseCase implements UseCase<NewRegistrationCommand, string>{
   constructor(private registrationRepository: RegistrationRepository) { }
