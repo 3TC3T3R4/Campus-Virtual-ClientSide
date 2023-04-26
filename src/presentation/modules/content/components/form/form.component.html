@@ -17,9 +17,10 @@
                       </span>
                     </div>
   
-                    <div class="form-floating mb-3">
-                      <input type="email" class="form-control" id="floatingInput" placeholder="Description" formControlName="description">
-                      <label for="floatingInput">Description</label>
+                    <div class="mb-3">
+                     <!--  <input type="email" class="form-control" id="floatingInput" placeholder="Description" formControlName="description"> -->
+                      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
                       <span class="form-text text-danger mensajeAlert" *ngIf="contentForm.get('description')?.hasError('required') && contentForm.get('description')?.touched ">
                         Description Required
                       </span>

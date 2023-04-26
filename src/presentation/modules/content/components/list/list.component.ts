@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { ContentModel } from 'src/domain/models/content/content.model';
 
 @Component({
@@ -10,7 +11,11 @@ export class ListComponent {
 
   @Input() contents: ContentModel[];
 
-  constructor(){
+  constructor(private router: Router){
     this.contents = [];
+  }
+
+  detail(idCourse : string, type : number){
+    this.router.navigate([`/dashboard/content/detail/${idCourse}/${type}`]);
   }
 }
