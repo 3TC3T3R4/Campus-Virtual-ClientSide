@@ -12,6 +12,7 @@ import { RegistrationModule } from 'src/data/repositories/registration/registrat
 import { UserModule } from 'src/data/repositories/user/user.module';
 import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 import { ContentModule } from 'src/data/repositories/content/content.module';
+import { CourseModule } from 'src/presentation/modules/course/course.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ContentModule } from 'src/data/repositories/content/content.module';
     BrowserAnimationsModule,
     RegistrationModule,
     UserModule,
+    CourseModule,
     DeliveryModule,
     ContentModule,
     ToastrModule.forRoot(),

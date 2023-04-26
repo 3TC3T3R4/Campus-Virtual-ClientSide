@@ -45,6 +45,16 @@ const routes: Routes = [
   //   path: '**',
   //   component: LoginComponent,
   // }
+
+  {
+    path: 'dashboard/course', // localhost:4200/course
+    loadChildren: () =>
+      import('../presentation/modules/course/course.module').then((module) => module.CourseModule),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+
 ];
 
 @NgModule({
