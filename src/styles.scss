@@ -18,13 +18,19 @@
 }
 
 .body {
-  height: 100%;
   font-family: 'Cairo', sans-serif;
   background:
-    url(https://img.freepik.com/foto-gratis/composicion-geometrica_24972-787.jpg?w=1060&t=st=1682371989~exp=1682372589~hmac=829c93e55306dd4a13f9717887db2a6fe0447f3dd988864fbf159984e33397d4) no-repeat center center fixed;
+    url(https://img.freepik.com/foto-gratis/composicion-geometrica_24972-787.jpg?w=1060&t=st=1682371989~exp=1682372589~hmac=829c93e55306dd4a13f9717887db2a6fe0447f3dd988864fbf159984e33397d4) repeat center center fixed;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
+}
+
+.body img {
   width: 100%;
+  height: max-content;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
 }
 
 //end structure

@@ -18,7 +18,7 @@ import { AuthService } from 'src/presentation/core/security/services/userAuth/au
 })
 export class HeaderComponent implements OnInit {
   routeMainRegistrations: string[];
-  // routeListInscriptions: string[];
+  routeMainUsers: string[];
   // routeListTasks: string[];
   // state: boolean;
   userName!: string | null;
@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     private router: Router // private readonly state$: StateService
   ) {
     this.routeMainRegistrations = ['registrations'];
-    // this.routeListInscriptions = ['inscriptions/list'];
+    this.routeMainUsers = ['users'];
     // this.routeListTasks = ['tasks/list'];
     // this.state = this.state$.State;
   }

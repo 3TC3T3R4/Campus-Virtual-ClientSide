@@ -1,0 +1,184 @@
+<div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
+  role="status">
+</div>
+<div *ngIf="render">
+  <div class="row w-100">
+    <div class="col col-lg-1 p-4 ps-5">
+      <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
+    </div>
+    <div class="col p-4 pe-5">
+      <p class="float-end">
+        <button class="btn btn-blue" type="button" data-bs-toggle="collapse"
+          data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
+          Create user
+        </button>
+      </p>
+      <sofka-input-search class="float-end pe-2 w-25" (onValue)="searchByType($event)"
+        placeholder="Search by email..."></sofka-input-search>
+    </div>
+  </div>
+  <div class="col m-5 mt-0 text-king-blue">
+    <div class="collapse mb-3" id="createRegistrationCollapse">
+      <div class="card card-body">
+        <form id="frmCreateUser" (ngSubmit)="sendData()" [formGroup]="frmCreateUser"
+          class="form-control bg-container-or-form mt-3 p-3 border-0 text-start text-king-blue shadow-lg">
+          <div class="row mb-3 mt-2 align-items-center">
+            <div class="col col-10 ms-lg-5">
+              <div class="row">
+                <div class="col-sm-1">
+                  <label for="email" class="form-label">Email</label>
+                </div>
+                <div class="col-10">
+                  <input class="form-control" type="text" name="email" id="email" placeholder="email"
+                    formControlName="email" #email>
+                  <p class="text-purple mt-1" id="create-user-email-required"
+                    *ngIf="frmCreateUser.get('email')?.hasError('required') && frmCreateUser.get('email')?.touched">
+                    You must indicate the e-mail address.
+                  </p>
+                  <p class="text-purple mt-1" id="create-user-email-format"
+                    *ngIf="frmCreateUser.get('email')?.hasError('email') && frmCreateUser.get('email')?.touched">
+                    The format does not match an e-mail address.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-sm-1">
+                  <label for="password" class="form-label">Password</label>
+                </div>
+                <div class="col-10">
+                  <input type="password" class="form-control" name="password" id="password" placeholder="password"
+                    formControlName="password" #password>
+                  <p class="text-purple mt-1" id="create-user-password-required"
+                    *ngIf="frmCreateUser.get('password')?.hasError('required') && frmCreateUser.get('password')?.touched">
+                    You must indicate the password.
+                  </p>
+                  <p class="text-purple mt-1" id="create-user-password-minlength"
+                    *ngIf="frmCreateUser.get('password')?.hasError('minlength') && frmCreateUser.get('password')?.touched">
+                    The password must be at least 8 characters long.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-sm-1">
+                  <label for="role" class="form-label">Role</label>
+                </div>
+                <div class="col-10">
+                  <select class="form-select" name="role" id="role" formControlName="role" #role>
+                    <option value="" selected disabled>Choose here</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Trainee</option>
+                  </select>
+                  <p class="text-purple mt-1" id="create-user-role-required"
+                    *ngIf="frmCreateUser.get('role')?.hasError('required') && frmCreateUser.get('role')?.touched">
+                    You must indicate the role.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col ms-2">
+              <button type="submit" form="frmCreateUser" [disabled]="frmCreateUser.invalid" id="btnSubmitFormCreateUser"
+                class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
+                <i class="bi bi-person-add"> Create</i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="row w-auto">
+      <div class="col">
+        <h2 class="mb-4">Active users</h2>
+      </div>
+      <div class=" table-responsive">
+        <table class="table table-hover">
+          <caption>
+            Active users
+          </caption>
+          <thead class="text-center">
+            <tr class="text-king-blue">
+              <th scope="col">Email</th>
+              <th scope="col">Password</th>
+              <th scope="col">Role</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf=" empty;else datosAll" class="text-center">
+              <th colspan="4">No hay elementos para mostrar</th>
+            </tr>
+            <ng-template #datosAll class="text-light">
+              <tr
+                *ngFor="let user of usersList | slice:((page-1)*usersPerPageTable):((page-1)*usersPerPageTable+usersPerPageTable)">
+                <td>{{user.email}}</td>
+                <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
+                    id="{{user.uidUser}}" [value]="user.password">
+                </td>
+                <td>{{user.role | enumsNumberToStringPipe: 'role' }}</td>
+                <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)"><i
+                      class="bi bi-eye"></i></button></td>
+                <!-- <td>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-info text-light shadow me-1"
+                    data-bs-toggle="modal" data-bs-target="#modal-inscription" (click)="modal(item.inscriptionID)">
+                    <i class="bi bi-question-lg"></i>
+                  </button>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-danger text-light shadow"
+                    data-bs-toggle="modal" data-bs-target="#modal-delete-inscription"
+                    (click)="modal(item.inscriptionID)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </ng-template>
+          </tbody>
+          <tbody *ngIf="searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf=" empty;else datosFiltered" class="text-center">
+              <th colspan="4">No hay elementos para mostrar</th>
+            </tr>
+            <ng-template #datosFiltered class="text-light">
+              <tr
+                *ngFor="let user of filteredUsers | slice:((page-1)*usersPerPageTable):((page-1)*usersPerPageTable+usersPerPageTable)">
+                <td>{{user.email}}</td>
+                <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
+                    id="{{user.uidUser}}" [value]="user.password">
+                </td>
+                <td>{{user.role | enumsNumberToStringPipe: 'role' }}</td>
+                <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)"><i
+                      class="bi bi-eye"></i></button></td>
+                <!-- <td>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-info text-light shadow me-1"
+                    data-bs-toggle="modal" data-bs-target="#modal-inscription" (click)="modal(item.inscriptionID)">
+                    <i class="bi bi-question-lg"></i>
+                  </button>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-danger text-light shadow"
+                    data-bs-toggle="modal" data-bs-target="#modal-delete-inscription"
+                    (click)="modal(item.inscriptionID)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+        <nav class="row">
+          <ul class="col pagination align-self-center">
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = 1">First</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = page - 1">Previous</a>
+            </li>
+            <!-- <li class="page-item" *ngFor="let p of pages" [class.active]="p == page">
+                <a class="page-link" (click)="page = p">{{ p }}</a>
+              </li> -->
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = page + 1">Next</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = totalPages">Lastest</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {
   Roles,
   StateRegistration,
+  StateUser,
 
 } from '../../../../base/utils/enums';
 
@@ -12,6 +13,7 @@ export class EnumsNumberToStringPipe implements PipeTransform {
   transform(
     value:
       | Roles
+      | StateUser
       | StateRegistration,
     type: keyof EnumValues
   ): string {
@@ -22,10 +24,12 @@ export class EnumsNumberToStringPipe implements PipeTransform {
 
 export interface EnumValues {
   role: string;
+  stateUser: string;
   stateRegistration: string;
 }
 
 const ROLE_VALUES: EnumValues = {
-  role: 'Default,Admin,Contributor',
-  stateRegistration: 'Active,Deleted',
+  role: ',Admin,Trainee',
+  stateUser: ',Active,Deleted',
+  stateRegistration: ',Active,Deleted',
 };
