@@ -7,6 +7,6 @@ export class GetLearningPathByCoachUseCase implements UseCase<string ,LearningPa
     constructor(private learningPathRepository: LearningPathRepository) { }
   
     execute(pathID: string): Observable<LearningPathModel[]> {
-      return this.learningPathRepository.getLearningPathByCoahIdAsync(pathID);
+      return this.learningPathRepository.getLearningPathByCoahAsync(pathID);
     }
   }

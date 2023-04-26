@@ -81,4 +81,4 @@ export const UpdateLearningPathByIdUseCaseProvider = {
     ],
     imports: [CommonModule, HttpClientModule],
   })
-  export class RegistrationModule { }
+  export class LearningPathModule { }

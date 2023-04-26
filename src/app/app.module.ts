@@ -15,6 +15,7 @@ import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 import { ContentModule } from 'src/data/repositories/content/content.module';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from 'src/presentation/core/security/pages/login/login.component';
+import { LearningPathModule } from 'src/data/repositories/learningpath/learningpath.module';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,11 @@ import { LoginComponent } from 'src/presentation/core/security/pages/login/login
     UserModule,
     DeliveryModule,
     ContentModule,
+    LearningPathModule,
     ToastrModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent],
