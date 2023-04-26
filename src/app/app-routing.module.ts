@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { LoginComponent } from 'src/presentation/core/security/pages/login/login.component';
+import * as tslib from 'tslib';
 // import {
 //   AngularFireAuthGuard,
 //   redirectLoggedInTo,
@@ -12,35 +13,42 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   component: LoginComponent,
-  // },
-  // {
-  //   path: 'log-in',
-  //   component: LoginComponent,
-  //   canActivate: [AngularFireAuthGuard],
-  //   data: { authGuardPipe: redirectLoggedInToDashboard },
-  // },
+  {
+    path: '',
+    component: LoginComponent,
+  },
+  {
+    path: 'log-in',
+    component: LoginComponent,
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectLoggedInToDashboard },
+  },
 
   {
-    path: '', // localhost:4200/dashboard
+    path: 'dashboard', // localhost:4200/dashboard
     loadChildren: () =>
       import('../presentation/core/main/dashboard.module').then((module) => module.DashboardModule),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
 
-  // {
-  //   path: 'dashboard/projects', // localhost:4200/dashboard/projects
-  //   loadChildren: () =>
-  //     import('../../../../modules/project/project.module').then(
-  //       (module) => module.ProjectModule
-  //     ),
-  //   canActivate: [AngularFireAuthGuard],
-  //   data: { authGuardPipe: redirectUnauthorizedToLogin },
-  // },
-
+  {
+    path: 'dashboard/registrations', // localhost:4200/dashboard/projects
+    loadChildren: () =>
+      import('src/presentation/modules/registration/registration.module').then(
+        (module) => module.RegistrationModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  }, {
+    path: 'dashboard/learningpaths', // localhost:4200/dashboard/projects
+    loadChildren: () =>
+      import('src/presentation/modules/learningpath/learningpath.module').then(
+        (module) => module.LearningpathModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
   // {
   //   path: '**',
   //   component: LoginComponent,
