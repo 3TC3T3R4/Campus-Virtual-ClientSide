@@ -45,4 +45,4 @@ import { CourseModule } from 'src/presentation/modules/course/course.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

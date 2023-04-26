@@ -11,7 +11,6 @@ import * as tslib from 'tslib';
 // const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['sign-in']);
 // const redirectLoggedInToDashboard = () => redirectLoggedInTo(['dashboard']);
 
-
 const routes: Routes = [
   {
     path: '',
@@ -27,11 +26,36 @@ const routes: Routes = [
   {
     path: 'dashboard', // localhost:4200/dashboard
     loadChildren: () =>
-      import('../presentation/core/main/dashboard.module').then((module) => module.DashboardModule),
+      import('../presentation/core/main/dashboard.module').then(
+        (module) => module.DashboardModule
+      ),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
 
+  {
+    path: 'dashboard/create-delivery',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
+  },
+
+  {
+    path: 'dashboard/delivery-path-list',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
+  },
+
+  {
+    path: 'dashboard/delivery-iudUser-list',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
+  },
   {
     path: 'dashboard/registrations', // localhost:4200/dashboard/projects
     loadChildren: () =>
@@ -40,7 +64,8 @@ const routes: Routes = [
       ),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
-  }, {
+  },
+  {
     path: 'dashboard/learningpaths', // localhost:4200/dashboard/projects
     loadChildren: () =>
       import('src/presentation/modules/learningpath/learningpath.module').then(
@@ -57,16 +82,16 @@ const routes: Routes = [
   {
     path: 'dashboard/course', // localhost:4200/course
     loadChildren: () =>
-      import('../presentation/modules/course/course.module').then((module) => module.CourseModule),
+      import('../presentation/modules/course/course.module').then(
+        (module) => module.CourseModule
+      ),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
-
-
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

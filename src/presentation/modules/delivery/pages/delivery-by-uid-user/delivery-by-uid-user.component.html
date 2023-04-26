@@ -1,0 +1,71 @@
+<!--Create a bottom to get deliveries by uidUser with the input uidUser-->
+<div>
+  <h3>Get deliveries by uidUser</h3>
+  <form [formGroup]="getDeliveriesByUidUserForm" class="form-control" id="getDeliveriesByUidUserForm">
+    <div>
+      <label for="uidUser">uidUser</label>
+      <div>
+        <input type="text" id="uidUser" formControlName="uidUser">
+      </div>
+      <div *ngIf="getDeliveriesByUidUserForm.get('uidUser')?.hasError('required') &&
+            getDeliveriesByUidUserForm.get('uidUser')?.touched">
+        <p class="text-bg-danger">
+          uidUser is required
+        </p>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button type="submit" [disabled]="!getDeliveriesByUidUserForm.valid" (click)="getDeliveriesByUidUser()">Get
+      Deliveries</button>
+  </div>
+
+  <!--Create a table with the list of deliveries obtained by pathID-->
+  <div class="row m-3">
+    <hr class="my-4" />
+    <h3>Deliveries</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">uid user</th>
+          <th scope="col">delivery at</th>
+          <th scope="col">delivery field</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of deliveryItems">
+          <td>{{item.uidUser}}</td>
+          <td>{{item.deliveryAt}}</td>
+          <td>{{item.DeliveryField}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="viewDeliveryDetails(item)">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Create a list to get a especific delivery by ID using this.deliveryItem-->
+  <div class="row m-3" *ngIf="showDelivery">
+    <hr class="my-4" />
+    <h3>Delivery</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">uid user</th>
+          <th scope="col">delivery at</th>
+          <th scope="col">delivery field</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{deliveryItem.uidUser}}</td>
+          <td>{{deliveryItem.deliveryAt}}</td>
+          <td>{{deliveryItem.DeliveryField}}</td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="!showDelivery">Back</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
