@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/userAuth/auth.service';
 // import { AuthService } from '../../services/userAuth/auth.service';
 
 @Component({
@@ -8,12 +9,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  routeSingUp: string[];
+  routeLogIn: string[];
   frmLogin: FormGroup;
-  constructor(//private readonly auth$: AuthService
+  constructor(private readonly auth$: AuthService
   ) {
     this.clearLocalStorage();
-    this.routeSingUp = ['sign-up'];
+    this.routeLogIn = ['log-in'];
     this.frmLogin = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -24,13 +25,9 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void { }
 
-  // auth(): void {
-  //   this.auth$.GoogleAuth();
-  // }
-
-  // signIn(user: string, password: string): void {
-  //   this.auth$.SignIn(user, password);
-  // }
+  signIn(user: string, password: string): void {
+    this.auth$.SignIn(user, password);
+  }
 
   // signUp(user: string, password: string): void {
   //   this.auth$.SignUp(user, password);
@@ -41,8 +38,6 @@ export class LoginComponent implements OnInit {
     localStorage.removeItem('uidUser');
     localStorage.removeItem('userName');
     localStorage.removeItem('email');
-    localStorage.removeItem('efficiencyRate');
-    localStorage.removeItem('tasksCompleted');
     localStorage.removeItem('role');
     localStorage.removeItem('stateUser');
   }

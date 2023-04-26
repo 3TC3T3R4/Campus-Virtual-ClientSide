@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,11 +14,13 @@ import { RegistrationModule } from 'src/data/repositories/registration/registrat
 import { UserModule } from 'src/data/repositories/user/user.module';
 import { DeliveryModule } from 'src/data/repositories/delivery/delivery.module';
 import { ContentModule } from 'src/data/repositories/content/content.module';
+import { environment } from 'src/environments/environment';
+import { LoginComponent } from 'src/presentation/core/security/pages/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    //login component
+    LoginComponent
   ],
   imports: [
     CommonModule,
@@ -31,8 +35,8 @@ import { ContentModule } from 'src/data/repositories/content/content.module';
     DeliveryModule,
     ContentModule,
     ToastrModule.forRoot(),
-    // AngularFireModule.initializeApp(environment.firebase),
-    // AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
