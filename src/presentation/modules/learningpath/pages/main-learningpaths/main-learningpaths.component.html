@@ -1,0 +1,82 @@
+<div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
+  role="status">
+</div>
+<div *ngIf="render">
+  <div class="row w-100">
+    <div class="col col-lg-1 p-4 ps-5">
+      <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
+    </div>
+    <div class="col p-4 pe-5">
+      <p class="float-end">
+        <button class="btn btn-blue" type="button" data-bs-toggle="collapse"
+          data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
+          Create LearningPath
+        </button>
+      </p>
+    </div>
+  </div>
+  <div class="col m-5 mt-0 text-king-blue">
+    
+    <div class="collapse mb-3" id="createRegistrationCollapse">
+      <div class="card card-body">
+      
+        <form id="frmFormReactive" (ngSubmit)="sendData()" [formGroup]="frmFormReactive"
+        class="text-bg-dark p-3 border-3 border-primary text-start">
+        <div class="mb-3 row">
+          <label for="Título" class="col-sm-2 col-form-label">Coach-ID</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="coachID" placeholder="Firebase"  formControlName="coachID"
+              name="coachID" required>
+              <div id="altoMensaje" *ngIf="frmFormReactive.get('coachID')?.hasError('required')
+           && frmFormReactive.get('coachID')?.touched">Campo requerido, ingresar por favor</div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="Título" class="col-sm-2 col-form-label">Título</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"  formControlName="title"
+              name="title" required>
+              <div id="altoMensaje" *ngIf="frmFormReactive.get('title')?.hasError('required')
+           && frmFormReactive.get('title')?.touched">Campo requerido, ingresar por favor</div>
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="description" class="col-sm-2 col-form-label">Description</label>
+          <div class="col-sm-10">
+         <input type="date" class="form-control" id="description"
+            formControlName="description" name="description"required>
+         <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
+            && frmFormReactive.get('description')?.touched">Campo requerido, ingresar por favor</div>
+          </div>
+        </div>
+   <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created LearningPath</button>
+  
+        </form>
+
+      </div>
+    </div>
+    <div class="row w-auto">
+      <div class="col">
+        <h2 class="mb-4">LearningPaths</h2>
+      </div>
+      <div class=" table-responsive">
+        <table class="table table-hover">
+          <caption>
+            Active Paths
+          </caption>
+          <thead class="text-center">
+            <tr class="text-king-blue">
+              <th scope="col">Trainee</th>
+              <th scope="col">Learning path</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Final rating</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider text-king-blue text-center">
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

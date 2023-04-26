@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 // import { AuthService } from '../../../core/security/services/userAuth/auth.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/presentation/core/security/services/userAuth/auth.service';
 // import { StateService } from '../../../../shared/services/state.service';
 
 @Component({
@@ -16,19 +17,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  // routeListUsers: string[];
-  // routeListProjects: string[];
+  routeMainRegistrations: string[];
+  routeMainLearningPaths: string[];
+
   // routeListInscriptions: string[];
   // routeListTasks: string[];
   // state: boolean;
   userName!: string | null;
 
   constructor(
-    // private readonly auth$: AuthService,
+    private readonly auth$: AuthService,
     private router: Router // private readonly state$: StateService
   ) {
-    // this.routeListUsers = ['users/list'];
-    // this.routeListProjects = ['projects/list'];
+
+    this.routeMainRegistrations = ['registrations'];
+    this.routeMainLearningPaths = ['learningpaths'];
+
     // this.routeListInscriptions = ['inscriptions/list'];
     // this.routeListTasks = ['tasks/list'];
     // this.state = this.state$.State;
@@ -47,7 +51,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    // this.auth$.SignOut();
+    this.auth$.SignOut();
   }
 
   redirectToDashboard(): void {
