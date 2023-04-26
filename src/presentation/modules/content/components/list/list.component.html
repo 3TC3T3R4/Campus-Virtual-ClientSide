@@ -1,0 +1,15 @@
+<div class="conteiner">
+    <ol class="list-group list-group" *ngFor="let content of contents">
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                    <a href="#">{{content.title}}</a>
+                </div>
+                {{content.description}}
+            </div>
+            
+            <span class="badge bg-primary rounded-pill">{{content.type | enumsNumberToStringPipe: 'TypeContent'}}</span>
+            <span class="badge bg-primary rounded-pill">{{content.duration}}</span>
+        </li>
+    </ol>
+</div>

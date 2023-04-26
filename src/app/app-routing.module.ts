@@ -41,6 +41,17 @@ const routes: Routes = [
   //   data: { authGuardPipe: redirectUnauthorizedToLogin },
   // },
 
+  {
+      path: 'dashboard/content', // localhost:4200/dashboard/content
+      loadChildren: () =>
+        import('../presentation/modules/content/content.module').then(
+          (module) => module.ContentModule
+        ),/* 
+      canActivate: [AngularFireAuthGuard],
+      data: { authGuardPipe: redirectUnauthorizedToLogin }, */
+    },
+
+
   // {
   //   path: '**',
   //   component: LoginComponent,
