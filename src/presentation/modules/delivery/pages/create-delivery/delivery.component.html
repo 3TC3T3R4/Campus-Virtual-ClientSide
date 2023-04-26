@@ -1,0 +1,183 @@
+<div>
+  <h3>Add a new delivery</h3>
+  <form [formGroup]="createDeliveryForm" class="form-control" id="createDeliveryForm">
+    <div>
+      <label for="contentID">contentID</label>
+      <div>
+        <input type="text" id="contentID" formControlName="contentID">
+      </div>
+      <div
+        *ngIf="createDeliveryForm.get('contentID')?.hasError('required') && createDeliveryForm.get('contentID')?.touched">
+        <p class="text-bg-danger">
+          contentID is required
+        </p>
+      </div>
+    </div>
+    <div>
+      <label for="uidUser">uidUser</label>
+      <div>
+        <input type="text" id="uidUser" formControlName="uidUser">
+      </div>
+      <div
+        *ngIf="createDeliveryForm.get('uidUser')?.hasError('required') && createDeliveryForm.get('uidUser')?.touched">
+        <p class="text-bg-danger">
+          uidUser is required
+        </p>
+      </div>
+    </div>
+    <div>
+      <label for="DeliveryField">DeliveryField</label>
+      <div>
+        <input type="text" id="DeliveryField" formControlName="DeliveryField">
+      </div>
+      <div *ngIf="createDeliveryForm.get('DeliveryField')?.hasError('required') &&
+        createDeliveryForm.get('DeliveryField')?.touched">
+        <p class="text-bg-danger">
+          DeliveryField is required
+        </p>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button type="submit" [disabled]="!createDeliveryForm.valid" (click)="createDelivery()">Create Delivery</button>
+  </div>
+</div>
+
+<!--Create a bottom to delete a Delivery by deliveryId-->
+<div>
+  <h3>Delete a Delivery</h3>
+  <form [formGroup]="deleteDeliveryForm" class="form-control" id="deleteDeliveryForm">
+    <div>
+      <label for="deliveryID">deliveryID</label>
+      <div>
+        <input type="text" id="deliveryID" formControlName="deliveryID">
+      </div>
+      <div *ngIf="deleteDeliveryForm.get('ddeliveryID')?.hasError('required') &&
+        deleteDeliveryForm.get('deliveryID')?.touched">
+        <p class="text-bg-danger">
+          deliveryId is required
+        </p>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button type="submit" [disabled]="!deleteDeliveryForm.valid" (click)="deleteDelivery()">Delete Delivery</button>
+  </div>
+</div>
+
+<!--Create a bottom to qualify a Delivery with deliveryID, rating and comment-->
+<div>
+  <h3>Qualify a Delivery</h3>
+  <form [formGroup]="qualifyDeliveryForm" class="form-control" id="qualifyDeliveryForm">
+    <div>
+      <label for="deliveryID">deliveryID</label>
+      <div>
+        <input type="text" id="deliveryID" formControlName="deliveryID">
+      </div>
+      <div *ngIf="qualifyDeliveryForm.get('deliveryID')?.hasError('required') &&
+        qualifyDeliveryForm.get('deliveryID')?.touched">
+        <p class="text-bg-danger">
+          deliveryId is required
+        </p>
+      </div>
+    </div>
+    <div>
+      <label for="rating">rating</label>
+      <div>
+        <input type="text" id="rating" formControlName="rating">
+      </div>
+      <div *ngIf="qualifyDeliveryForm.get('rating')?.hasError('required') &&
+        qualifyDeliveryForm.get('rating')?.touched">
+        <p class="text-bg-danger">
+          rating is required
+        </p>
+      </div>
+    </div>
+    <div>
+      <label for="comment">comment</label>
+      <div>
+        <input type="text" id="comment" formControlName="comment">
+      </div>
+      <div *ngIf="qualifyDeliveryForm.get('comment')?.hasError('required') &&
+        qualifyDeliveryForm.get('comment')?.touched">
+        <p class="text-bg-danger">
+          comment is required
+        </p>
+      </div>
+    </div>
+  </form>
+  <div>
+    <button type="submit" [disabled]="!qualifyDeliveryForm.valid" (click)="qualifyDelivery()">Qualify Delivery</button>
+  </div>
+
+  <!--Create a bottom to get a Delivery by ID with the input deliveryID-->
+  <div>
+    <h3>Get a Delivery by ID</h3>
+    <form [formGroup]="getDeliveryByIDForm" class="form-control" id="getDeliveryByIDForm">
+      <div>
+        <label for="deliveryID">deliveryID</label>
+        <div>
+          <input type="text" id="deliveryID" formControlName="deliveryID">
+        </div>
+        <div *ngIf="getDeliveryByIDForm.get('deliveryID')?.hasError('required') &&
+          getDeliveryByIDForm.get('deliveryID')?.touched">
+          <p class="text-bg-danger">
+            deliveryId is required
+          </p>
+        </div>
+      </div>
+    </form>
+    <div>
+      <button type="submit" [disabled]="!getDeliveryByIDForm.valid" (click)="getDeliveryById()">Get Delivery</button>
+    </div>
+
+    <!--Create a bottom to get deliveries by uidUser with the input uidUser-->
+    <div>
+      <h3>Get deliveries by uidUser</h3>
+      <form [formGroup]="getDeliveriesByUidUserForm" class="form-control" id="getDeliveriesByUidUserForm">
+        <div>
+          <label for="uidUser">uidUser</label>
+          <div>
+            <input type="text" id="uidUser" formControlName="uidUser">
+          </div>
+          <div *ngIf="getDeliveriesByUidUserForm.get('uidUser')?.hasError('required') &&
+            getDeliveriesByUidUserForm.get('uidUser')?.touched">
+            <p class="text-bg-danger">
+              uidUser is required
+            </p>
+          </div>
+        </div>
+      </form>
+      <div>
+        <button type="submit" [disabled]="!getDeliveriesByUidUserForm.valid" (click)="getDeliveriesByUidUser()">Get
+          Deliveries</button>
+      </div>
+
+
+      <!--Create a bottom to get deliveries by pathID with the input pathID-->
+      <div>
+        <h3>Get deliveries by pathID</h3>
+        <form [formGroup]="getDeliveriesByPathIDForm" class="form-control" id="getDeliveriesByPathIDForm">
+          <div>
+            <label for="pathID">pathID</label>
+            <div>
+              <input type="text" id="pathID" formControlName="pathID">
+            </div>
+            <div *ngIf="getDeliveriesByPathIDForm.get('pathID')?.hasError('required') &&
+              getDeliveriesByPathIDForm.get('pathID')?.touched">
+              <p class="text-bg-danger">
+                pathID is required
+              </p>
+            </div>
+          </div>
+        </form>
+        <div>
+          <button type="submit" [disabled]="!getDeliveriesByPathIDForm.valid" (click)="getDeliveriesByPathID()">Get
+            Deliveries</button>
+        </div>
+
+        <div>
+          <p>
+            provisionally, the deliveries are shown here
+          </p>
+        </div>
