@@ -33,13 +33,28 @@ const routes: Routes = [
   },
 
   {
-    path: 'dashboard/delivery',
+    path: 'dashboard/create-delivery',
     loadChildren: () =>
       import('../presentation/modules/delivery/delivery.module').then(
         (module) => module.DeliveryModule
       ),
   },
 
+  {
+    path: 'dashboard/delivery-path-list',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
+  },
+
+  {
+    path: 'dashboard/delivery-iudUser-list',
+    loadChildren: () =>
+      import('../presentation/modules/delivery/delivery.module').then(
+        (module) => module.DeliveryModule
+      ),
+  },
   // {
   //   path: 'dashboard/projects', // localhost:4200/dashboard/projects
   //   loadChildren: () =>
