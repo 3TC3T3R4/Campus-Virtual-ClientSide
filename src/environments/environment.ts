@@ -11,4 +11,5 @@ export const environment = {
   urlApiUsers: 'https://localhost:7056/User',
   urlApiDeliveries: 'https://localhost:7245/api/Delivery',
   urlApiCampus: 'https://localhost:7245/',
+  urlApiCourses: 'https://localhost:7245/api/Course',
 };

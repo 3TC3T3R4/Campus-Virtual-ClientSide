@@ -28,7 +28,10 @@ export class DeliveryImplementationRepository extends DeliveryRepository {
   override QualifyDelivery(
     qualifyDelivery: QualifyDeliveryCommand
   ): Observable<string> {
-    return this.http.put<string>(environment.urlApiDeliveries, qualifyDelivery);
+    return this.http.patch<string>(
+      environment.urlApiDeliveries,
+      qualifyDelivery
+    );
   }
   GetDeliveryById(deliveryID: number): Observable<DeliveryModel> {
     return this.http.get<DeliveryModel>(
@@ -38,13 +41,13 @@ export class DeliveryImplementationRepository extends DeliveryRepository {
 
   GetDeliveriesByUidUser(uidUser: string): Observable<DeliveryModel[]> {
     return this.http.get<DeliveryModel[]>(
-      environment.urlApiDeliveries + '/ByUidUser?uidUser=' + uidUser
+      environment.urlApiDeliveries + '/ByUidUsers?uidUser=' + uidUser
     );
   }
 
   override GetDeliveriesByPathId(pathId: string): Observable<DeliveryModel[]> {
     return this.http.get<DeliveryModel[]>(
-      environment.urlApiDeliveries + '/ByPathId?pathId=' + pathId
+      environment.urlApiDeliveries + '/ByPathId?pathID=' + pathId
     );
   }
 }
