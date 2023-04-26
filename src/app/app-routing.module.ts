@@ -40,6 +40,14 @@ const routes: Routes = [
       ),
     // canActivate: [AngularFireAuthGuard],
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  }, {
+    path: 'dashboard/learningpaths', // localhost:4200/dashboard/projects
+    loadChildren: () =>
+      import('src/presentation/modules/learningpath/learningpath.module').then(
+        (module) => module.LearningpathModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   // {
   //   path: '**',

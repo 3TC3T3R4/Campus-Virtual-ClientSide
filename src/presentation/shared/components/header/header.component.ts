@@ -18,6 +18,8 @@ import { AuthService } from 'src/presentation/core/security/services/userAuth/au
 })
 export class HeaderComponent implements OnInit {
   routeMainRegistrations: string[];
+  routeMainLearningPaths: string[];
+
   // routeListInscriptions: string[];
   // routeListTasks: string[];
   // state: boolean;
@@ -27,7 +29,10 @@ export class HeaderComponent implements OnInit {
     private readonly auth$: AuthService,
     private router: Router // private readonly state$: StateService
   ) {
+
     this.routeMainRegistrations = ['registrations'];
+    this.routeMainLearningPaths = ['learningpaths'];
+
     // this.routeListInscriptions = ['inscriptions/list'];
     // this.routeListTasks = ['tasks/list'];
     // this.state = this.state$.State;
