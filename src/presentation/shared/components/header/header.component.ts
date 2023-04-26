@@ -18,11 +18,9 @@ import { AuthService } from 'src/presentation/core/security/services/userAuth/au
 })
 export class HeaderComponent implements OnInit {
   routeMainRegistrations: string[];
+  routeMainUsers: string[];
   routeMainLearningPaths: string[];
-
-  // routeListInscriptions: string[];
-  // routeListTasks: string[];
-  // state: boolean;
+  routeMainCourses: string[];
   userName!: string | null;
 
   constructor(
@@ -31,7 +29,9 @@ export class HeaderComponent implements OnInit {
   ) {
 
     this.routeMainRegistrations = ['registrations'];
+    this.routeMainUsers = ['users'];
     this.routeMainLearningPaths = ['learningpaths'];
+    this.routeMainCourses = ['courses'];
 
     // this.routeListInscriptions = ['inscriptions/list'];
     // this.routeListTasks = ['tasks/list'];

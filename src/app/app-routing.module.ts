@@ -33,6 +33,57 @@ const routes: Routes = [
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
 
+
+  {
+    path: 'dashboard/users',
+    loadChildren: () =>
+      import('src/presentation/modules/user/user.module').then(
+        (module) => module.UserModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+  {
+    path: 'dashboard/registrations',
+    loadChildren: () =>
+      import('src/presentation/modules/registration/registration.module').then(
+        (module) => module.RegistrationModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+  {
+    path: 'dashboard/learningpaths',
+    loadChildren: () =>
+      import('src/presentation/modules/learningpath/learningpath.module').then(
+        (module) => module.LearningpathModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+  {
+    path: 'dashboard/courses', // localhost:4200/course
+    loadChildren: () =>
+      import('../presentation/modules/course/course.module').then(
+        (module) => module.CourseModule
+      ),
+    // canActivate: [AngularFireAuthGuard],
+    // data: { authGuardPipe: redirectUnauthorizedToLogin },
+  },
+
+  {
+    path: 'dashboard/content',
+    loadChildren: () =>
+      import('../presentation/modules/content/content.module').then(
+        (module) => module.ContentModule
+      ),/*
+      canActivate: [AngularFireAuthGuard],
+      data: { authGuardPipe: redirectUnauthorizedToLogin }, */
+  },
+
   {
     path: 'dashboard/create-delivery',
     loadChildren: () =>
@@ -50,59 +101,21 @@ const routes: Routes = [
   },
 
   {
-      path: 'dashboard/content', // localhost:4200/dashboard/content
-      loadChildren: () =>
-        import('../presentation/modules/content/content.module').then(
-          (module) => module.ContentModule
-        ),/* 
-      canActivate: [AngularFireAuthGuard],
-      data: { authGuardPipe: redirectUnauthorizedToLogin }, */
-    },
-
-
-  {
     path: 'dashboard/delivery-iudUser-list',
     loadChildren: () =>
       import('../presentation/modules/delivery/delivery.module').then(
         (module) => module.DeliveryModule
       ),
   },
-  {
-    path: 'dashboard/registrations', // localhost:4200/dashboard/projects
-    loadChildren: () =>
-      import('src/presentation/modules/registration/registration.module').then(
-        (module) => module.RegistrationModule
-      ),
-    // canActivate: [AngularFireAuthGuard],
-    // data: { authGuardPipe: redirectUnauthorizedToLogin },
-  },
-  {
-    path: 'dashboard/learningpaths', // localhost:4200/dashboard/projects
-    loadChildren: () =>
-      import('src/presentation/modules/learningpath/learningpath.module').then(
-        (module) => module.LearningpathModule
-      ),
-    // canActivate: [AngularFireAuthGuard],
-    // data: { authGuardPipe: redirectUnauthorizedToLogin },
-  },
+
   // {
   //   path: '**',
   //   component: LoginComponent,
   // }
-
-  {
-    path: 'dashboard/course', // localhost:4200/course
-    loadChildren: () =>
-      import('../presentation/modules/course/course.module').then(
-        (module) => module.CourseModule
-      ),
-    // canActivate: [AngularFireAuthGuard],
-    // data: { authGuardPipe: redirectUnauthorizedToLogin },
-  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

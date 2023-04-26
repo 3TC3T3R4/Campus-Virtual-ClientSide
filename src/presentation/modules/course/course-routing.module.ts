@@ -4,15 +4,20 @@ import { MainCourseComponent } from './pages/main-course/main-course.component';
 import { CreateCourseComponent } from './pages/create-course/create-course.component';
 import { GetCourseComponent } from './pages/get-course/get-course.component';
 import { AssingPathComponent } from './pages/assing-path/assing-path.component';
+import { AppLayoutComponent } from 'src/presentation/shared/layouts/app-layout/app-layout.component';
 
 
 const routes: Routes = [
   {
-    path : '',
-    component : MainCourseComponent,
+    path: 'courses',
+    component: AppLayoutComponent,
     children: [
       {
-        path: 'course',
+        path: '',
+        component: MainCourseComponent
+      },
+      {
+        path: 'create',
         component: CreateCourseComponent
       },
       {
@@ -23,10 +28,6 @@ const routes: Routes = [
         path: 'path',
         component: AssingPathComponent
       },
-      {
-        path: '**',
-        redirectTo: 'dashboard'
-      }
     ],
   },
 ];
@@ -35,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CourseRoutingModule {}
+export class CourseRoutingModule { }

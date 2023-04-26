@@ -4,6 +4,11 @@ export enum Roles {
   Trainee = 2,
 }
 
+export enum StateUser{
+  Active = 1,
+  Deleted = 2
+}
+
 //campus enums
 export enum StateRegistration {
   Active = 1,

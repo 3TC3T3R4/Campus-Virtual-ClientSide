@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { UserImplementationRepository } from './user-implementation-repository';
+import { GetUserByEmailUseCase } from 'src/bussiness/useCases/user/get-user-by-email.usecase';
 
 const CreateUserUseCaseFactory = (userRepo: UserRepository) => new CreateUserUseCase(userRepo);
 export const CreateUserUseCaseProvider = {
@@ -28,11 +29,19 @@ export const GetUserByIdUseCaseProvider = {
   deps: [UserRepository]
 };
 
+const GetUserByEmailUseCaseFactory = (userRepo: UserRepository) => new GetUserByEmailUseCase(userRepo);
+export const GetUserByEmailUseCaseProvider = {
+  provide: GetUserByEmailUseCase,
+  useFactory: GetUserByEmailUseCaseFactory,
+  deps: [UserRepository]
+};
+
 @NgModule({
   providers: [
     CreateUserUseCaseProvider,
     GetAllUsersUseCaseProvider,
     GetUserByIdUseCaseProvider,
+    GetUserByEmailUseCaseProvider,
     {
       provide: UserRepository,
       useClass: UserImplementationRepository

@@ -6,8 +6,9 @@ import { NgModule } from '@angular/core';
 import { DeliveryRoutingModule } from 'src/presentation/modules/delivery/delivery-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistrationRoutingModule } from 'src/presentation/modules/registration/registration-routing.module';
-import { LearningpathModule } from 'src/presentation/modules/learningpath/learningpath.module';
 import { LearningPathRoutingModule } from 'src/presentation/modules/learningpath/learningpath-routing.module';
+import { UserRoutingModule } from 'src/presentation/modules/user/user-routing.module';
+import { CourseRoutingModule } from 'src/presentation/modules/course/course-routing.module';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -17,10 +18,11 @@ import { LearningPathRoutingModule } from 'src/presentation/modules/learningpath
     FormsModule,
     ReactiveFormsModule,
     DashboardRoutingModule,
-    DeliveryRoutingModule,
+    UserRoutingModule,
     RegistrationRoutingModule,
+    DeliveryRoutingModule,
     LearningPathRoutingModule,
-    // enrutadores de cada modulo
+    CourseRoutingModule
   ],
 })
-export class DashboardModule {}
+export class DashboardModule { }

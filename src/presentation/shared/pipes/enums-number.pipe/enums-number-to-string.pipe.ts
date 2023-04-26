@@ -3,8 +3,8 @@ import {
   Roles,
   StateRegistration,
   StateContent,
-  TypeContent
-
+  TypeContent,
+  StateUser
 } from '../../../../base/utils/enums';
 
 @Pipe({
@@ -14,6 +14,7 @@ export class EnumsNumberToStringPipe implements PipeTransform {
   transform(
     value:
       | Roles
+      | StateUser
       | StateRegistration
       | StateContent
       | TypeContent,
@@ -26,14 +27,16 @@ export class EnumsNumberToStringPipe implements PipeTransform {
 
 export interface EnumValues {
   role: string;
+  stateUser: string;
   stateRegistration: string;
   StateContent: string;
   TypeContent: string;
 }
 
 const ROLE_VALUES: EnumValues = {
-  role: 'Default,Admin,Contributor',
-  stateRegistration: 'Active,Deleted',
+  role: ',Admin,Trainee',
+  stateUser: ',Active,Deleted',
+  stateRegistration: ',Active,Deleted',
   StateContent: ',Active,Deleted',
   TypeContent: ',Workshop,Lesson,Challenge'
 };

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-to-relative-time.pipe';
+import { InputSearchComponent } from './components/input-search/input-search.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-
     AppLayoutComponent,
     ShowForRolesDirective,
     DateToRelativeTimePipe,
+    InputSearchComponent,
   ],
   exports: [
     EnumsNumberToStringPipe,
@@ -27,6 +29,7 @@ import { DateToRelativeTimePipe } from './pipes/date-to-relative-time.pipe/date-
     AppLayoutComponent,
     ShowForRolesDirective,
     DateToRelativeTimePipe,
+    InputSearchComponent
   ],
   imports: [CommonModule, RouterModule],
 })

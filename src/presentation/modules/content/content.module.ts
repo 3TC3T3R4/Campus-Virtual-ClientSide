@@ -13,20 +13,20 @@ import { FormComponent } from './components/form/form.component';
 
 
 @NgModule({
-    declarations: [
-        ListContentComponent,
-        DetailContentComponent,
-        MainContentComponent,
-        CreateContentComponent,
-        ListComponent,
-        FormComponent
-    ],
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ContentRoutingModule,
-        SharedModule
-    ]
+  declarations: [
+    ListContentComponent,
+    DetailContentComponent,
+    MainContentComponent,
+    CreateContentComponent,
+    ListComponent,
+    FormComponent
+  ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ContentRoutingModule,
+    SharedModule
+  ]
 })
 export class ContentModule { }

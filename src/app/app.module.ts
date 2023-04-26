@@ -16,7 +16,7 @@ import { ContentModule } from 'src/data/repositories/content/content.module';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from 'src/presentation/core/security/pages/login/login.component';
 import { LearningPathModule } from 'src/data/repositories/learningpath/learningpath.module';
-import { CourseModule } from 'src/presentation/modules/course/course.module';
+import { CourseModule } from 'src/data/repositories/course/course.module';
 
 @NgModule({
   declarations: [
@@ -45,4 +45,4 @@ import { CourseModule } from 'src/presentation/modules/course/course.module';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
