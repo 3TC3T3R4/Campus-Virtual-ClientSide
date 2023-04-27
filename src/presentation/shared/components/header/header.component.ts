@@ -21,32 +21,21 @@ export class HeaderComponent implements OnInit {
   routeMainUsers: string[];
   routeMainLearningPaths: string[];
   routeMainCourses: string[];
-  userName!: string | null;
+  email!: string | null;
 
   constructor(
     private readonly auth$: AuthService,
-    private router: Router // private readonly state$: StateService
+    private router: Router
   ) {
 
     this.routeMainRegistrations = ['registrations'];
     this.routeMainUsers = ['users'];
     this.routeMainLearningPaths = ['learningpaths'];
     this.routeMainCourses = ['courses'];
-
-    // this.routeListInscriptions = ['inscriptions/list'];
-    // this.routeListTasks = ['tasks/list'];
-    // this.state = this.state$.State;
   }
-
-  // changeState(): void {
-  //   this.state$.State = true;
-  //   this.state = this.state$.State;
-  // }
-
   ngOnInit(): void {
-    if (localStorage.getItem('userName') !== null) {
-      // this.changeState();
-      this.userName = localStorage.getItem('userName');
+    if (localStorage.getItem('email') !== null) {
+      this.email = localStorage.getItem('email');
     }
   }
 
