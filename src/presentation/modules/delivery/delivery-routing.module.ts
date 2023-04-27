@@ -14,11 +14,11 @@ const routes: Routes = [
         component: DeliveryComponent,
       },
       {
-        path: 'delivery-path-list',
+        path: 'delivery-path-list/:pathID',
         component: DeliveryByPathIDComponent,
       },
       {
-        path: 'delivery-iudUser-list',
+        path: 'delivery-iudUser-list/:uidUser',
         component: DeliveryByUidUserComponent,
       },
     ],

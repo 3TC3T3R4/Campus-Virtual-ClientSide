@@ -26,9 +26,9 @@
               <tr *ngFor="let item of deliveryItems">
                 <td>{{item.uidUser}}</td>
                 <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
-                <td><a href="{{item.DeliveryField}}">link</a></td>
+                <td><a href="{{item.DeliveryField}}">{{item.DeliveryField}}</a></td>
                 <td>
-                  <button type="button" class="btn btn-success" (click)="qualifyDelivery(deliveryItem)">Qualify</button>
+                  <button type="button" class="btn btn-success" (click)="qualifyDelivery(item)">Qualify</button>
                   <button type="button" class="btn btn-danger" (click)="deleteDelivery(item)">Delete</button>
                 </td>
               </tr>
@@ -42,12 +42,14 @@
   <!-- Right Side -->
   <div style="flex-basis: 40%;">
     <!--Create a bottom to qualify a Delivery with deliveryID, rating and comment-->
-    <div class="col m-5 mt-0 text-king-blue" *ngIf="showQualifyDelivery">
+    <div class="col m-5 mt-0" *ngIf="showQualifyDelivery">
       <h3>Qualify a Delivery</h3>
       <form [formGroup]="qualifyDeliveryForm" id="qualifyDeliveryForm"
-        class="text-bg-dark p-3 border-3 border-primary text-start">
+        class="text-bg-light p-3 border-3 border-primary text-start">
         <div class="mb-3 row">
-          <label for="rating">rating</label>
+          <div>
+            <label for="rating" id="rating">rating</label>
+          </div>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="rating" formControlName="rating">
           </div>
@@ -65,7 +67,7 @@
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="comment" class="col-sm-2 col-form-label">comment</label>
+          <label for="comment" id="comment">comment</label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="comment" formControlName="comment">
           </div>
@@ -78,7 +80,7 @@
         </div>
       </form>
       <div>
-        <button id="btnC" type="submit" [disabled]="!qualifyDeliveryForm.valid"
+        <button id="btnC" type="button" class="btn btn-success" [disabled]="!qualifyDeliveryForm.valid"
           (click)="confirmQualify()">Proceed</button>
       </div>
     </div>

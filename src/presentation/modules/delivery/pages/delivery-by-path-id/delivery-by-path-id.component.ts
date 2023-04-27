@@ -10,6 +10,7 @@ import { DeliveryModel } from 'src/domain/models/delivery.model';
 import { QualifyDeliveryUseCase } from 'src/bussiness/useCases/delivery/qualify-delivery.usecase';
 import { DeleteDeliveryUseCase } from 'src/bussiness/useCases/delivery/delete-delivery.usecase';
 import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-delivery';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'sofka-delivery-by-path-id',
   templateUrl: './delivery-by-path-id.component.html',
@@ -21,7 +22,6 @@ export class DeliveryByPathIDComponent implements OnInit {
   //routes
   routeDashboard: string[];
 
-  pathID: string;
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
   showQualifyDelivery = false;
@@ -31,7 +31,9 @@ export class DeliveryByPathIDComponent implements OnInit {
     private fb: FormBuilder,
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
-    private DeleteDeliveryUseCase: DeleteDeliveryUseCase
+    private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
+    private routerActive: ActivatedRoute,
+    private router: Router
   ) {
     this.empty = false;
 
@@ -54,20 +56,15 @@ export class DeliveryByPathIDComponent implements OnInit {
       ratedAt: new Date(),
       stateDelivery: 1,
     };
-
-    this.pathID = 'path1';
   }
 
   ngOnInit(): void {
-    var pathID = localStorage.getItem('pathID') ?? 'path1';
-    if (pathID) {
-      this.pathID = pathID;
-    }
     this.getDeliveriesByPathID();
   }
 
   getDeliveriesByPathID() {
-    this.GetDeliveriesByPathIdUseCase.execute(this.pathID).subscribe(
+    var pathID = this.routerActive.snapshot.paramMap.get('pathID') ?? '';
+    this.GetDeliveriesByPathIdUseCase.execute(pathID).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
       },

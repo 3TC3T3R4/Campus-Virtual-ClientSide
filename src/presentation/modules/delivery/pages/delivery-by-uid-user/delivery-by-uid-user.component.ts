@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GetDeliveriesByUidUserUseCase } from '../../../../../bussiness/useCases/delivery/get-deliveries-by-uiduser.usecase';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DeliveryModel } from 'src/domain/models/delivery.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sofka-delivery-by-uid-user',
@@ -21,7 +22,9 @@ export class DeliveryByUidUserComponent implements OnInit {
   showDelivery = false;
 
   constructor(
-    private GetDeliveriesByUidUserUseCase: GetDeliveriesByUidUserUseCase
+    private GetDeliveriesByUidUserUseCase: GetDeliveriesByUidUserUseCase,
+    private routerActive: ActivatedRoute,
+    private router: Router
   ) {
     this.empty = false;
     // this.getDeliveriesByUidUserForm = new FormGroup({
@@ -46,15 +49,11 @@ export class DeliveryByUidUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    var uidUser = localStorage.getItem('uidUser');
-    if (!uidUser) {
-      uidUser = 'user3';
-    }
     this.getDeliveriesByUidUser();
   }
 
   getDeliveriesByUidUser() {
-    // const uidUser = this.getDeliveriesByUidUserForm.value.uidUser;
+    var uidUser = this.routerActive.snapshot.paramMap.get('uidUser');
     this.GetDeliveriesByUidUserUseCase.execute(this.uidUser).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
