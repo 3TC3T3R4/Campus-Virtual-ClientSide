@@ -1,9 +1,8 @@
 export interface LearningPathModel {
-
-        PathID: number;
-        CoachID: string;
-        Title: string;
-        Description: string;
-        Duration: number;
-        StatePath: number;
+  pathID: number;
+  coachID: string;
+  title: string;
+  description: string;
+  duration: number;
+  statePath: number;
 }

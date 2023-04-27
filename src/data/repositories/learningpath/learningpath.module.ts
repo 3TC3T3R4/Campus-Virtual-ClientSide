@@ -33,13 +33,15 @@ export const GetLearningPathByIdUseCaseProvider = {
   useFactory: GetLearningPathByIdUseCaseFactory,
   deps: [LearningPathRepository]
 };
+
 const GetLearningPathByCoachIdUseCaseFactory = (learningRepo: LearningPathRepository) =>
   new GetLearningPathByCoachUseCase(learningRepo);
 export const GetLearningPathByCoachCaseProvider = {
-  provide: GetLearningPathByIdUseCase,
+  provide: GetLearningPathByCoachUseCase,
   useFactory: GetLearningPathByCoachIdUseCaseFactory,
   deps: [LearningPathRepository]
 };
+
 const DeleteLearningPathUseCaseFactory = (learningRepo: LearningPathRepository) =>
   new DeleteLearnigPathUseCase(learningRepo);
 export const DeleteRegistrationUseCaseProvider = {
@@ -66,19 +68,19 @@ export const UpdateLearningPathByIdUseCaseProvider = {
 
 
 @NgModule({
-    providers: [
-        CreateLearningPathUseCaseProvider,
-        GetAllLearningPathUseCaseProvider,
-        GetLearningPathByIdUseCaseProvider,
-        GetLearningPathByCoachCaseProvider,
-        DeleteRegistrationUseCaseProvider,
-        UpdateLearningPathByIdUseCaseProvider,
-        UpdateLearningPathDurationUseCaseProvider,
-      {
-        provide: LearningPathRepository,
-        useClass: LearningPathImplementationRepository,
-      },
-    ],
-    imports: [CommonModule, HttpClientModule],
-  })
-  export class LearningPathModule { }
+  providers: [
+    CreateLearningPathUseCaseProvider,
+    GetAllLearningPathUseCaseProvider,
+    GetLearningPathByIdUseCaseProvider,
+    GetLearningPathByCoachCaseProvider,
+    DeleteRegistrationUseCaseProvider,
+    UpdateLearningPathByIdUseCaseProvider,
+    UpdateLearningPathDurationUseCaseProvider,
+    {
+      provide: LearningPathRepository,
+      useClass: LearningPathImplementationRepository,
+    },
+  ],
+  imports: [CommonModule, HttpClientModule],
+})
+export class LearningPathModule { }
