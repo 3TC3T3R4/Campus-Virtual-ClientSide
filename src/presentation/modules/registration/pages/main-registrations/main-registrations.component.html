@@ -74,7 +74,6 @@
           </caption>
           <thead class="text-center">
             <tr class="text-king-blue">
-              <th scope="col">Trainee</th>
               <th scope="col">Learning path</th>
               <th scope="col">Created at</th>
               <th scope="col">Final rating</th>
@@ -87,8 +86,7 @@
             </tr>
             <ng-template #datos class="text-light">
               <tr *ngFor="let reg of registrationsList">
-                <td>{{reg.uidUser }}</td>
-                <td>{{reg.pathID }}</td>
+                <td>{{reg.title }}</td>
                 <td>{{reg.createdAt | date }}</td>
                 <td>{{reg.finalRating }}</td>
                 <td>

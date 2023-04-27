@@ -11,18 +11,18 @@ import { CourseModel } from 'src/domain/models/course/course.model';
 })
 export class GetCourseComponent implements OnInit {
 
-  role : number | null;
-  courses : CourseModel[];
-  pathId : string;
-   //routes
- routeDashboard: string[];
+  role: number | null;
+  courses: CourseModel[];
+  pathId: string;
+  //routes
+  routeDashboard: string[];
 
 
 
   constructor(private getCourses: GetCourseActiveUseCase,
-              private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
-              private router: Router,
-              private routeActive: ActivatedRoute){
+    private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
+    private router: Router,
+    private routeActive: ActivatedRoute) {
     this.courses = [];
     this.role = 0;
     this.pathId = '';
@@ -31,9 +31,9 @@ export class GetCourseComponent implements OnInit {
 
 
   ngOnInit(): void {
-    //this.role = localStorage.getItem('role');
-    this.role = 1;
-    if(this.routeActive.snapshot.params['id']){
+    this.role = parseInt(localStorage.getItem('role') as string);
+    // this.role = 1;
+    if (this.routeActive.snapshot.params['id']) {
       this.pathId = this.routeActive.snapshot.params['id'];
       this.getCoursePathIdUseCase.execute(this.pathId).subscribe({
         next: course => (this.courses = course),
@@ -41,7 +41,7 @@ export class GetCourseComponent implements OnInit {
         complete: () => console.log('Complete')
       });
     }
-    if(this.role == 1){
+    if (this.role == 1) {
       this.getCourses.execute().subscribe({
         next: course => (this.courses = course),
         error: err => console.log(err),
@@ -51,7 +51,7 @@ export class GetCourseComponent implements OnInit {
   }
 
 
-  create(){
+  create() {
     this.router.navigate(["/dashboard/courses/create"]);
   }
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GetAllRegistrationsUseCase } from '../../../../../bussiness/useCases/registration/get-all-registrations.usecase';
-import { RegistrationModel } from 'src/domain/models/registration/registration.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GetAllUsersUseCase } from '../../../../../bussiness/useCases/user/get-all-users.usecase';
 import { GetLearningPathByCoachUseCase } from '../../../../../bussiness/useCases/learningpath/get-learningpath-by-coach.usecase';
@@ -10,6 +9,7 @@ import { LearningPathModel } from 'src/domain/models/learningpath/learningpath';
 import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/create-registration.usecase';
 import { DeleteRegistrationUseCase } from '../../../../../bussiness/useCases/registration/delete-registration.usecase';
 import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
+import { RegistrationWithPaths } from 'src/domain/DTO/registration/registration-with-learningpaths';
 
 @Component({
   selector: 'sofka-main-registrations',
@@ -23,7 +23,7 @@ export class MainRegistrationsComponent implements OnInit {
   //variables
   render!: boolean;
   empty: boolean;
-  registrationsList!: RegistrationModel[];
+  registrationsList!: RegistrationWithPaths[];
   registrationID!: number;
   uidUser!: string;
   pathID!: string;
@@ -52,7 +52,7 @@ export class MainRegistrationsComponent implements OnInit {
     });
     setTimeout(() => {
       this.render = true;
-    }, 1500);
+    }, 2000);
   }
 
   ngOnInit(): void {
@@ -78,7 +78,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('User may already be registered.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -102,7 +101,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('Registration was no deleted.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -126,7 +124,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('Average final rating was no updated.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -137,6 +134,7 @@ export class MainRegistrationsComponent implements OnInit {
       }
     });
   }
+  //#endregion
 
   //#region consults
   getAllRegistrations(): void {
@@ -146,7 +144,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.empty = false;
       },
       error: (error) => {
-        console.log(error);
         this.empty = true;
       },
       complete: () => {
@@ -160,9 +157,7 @@ export class MainRegistrationsComponent implements OnInit {
       next: (data) => {
         this.usersList = data;
       },
-      error: (error) => {
-        console.log(error);
-      },
+      error: (error) => { },
       complete: () => {
         subGetAllUsers.unsubscribe();
       }
@@ -174,9 +169,7 @@ export class MainRegistrationsComponent implements OnInit {
       next: (data) => {
         this.pathsList = data;
       },
-      error: (error) => {
-        console.log(error);
-      },
+      error: (error) => { },
       complete: () => {
         subGetLearningPathByCoach.unsubscribe();
       }

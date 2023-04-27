@@ -64,10 +64,10 @@ export class LearningPathImplementationRepository extends LearningPathRepository
 
   }
 
-   updateLearningPathByIdAsync(params: { idContent: string; content: NewLearningPathCommand; }): Observable<string> {
-    
-     return this.http.put<string>(
-       `${environment.urlApiCampus}api/LearningPath?id=${params.idContent}`, params.content);
+  updateLearningPathByIdAsync(params: { idContent: string; content: NewLearningPathCommand; }): Observable<string> {
+
+    return this.http.put<string>(
+      `${environment.urlApiCampus}api/LearningPath?id=${params.idContent}`, params.content);
   }
 
   updateLearningPathDurationAsync(pathID: string, totalDuration: number): Observable<string> {

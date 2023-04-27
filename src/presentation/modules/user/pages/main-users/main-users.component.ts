@@ -44,7 +44,7 @@ export class MainUsersComponent implements OnInit {
     });
     setTimeout(() => {
       this.render = true;
-    }, 1500);
+    }, 2000);
   }
 
   ngOnInit(): void {

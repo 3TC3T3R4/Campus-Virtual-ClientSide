@@ -40,7 +40,7 @@ export class DeliveryByUidUserComponent implements OnInit {
       contentID: '',
       uidUser: '',
       deliveryAt: new Date(),
-      DeliveryField: '',
+      deliveryField: '',
       rating: 0,
       comment: '',
       ratedAt: new Date(),

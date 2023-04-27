@@ -23,7 +23,7 @@
             <tr *ngFor="let item of deliveryItems">
               <td>{{item.uidUser}}</td>
               <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
-              <td><a href="{{item.DeliveryField}}">{{item.DeliveryField}}</a></td>
+              <td><a href="{{item.deliveryField}}">{{item.deliveryField}}</a></td>
               <td>
                 <button type="button" class="btn btn-primary" (click)="viewDeliveryDetails(item)">View</button>
               </td>
@@ -75,7 +75,7 @@
             </tr>
             <tr>
               <th>delivery field</th>
-              <td><a href="{{deliveryItem.DeliveryField}}">{{deliveryItem.DeliveryField}}</a></td>
+              <td><a href="{{deliveryItem.deliveryField}}">{{deliveryItem.deliveryField}}</a></td>
             </tr>
             <tr>
               <th>rating</th>
