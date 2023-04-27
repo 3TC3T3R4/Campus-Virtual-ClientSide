@@ -16,36 +16,25 @@
     </div>
   </div>
   <div class="col m-5 mt-0 text-king-blue">
-
     <div class="collapse mb-3" id="createRegistrationCollapse">
       <div class="card card-body">
-
         <form id="frmFormReactive" (ngSubmit)="sendData()" [formGroup]="frmFormReactive"
-          class="text-bg-dark p-3 border-3 border-primary text-start">
-          <div class="mb-3 row">
-            <label for="Título" class="col-sm-2 col-form-label">Coach-ID</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="coachID" placeholder="Firebase" formControlName="coachID"
-                name="coachID" required>
-              <div id="altoMensaje" *ngIf="frmFormReactive.get('coachID')?.hasError('required')
-           && frmFormReactive.get('coachID')?.touched">Campo requerido, ingresar por favor</div>
-            </div>
-          </div>
-          <div class="mb-3 row">
-            <label for="Título" class="col-sm-2 col-form-label">Título</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"
-                formControlName="title" name="title" required>
+        class="p-3 border-3 border-primary text-start">
+        <div class="mb-3 row">
+          <label for="Título" class="col-sm-2 col-form-label">Título</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"  formControlName="title"
+              name="title" required>
               <div id="altoMensaje" *ngIf="frmFormReactive.get('title')?.hasError('required')
            && frmFormReactive.get('title')?.touched">Campo requerido, ingresar por favor</div>
-            </div>
           </div>
-          <div class="mb-3 row">
-            <label for="description" class="col-sm-2 col-form-label">Description</label>
-            <div class="col-sm-10">
-              <input type="date" class="form-control" id="description" formControlName="description" name="description"
-                required>
-              <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
+        </div>
+        <div class="mb-3 row">
+          <label for="description" class="col-sm-2 col-form-label">Description</label>
+          <div class="col-sm-10">
+         <input type="text" class="form-control" id="description"
+            formControlName="description" name="description"required>
+         <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
             && frmFormReactive.get('description')?.touched">Campo requerido, ingresar por favor</div>
             </div>
           </div>
@@ -62,22 +51,119 @@
       </div>
       <div class=" table-responsive">
         <table class="table table-hover">
-          <caption>
-            Active Paths
-          </caption>
           <thead class="text-center">
             <tr class="text-king-blue">
-              <th scope="col">Trainee</th>
-              <th scope="col">Learning path</th>
-              <th scope="col">Created at</th>
-              <th scope="col">Final rating</th>
+              <th scope="col">CoachID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
               <th scope="col">Actions</th>
+              
             </tr>
           </thead>
           <tbody class="table-group-divider text-king-blue text-center">
+            <tr *ngFor="let ListlearningPath of learningPathContent" class="table-group-divider">
+              <td (click)="sendIdPath(ListlearningPath.pathID)"  style="cursor:pointer;" >{{ListlearningPath.coachID}}</td>
+              <td>{{ListlearningPath.title}}</td>
+              <td>{{ListlearningPath.description}}</td>
+              <td>
 
+                
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Update LearningPath</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Updated</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form" (ngSubmit)="sendUpdate(ListlearningPath.pathID)" [formGroup]="form">
+
+          <div class="mb-3">
+              <input class="form-control" type="text" name="title" id="title"
+                        formControlName="title" placeholder="Ruta react fronted" />
+                      <p class="text-warning ms-4"
+                        *ngIf="form.get('title')?.hasError('required')&& form.get('title')?.touched">
+                        title is empty.
+                      </p>
+                    </div>
+
+                    <div class="mb-3">
+                      <input class="form-control" type="text" name="description" id="description"
+                                formControlName="description" placeholder="react, angular" />
+                              <p class="text-warning ms-4"
+                                *ngIf="form.get('description')?.hasError('required')&& form.get('description')?.touched">
+                                description is empty.
+                              </p>
+                            </div>
+                  </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="form" class="btn btn-primary">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+                
+              </td>
+
+              <td>
+
+                
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">Delete LearningPath</button>
+                <div class="modal fade" id="exampleModal2"  aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel2">Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form id="formD" (ngSubmit)="sendDelete(ListlearningPath.pathID)" [formGroup]="formD">
+                       </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" form="formD" class="btn btn-primary">Delete LearningPath</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                                
+                 </td>
+
+                              <td>
+                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">Explore Deliveries</button>
+                                <div class="modal fade" id="exampleModal3"  aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel3">Explore deliveries</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form id="formEx" (ngSubmit)="exploreDeliveries(ListlearningPath.pathID)" [formGroup]="formEx">
+
+
+
+                                       </form>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" form="formEx" class="btn btn-primary">Explore Deliveries</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                               </td>
+
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+
+

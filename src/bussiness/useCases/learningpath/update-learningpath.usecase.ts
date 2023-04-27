@@ -5,12 +5,12 @@ import { Observable } from "rxjs";
 
 
 
-export class updateLearningPathByIdUseCase implements UseCase< [string, LearningPathModel], LearningPathModel>{
+export class updateLearningPathByIdUseCase implements UseCase<{idContent: string, content : LearningPathModel}, string>{
     constructor(private learningPathRepository: LearningPathRepository) { }
   
-    execute([pathID, learningPath]: [string,LearningPathModel]): Observable<LearningPathModel> {
+    execute(params : {idContent : string, content : LearningPathModel}): Observable<string> {
 
-      return this.learningPathRepository.updateLearningPathByIdAsync(pathID,learningPath);
+      return this.learningPathRepository.updateLearningPathByIdAsync(params);
     
     }
  
