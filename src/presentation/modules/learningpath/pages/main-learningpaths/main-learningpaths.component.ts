@@ -56,7 +56,7 @@ export class MainLearningpathsComponent {
   });
 
   this.form = new FormGroup({
-
+      coachID:new FormControl(this.coachIDL),
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
@@ -146,6 +146,7 @@ sendIdPath(pathID: string){
 
 
 sendUpdate(pathId: string):void{
+  console.log(this.form.getRawValue());
   if (this.form.invalid) {
 
     alert('You cant Update a LearningPath with items empty');

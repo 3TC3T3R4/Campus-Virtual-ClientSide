@@ -26,7 +26,7 @@ export class GetCourseComponent implements OnInit {
     this.courses = [];
     this.role = 0;
     this.pathId = '';
-    this.routeDashboard = ['../'];
+    this.routeDashboard = ['/dashboard/learningpaths'];
   }
 
 
