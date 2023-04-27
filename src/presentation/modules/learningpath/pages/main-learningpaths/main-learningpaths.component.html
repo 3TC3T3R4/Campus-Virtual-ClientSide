@@ -36,10 +36,11 @@
             formControlName="description" name="description"required>
          <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
             && frmFormReactive.get('description')?.touched">Campo requerido, ingresar por favor</div>
+            </div>
           </div>
-        </div>
-   <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created LearningPath</button>
-  
+          <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created
+            LearningPath</button>
+
         </form>
 
       </div>

@@ -1,38 +1,15 @@
-<div>
-  <form id="deleteCourse" (ngSubmit)="deleteCourse()" [formGroup]="frmFormulario" class="row g-1">
-    <div class="col-12">
-      <input type="text" class="form-control" placeholder="" id="floatingTextarea" formControlName="courseID"
-        name="courseID">
-      <label for="floatingTextarea">courseID </label>
-      <p class="text-danger" *ngIf="frmFormulario.get('courseID')?.hasError('required') &&
-frmFormulario.get('courseID')?.touched">El courseID es requerido</p>
+<div class="row">
+    <div class="col col-lg-1 p-4 ps-5">
+        <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
     </div>
-
-    <button class="btn btn-secondary mb-1" type="submit" form="deleteCourse">ChangeCourse</button>
-  </form>
-
-  <form id="getCourseById" (ngSubmit)="getCourseById()" [formGroup]="frmFormulario" class="row g-1">
-
-    <div class="col-12">
-      <input type="text" class="form-control" placeholder="" id="floatingTextarea" formControlName="courseID"
-        name="courseID">
-      <label for="floatingTextarea">courseID </label>
-      <p class="text-danger" *ngIf="frmFormulario.get('courseID')?.hasError('required') &&
-frmFormulario.get('courseID')?.touched">El courseID es requerido</p>
-    </div>
-    <button class="btn btn-secondary mb-1" type="submit" form="getCourseById">CourseID</button>
-  </form>
-
-  <form id="getCourseByPathId" (ngSubmit)="getCourseByPathId()" [formGroup]="frmFormulario" class="row g-1">
-
-    <div class="col-12">
-      <input type="text" class="form-control" placeholder="" id="floatingTextarea" formControlName="pathID"
-        name="pathID">
-      <label for="floatingTextarea">pathID </label>
-      <p class="text-danger" *ngIf="frmFormulario.get('pathID')?.hasError('required') &&
-frmFormulario.get('pathID')?.touched">El pathID es requerido</p>
-    </div>
-
-    <button class="btn btn-secondary mb-1" type="submit" form="getCourseByPathId">PathID</button>
-  </form>
+    <div class="col p-4 pe-5">
+          <p class="float-end">
+            <button class="btn btn-blue" type="button" data-bs-toggle="collapse" (click)="create()"
+              data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
+              Create Course
+            </button>
+          </p>
+        </div>
 </div>
+
+<sofka-list [courses]="courses"></sofka-list>

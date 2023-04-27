@@ -11,14 +11,14 @@ import { DeleteLearnigPathUseCase } from 'src/bussiness/useCases/learningpath/de
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
-  styleUrls: ['./main-learningpaths.component.scss']
+  styleUrls: ['./main-learningpaths.component.scss'],
 })
 export class MainLearningpathsComponent {
- //routes
- routeDashboard: string[];
- //variables
- render!: boolean;
- frmFormReactive : FormGroup;
+  //routes
+  routeDashboard: string[];
+  //variables
+  render!: boolean;
+  frmFormReactive: FormGroup;
  form: FormGroup;
  formD: FormGroup;
  formEx: FormGroup;
@@ -28,23 +28,25 @@ export class MainLearningpathsComponent {
   finalContent: NewLearningPathCommand | undefined;
 
 
- constructor(private taskDelete: DeleteLearnigPathUseCase ,private taskById:GetLearningPathByIdUseCase,private taskUpdate: updateLearningPathByIdUseCase,private taskCreate: CreateLearningPathUseCase,private taskGetAll: GetAllLearnigPathUseCase , private router: Router) {
-   this.routeDashboard = ['../'];
-   this.render = true;
+  constructor(
+    private taskDelete: DeleteLearnigPathUseCase ,private taskById:GetLearningPathByIdUseCase,private taskUpdate: updateLearningPathByIdUseCase,private taskCreate: CreateLearningPathUseCase,private taskGetAll: GetAllLearnigPathUseCase ,
+    private router: Router
+  ) {
+    this.routeDashboard = ['../'];
+    this.render = true;
    this.coachIDL = localStorage.getItem('uidUser') as string;
    this.formEx = new FormGroup({ 
    });
    this.formD = new FormGroup({ 
     pathD:new FormControl()
    });
-   this.frmFormReactive = new FormGroup({
-
-    coachID:new FormControl(null),
+    this.frmFormReactive = new FormGroup({
+      coachID:new FormControl(null),
     title:new FormControl('',  [
-      Validators.required,
-      Validators.minLength(6)
+        Validators.required,
+        Validators.minLength(6)
 
-    ]),
+      ]),
 
     description:new FormControl('',  [
       Validators.required,
@@ -55,11 +57,10 @@ export class MainLearningpathsComponent {
 
   this.form = new FormGroup({
 
-    title:new FormControl('',  [
-      Validators.required,
-      Validators.minLength(6)
-
-    ]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
 
     description:new FormControl('',  [
       Validators.required,

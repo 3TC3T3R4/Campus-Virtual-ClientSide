@@ -23,7 +23,7 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
     }
 
     createCourseAsync(course: NewCourseModel): Observable<NewCourseModel> {
-        return this.httpClient.post<NewCourseModel>(`${environment.urlApiCourses + "/CreateCourse"}`, course);
+        return this.httpClient.post<NewCourseModel>(`${environment.urlApiCourses + "/"}`, course);
     }
 
     updateCourseAsync(updated: UpdateCourseModel): Observable<UpdateCourseModel> {
@@ -48,6 +48,10 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
 
     updateDurationAsync(duration: UpdateDurationModel): Observable<CourseModel> {
         return this.httpClient.put<CourseModel>(`${environment.urlApiCampus + "/UpdateDuration"}`, duration);
+    }
+
+    getCoursesActiveAsync(): Observable<CourseModel[]> {
+        return this.httpClient.get<CourseModel[]>(`${environment.urlApiCourses}/Active`);
     }
   }
 

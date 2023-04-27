@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GetDeliveriesByUidUserUseCase } from '../../../../../bussiness/useCases/delivery/get-deliveries-by-uiduser.usecase';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DeliveryModel } from 'src/domain/models/delivery.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sofka-delivery-by-uid-user',
@@ -9,17 +10,30 @@ import { DeliveryModel } from 'src/domain/models/delivery.model';
   styleUrls: ['./delivery-by-uid-user.component.scss'],
 })
 export class DeliveryByUidUserComponent implements OnInit {
-  getDeliveriesByUidUserForm: FormGroup;
+  empty: boolean;
+  searching = false;
+
+  uidUser: string;
+  //routes
+  routeDashboard: string[];
+
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
   showDelivery = false;
 
   constructor(
-    private GetDeliveriesByUidUserUseCase: GetDeliveriesByUidUserUseCase
+    private GetDeliveriesByUidUserUseCase: GetDeliveriesByUidUserUseCase,
+    private routerActive: ActivatedRoute,
+    private router: Router
   ) {
-    this.getDeliveriesByUidUserForm = new FormGroup({
-      uidUser: new FormControl('', [Validators.required]),
-    });
+    this.empty = false;
+    // this.getDeliveriesByUidUserForm = new FormGroup({
+    //   uidUser: new FormControl('', [Validators.required]),
+    // });
+
+    this.routeDashboard = ['../'];
+
+    this.uidUser = 'user3';
 
     this.deliveryItem = {
       deliveryID: 0,
@@ -34,15 +48,18 @@ export class DeliveryByUidUserComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDeliveriesByUidUser();
+  }
 
   getDeliveriesByUidUser() {
-    const uidUser = this.getDeliveriesByUidUserForm.value.uidUser;
-    this.GetDeliveriesByUidUserUseCase.execute(uidUser).subscribe(
+    var uidUser = this.routerActive.snapshot.paramMap.get('uidUser');
+    this.GetDeliveriesByUidUserUseCase.execute(this.uidUser).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
       },
       (error) => {
+        this.empty = true;
         console.log(error);
       }
     );
@@ -52,5 +69,9 @@ export class DeliveryByUidUserComponent implements OnInit {
     this.showDelivery = true;
     this.deliveryItem = deliveryItem;
     console.log(this.deliveryItem);
+  }
+
+  closeDeliveryDetails() {
+    this.showDelivery = false;
   }
 }

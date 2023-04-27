@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GetAllContentUseCase } from 'src/bussiness/useCases/content/queries/getAll-content.usecase';
 import { GetContentByCourseUseCase } from 'src/bussiness/useCases/content/queries/getCourse-content.usecase';
 import { ContentModel } from 'src/domain/models/content/content.model';
@@ -11,17 +12,34 @@ import { ContentModel } from 'src/domain/models/content/content.model';
 export class ListContentComponent {
 
   contents : ContentModel[];
+  courseID : string;
+  //routes
+  routeDashboard: string[];
 
   constructor(private getContent : GetAllContentUseCase,
-              private getContentByCourse : GetContentByCourseUseCase){
-    this.contents = []
+              private getContentByCourse : GetContentByCourseUseCase,
+              private routeActive: ActivatedRoute,
+              private router: Router){
+    this.contents = [];
+    this.courseID = '';
+    this.routeDashboard = ['/dashboard/courses'];
   }
 
   ngOnInit(): void {
-    this.getContentByCourse.execute('3f5ac9aa-1b09-4c39-9584-5aead893d301').subscribe({
+    if(this.routeActive.snapshot.params['id']){
+      this.courseID = this.routeActive.snapshot.params['id'];
+      this.getContentByCourse.execute(this.courseID).subscribe({
+        next: contents => (this.contents = contents),
+        error: err => console.log(err),
+        complete: () => console.log('Complete')
+      });
+    }
+    /* this.getContentByCourse.execute('3f5ac9aa-1b09-4c39-9584-5aead893d301').subscribe({
       next: content => (this.contents = content, console.log(content))
-    });
+    }); */
   }
 
-  
+  create(){
+    this.router.navigate([`/dashboard/content/create/${this.courseID}`]);
+  }
 }

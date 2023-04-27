@@ -10,32 +10,38 @@ import { DeliveryModel } from 'src/domain/models/delivery.model';
 import { QualifyDeliveryUseCase } from 'src/bussiness/useCases/delivery/qualify-delivery.usecase';
 import { DeleteDeliveryUseCase } from 'src/bussiness/useCases/delivery/delete-delivery.usecase';
 import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-delivery';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'sofka-delivery-by-path-id',
   templateUrl: './delivery-by-path-id.component.html',
   styleUrls: ['./delivery-by-path-id.component.scss'],
 })
 export class DeliveryByPathIDComponent implements OnInit {
-  getDeliveriesByPathIDForm: FormGroup;
+  empty: boolean;
+  searching = false;
+  //routes
+  routeDashboard: string[];
+
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
-  showDelivery = false;
   showQualifyDelivery = false;
-
   qualifyDeliveryForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
-    private DeleteDeliveryUseCase: DeleteDeliveryUseCase
+    private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
+    private routerActive: ActivatedRoute,
+    private router: Router
   ) {
-    this.getDeliveriesByPathIDForm = new FormGroup({
-      pathID: new FormControl('', [Validators.required]),
-    });
+    this.empty = false;
+
+    this.routeDashboard = ['../'];
 
     this.qualifyDeliveryForm = new FormGroup({
       deliveryID: new FormControl(0, [Validators.required]),
-      rating: new FormControl(0, [Validators.required]),
+      rating: new FormControl(0, [Validators.required, Validators.min(1)]),
       comment: new FormControl('', [Validators.required]),
     });
 
@@ -53,16 +59,17 @@ export class DeliveryByPathIDComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getDeliveriesByPathID();
   }
 
   getDeliveriesByPathID() {
-    const pathID = this.getDeliveriesByPathIDForm.value.pathID;
+    var pathID = this.routerActive.snapshot.paramMap.get('pathID') ?? '';
     this.GetDeliveriesByPathIdUseCase.execute(pathID).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
       },
       (error) => {
+        this.empty = true;
         console.log(error);
       }
     );
@@ -77,12 +84,6 @@ export class DeliveryByPathIDComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-
-  viewDeliveryDetails(deliveryItem: DeliveryModel) {
-    this.showDelivery = true;
-    this.deliveryItem = deliveryItem;
-    console.log(this.deliveryItem);
   }
 
   qualifyDelivery(deliveryItem: DeliveryModel) {
@@ -107,7 +108,6 @@ export class DeliveryByPathIDComponent implements OnInit {
           console.log(error);
         }
       );
-      this.showDelivery = false;
       this.showQualifyDelivery = false;
     } else {
       console.log('No se pudo obtener el deliveryID');

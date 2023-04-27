@@ -1,79 +1,58 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { DeleteCourseProfileUseCase } from 'src/bussiness/useCases/course/deleteCourse.usecase';
-import { GetCourseByIdProfileUseCase } from 'src/bussiness/useCases/course/getCourseById.usecase';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { GetCourseActiveUseCase } from 'src/bussiness/useCases/course/getCourseActive.usecase';
 import { GetCourseByPathIdProfileUseCase } from 'src/bussiness/useCases/course/getCoursesByPathId.usecase';
+import { CourseModel } from 'src/domain/models/course/course.model';
 
 @Component({
   selector: 'sofka-get-course',
   templateUrl: './get-course.component.html',
   styleUrls: ['./get-course.component.scss']
 })
-export class GetCourseComponent {
-  frmFormulario : FormGroup;
-  showMessage: boolean = false;
-  message: string = '';
-  id?: string;
+export class GetCourseComponent implements OnInit {
+
+  role : number | null;
+  courses : CourseModel[];
+  pathId : string;
+   //routes
+ routeDashboard: string[];
 
 
-  constructor(private getCourseByIdUseCase: GetCourseByIdProfileUseCase,
-    private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
-    private deleteCourseUseCase: DeleteCourseProfileUseCase,
-    private router: Router){
-    this.frmFormulario = new FormGroup({
-      courseID : new FormControl('', [Validators.required]),
-      pathID : new FormControl('', [Validators.required]),
-    });
+
+  constructor(private getCourses: GetCourseActiveUseCase,
+              private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
+              private router: Router,
+              private routeActive: ActivatedRoute){
+    this.courses = [];
+    this.role = 0;
+    this.pathId = '';
+    this.routeDashboard = ['../'];
   }
 
-  getCourseById() {
-    console.log(this.frmFormulario.get('courseID')?.value())
-    this.getCourseByIdUseCase.execute(this.frmFormulario.get('courseID')?.value).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Course found successfully';
-        this.showMessage = true;
-        this.frmFormulario.reset();
-        setTimeout(() => {
-          this.message = '';
-          this.showMessage = false;
-        }, 3000);
-      },
-    });
+
+  ngOnInit(): void {
+    //this.role = localStorage.getItem('role');
+    this.role = 1;
+    if(this.routeActive.snapshot.params['id']){
+      this.pathId = this.routeActive.snapshot.params['id'];
+      this.getCoursePathIdUseCase.execute(this.pathId).subscribe({
+        next: course => (this.courses = course),
+        error: err => console.log(err),
+        complete: () => console.log('Complete')
+      });
+    }
+    if(this.role == 1){
+      this.getCourses.execute().subscribe({
+        next: course => (this.courses = course),
+        error: err => console.log(err),
+        complete: () => console.log('Complete')
+      });
+    }
   }
 
-  getCourseByPathId() {
-    console.log(this.frmFormulario.get('pathID')?.value())
-    this.getCoursePathIdUseCase.execute(this.frmFormulario.get('pathID')?.value).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Path found successfully';
-        this.showMessage = true;
-        this.frmFormulario.reset();
-        setTimeout(() => {
-          this.message = '';
-          this.showMessage = false;
-        }, 3000);
-      },
-    });
-  }
 
-  deleteCourse() {
-    console.log(this.frmFormulario.get('courseID')?.value())
-    this.deleteCourseUseCase.execute(this.frmFormulario.get('courseID')?.value).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Course deleted successfully';
-        this.showMessage = true;
-        this.frmFormulario.reset();
-        setTimeout(() => {
-          this.message = '';
-          this.showMessage = false;
-        }, 3000);
-      },
-    });
+  create(){
+    this.router.navigate(["/dashboard/courses/create"]);
   }
-
 
 }

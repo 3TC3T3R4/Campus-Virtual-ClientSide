@@ -16,37 +16,37 @@ export class LearningPathImplementationRepository extends LearningPathRepository
     super();
   }
 
-  
- getLearningPathByCoahAsync(coachID: string): Observable<LearningPathModel[]> {
-  
+
+  getLearningPathByCoahAsync(coachID: string): Observable<LearningPathModel[]> {
+
     return this.http.get<LearningPathModel[]>(
-          `${environment.urlApiCampus}api/LearningPath/GetByCoach?id=${coachID}`
-        );
-    
+      `${environment.urlApiCampus}api/LearningPath/GetByCoach?id=${coachID}`
+    );
+
   }
-  
-  
-    createLearningPathAsync(
-      newLearningPathCommand: NewLearningPathCommand
-      ): Observable<LearningPathModel>{
-      return this.http.post<LearningPathModel>(
-        `${environment.urlApiCampus}api/LearningPath/CreateLearningPath`,
-        newLearningPathCommand
-      );
-  
-    }
+
+
+  createLearningPathAsync(
+    newLearningPathCommand: NewLearningPathCommand
+  ): Observable<LearningPathModel> {
+    return this.http.post<LearningPathModel>(
+      `${environment.urlApiCampus}api/LearningPath/CreateLearningPath`,
+      newLearningPathCommand
+    );
+
+  }
 
 
   getAllLearningPathAsync(): Observable<LearningPathModel[]> {
-   
+
     return this.http.get<LearningPathModel[]>(
       `${environment.urlApiCampus}api/LearningPath`
     );
 
   }
-  
+
   getLearningPathByIdAsync(pathID: string): Observable<LearningPathModel> {
-    
+
     return this.http.get<LearningPathModel>(
       `${environment.urlApiCampus}api/LearningPath/GetById?id=${pathID}`
     );
@@ -56,7 +56,7 @@ export class LearningPathImplementationRepository extends LearningPathRepository
 
 
   deleteLearningPathAsync(pathID: string): Observable<string> {
-    
+
     return this.http.delete<string>(
       `${environment.urlApiCampus}api/LearningPath/${pathID}`
     );
@@ -70,15 +70,15 @@ export class LearningPathImplementationRepository extends LearningPathRepository
        `${environment.urlApiCampus}api/LearningPath?id=${params.idContent}`, params.content);
   }
 
-   updateLearningPathDurationAsync(pathID: string, totalDuration: number): Observable<string> {
-    
-      return this.http.patch<string>(
-        `${environment.urlApiCampus}api/LearningPath/UpdateDuration?id=${pathID}&totalDuration=${totalDuration}`,
-        null
-        );
+  updateLearningPathDurationAsync(pathID: string, totalDuration: number): Observable<string> {
+
+    return this.http.patch<string>(
+      `${environment.urlApiCampus}api/LearningPath/UpdateDuration?id=${pathID}&totalDuration=${totalDuration}`,
+      null
+    );
 
   }
- 
+
 
 
 }
