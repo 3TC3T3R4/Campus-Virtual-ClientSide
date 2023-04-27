@@ -1,9 +1,9 @@
 <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-    <button type="button" class="btn" routerLink="/dashboard/content/list">Go Back</button>
+    <button type="button" class="btn" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Go Back</button>
     <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold">{{content.title}}</h1>
         <p class="col-md-8 fs-4">{{content.description}}</p>
-        <button class="btn btn-primary btn-lg" type="button" *ngIf="type == 2" routerLink="/dashboard/content/list">Complete</button>
+        <button class="btn btn-primary btn-lg" type="button" *ngIf="type == 2" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Complete</button>
         <p>
             <button class="btn btn-primary" *ngIf="type == 1 || type == 3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
               Delivery
@@ -16,7 +16,7 @@
                   <span class="input-group-text" id="basic-addon3">https://github.com/</span>
                   <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
                 </div>
-                <button class="btn btn-primary mt-2 p-2" type="button" routerLink="/dashboard/content/list">Send</button>
+                <button class="btn btn-primary mt-2 p-2" type="button" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Send</button>
               </div>
           </div>
     </div>

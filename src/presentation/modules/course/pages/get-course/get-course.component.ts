@@ -14,6 +14,8 @@ export class GetCourseComponent implements OnInit {
   role : number | null;
   courses : CourseModel[];
   pathId : string;
+   //routes
+ routeDashboard: string[];
 
 
 
@@ -24,6 +26,7 @@ export class GetCourseComponent implements OnInit {
     this.courses = [];
     this.role = 0;
     this.pathId = '';
+    this.routeDashboard = ['../'];
   }
 
 
@@ -45,6 +48,11 @@ export class GetCourseComponent implements OnInit {
         complete: () => console.log('Complete')
       });
     }
+  }
+
+
+  create(){
+    this.router.navigate(["/dashboard/courses/create"]);
   }
 
 }
