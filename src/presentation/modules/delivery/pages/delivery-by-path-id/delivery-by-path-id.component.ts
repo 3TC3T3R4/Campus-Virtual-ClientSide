@@ -16,26 +16,30 @@ import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-del
   styleUrls: ['./delivery-by-path-id.component.scss'],
 })
 export class DeliveryByPathIDComponent implements OnInit {
-  getDeliveriesByPathIDForm: FormGroup;
+  empty: boolean;
+  searching = false;
+  //routes
+  routeDashboard: string[];
+
+  pathID: string;
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
-  showDelivery = false;
   showQualifyDelivery = false;
-
   qualifyDeliveryForm: FormGroup;
+
   constructor(
     private fb: FormBuilder,
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
     private DeleteDeliveryUseCase: DeleteDeliveryUseCase
   ) {
-    this.getDeliveriesByPathIDForm = new FormGroup({
-      pathID: new FormControl('', [Validators.required]),
-    });
+    this.empty = false;
+
+    this.routeDashboard = ['../'];
 
     this.qualifyDeliveryForm = new FormGroup({
       deliveryID: new FormControl(0, [Validators.required]),
-      rating: new FormControl(0, [Validators.required]),
+      rating: new FormControl(0, [Validators.required, Validators.min(1)]),
       comment: new FormControl('', [Validators.required]),
     });
 
@@ -50,19 +54,25 @@ export class DeliveryByPathIDComponent implements OnInit {
       ratedAt: new Date(),
       stateDelivery: 1,
     };
+
+    this.pathID = 'path1';
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    var pathID = localStorage.getItem('pathID') ?? 'path1';
+    if (pathID) {
+      this.pathID = pathID;
+    }
+    this.getDeliveriesByPathID();
   }
 
   getDeliveriesByPathID() {
-    const pathID = this.getDeliveriesByPathIDForm.value.pathID;
-    this.GetDeliveriesByPathIdUseCase.execute(pathID).subscribe(
+    this.GetDeliveriesByPathIdUseCase.execute(this.pathID).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
       },
       (error) => {
+        this.empty = true;
         console.log(error);
       }
     );
@@ -77,12 +87,6 @@ export class DeliveryByPathIDComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-
-  viewDeliveryDetails(deliveryItem: DeliveryModel) {
-    this.showDelivery = true;
-    this.deliveryItem = deliveryItem;
-    console.log(this.deliveryItem);
   }
 
   qualifyDelivery(deliveryItem: DeliveryModel) {
@@ -107,7 +111,6 @@ export class DeliveryByPathIDComponent implements OnInit {
           console.log(error);
         }
       );
-      this.showDelivery = false;
       this.showQualifyDelivery = false;
     } else {
       console.log('No se pudo obtener el deliveryID');

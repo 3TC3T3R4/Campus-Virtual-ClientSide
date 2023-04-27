@@ -1,29 +1,11 @@
 <div style="display: flex;">
-
+  <div class="col col-lg-1 p-4 ps-5">
+    <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
+  </div>
   <!-- Left Side -->
   <div style="flex-grow: 1; padding-right: 10px;">
     <!--Create a bottom to get deliveries by pathID with the input pathID-->
     <div>
-      <h3>Get deliveries by pathID</h3>
-      <form [formGroup]="getDeliveriesByPathIDForm" class="form-control" id="getDeliveriesByPathIDForm">
-        <div>
-          <label for="pathID">pathID</label>
-          <div>
-            <input type="text" id="pathID" formControlName="pathID">
-          </div>
-          <div *ngIf="getDeliveriesByPathIDForm.get('pathID')?.hasError('required') &&
-              getDeliveriesByPathIDForm.get('pathID')?.touched">
-            <p class="text-bg-danger">
-              pathID is required
-            </p>
-          </div>
-        </div>
-      </form>
-      <div>
-        <button type="submit" [disabled]="!getDeliveriesByPathIDForm.valid" (click)="getDeliveriesByPathID()">Get
-          Deliveries</button>
-      </div>
-
       <!--Create a table with the list of deliveries obtained by pathID-->
       <div class="row m-3">
         <hr class="my-4" />
@@ -31,21 +13,26 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">uid user</th>
-              <th scope="col">delivery at</th>
-              <th scope="col">delivery field</th>
+              <th scope="col">User</th>
+              <th scope="col">Delivery at</th>
+              <th scope="col">Delivery field</th>
             </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let item of deliveryItems">
-              <td>{{item.uidUser}}</td>
-              <td>{{item.deliveryAt}}</td>
-              <td>{{item.DeliveryField}}</td>
-              <td>
-                <button type="button" class="btn btn-primary" (click)="viewDeliveryDetails(item)">View</button>
-                <button type="button" class="btn btn-danger" (click)="deleteDelivery(item)">Delete</button>
-              </td>
+          <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf=" empty;else datosAll" class="text-center">
+              <th colspan="4">No delivery yet</th>
             </tr>
+            <ng-template #datosAll class="text-light">
+              <tr *ngFor="let item of deliveryItems">
+                <td>{{item.uidUser}}</td>
+                <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
+                <td><a href="{{item.DeliveryField}}">link</a></td>
+                <td>
+                  <button type="button" class="btn btn-success" (click)="qualifyDelivery(deliveryItem)">Qualify</button>
+                  <button type="button" class="btn btn-danger" (click)="deleteDelivery(item)">Delete</button>
+                </td>
+              </tr>
+            </ng-template>
           </tbody>
         </table>
       </div>
@@ -53,55 +40,36 @@
   </div>
 
   <!-- Right Side -->
-  <div style="flex-basis: 30%;">
-
-    <!--Create a list to get a especific delivery by ID using this.deliveryItem-->
-    <div class="row m-3" *ngIf="showDelivery">
-      <hr class="my-4" />
-      <h3>Delivery</h3>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">uid user</th>
-            <th scope="col">delivery at</th>
-            <th scope="col">delivery field</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{deliveryItem.uidUser}}</td>
-            <td>{{deliveryItem.deliveryAt}}</td>
-            <td>{{deliveryItem.DeliveryField}}</td>
-            <td>
-              <button type="button" class="btn btn-success" (click)="qualifyDelivery(deliveryItem)">Qualify</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+  <div style="flex-basis: 40%;">
     <!--Create a bottom to qualify a Delivery with deliveryID, rating and comment-->
-    <div class="row m-3" *ngIf="showQualifyDelivery">
+    <div class="col m-5 mt-0 text-king-blue" *ngIf="showQualifyDelivery">
       <h3>Qualify a Delivery</h3>
-      <form [formGroup]="qualifyDeliveryForm" class="form-control" id="qualifyDeliveryForm">
-        <div>
+      <form [formGroup]="qualifyDeliveryForm" id="qualifyDeliveryForm"
+        class="text-bg-dark p-3 border-3 border-primary text-start">
+        <div class="mb-3 row">
           <label for="rating">rating</label>
-          <div>
-            <input type="text" id="rating" formControlName="rating">
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="rating" formControlName="rating">
           </div>
-          <div *ngIf="qualifyDeliveryForm.get('rating')?.hasError('required') &&
+          <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('rating')?.hasError('required') &&
         qualifyDeliveryForm.get('rating')?.touched">
             <p class="text-bg-danger">
               rating is required
             </p>
           </div>
-        </div>
-        <div>
-          <label for="comment">comment</label>
-          <div>
-            <input type="text" id="comment" formControlName="comment">
+          <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('rating')?.hasError('min') &&
+        qualifyDeliveryForm.get('rating')?.touched">
+            <p class="text-bg-danger">
+              rating must be at least 1
+            </p>
           </div>
-          <div *ngIf="qualifyDeliveryForm.get('comment')?.hasError('required') &&
+        </div>
+        <div class="mb-3 row">
+          <label for="comment" class="col-sm-2 col-form-label">comment</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="comment" formControlName="comment">
+          </div>
+          <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('comment')?.hasError('required') &&
         qualifyDeliveryForm.get('comment')?.touched">
             <p class="text-bg-danger">
               comment is required
@@ -110,7 +78,8 @@
         </div>
       </form>
       <div>
-        <button type="submit" [disabled]="!qualifyDeliveryForm.valid" (click)="confirmQualify()">Proceed</button>
+        <button id="btnC" type="submit" [disabled]="!qualifyDeliveryForm.valid"
+          (click)="confirmQualify()">Proceed</button>
       </div>
     </div>
   </div>

@@ -9,7 +9,13 @@ import { DeliveryModel } from 'src/domain/models/delivery.model';
   styleUrls: ['./delivery-by-uid-user.component.scss'],
 })
 export class DeliveryByUidUserComponent implements OnInit {
-  getDeliveriesByUidUserForm: FormGroup;
+  empty: boolean;
+  searching = false;
+
+  uidUser: string;
+  //routes
+  routeDashboard: string[];
+
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
   showDelivery = false;
@@ -17,9 +23,14 @@ export class DeliveryByUidUserComponent implements OnInit {
   constructor(
     private GetDeliveriesByUidUserUseCase: GetDeliveriesByUidUserUseCase
   ) {
-    this.getDeliveriesByUidUserForm = new FormGroup({
-      uidUser: new FormControl('', [Validators.required]),
-    });
+    this.empty = false;
+    // this.getDeliveriesByUidUserForm = new FormGroup({
+    //   uidUser: new FormControl('', [Validators.required]),
+    // });
+
+    this.routeDashboard = ['../'];
+
+    this.uidUser = 'user3';
 
     this.deliveryItem = {
       deliveryID: 0,
@@ -34,15 +45,22 @@ export class DeliveryByUidUserComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    var uidUser = localStorage.getItem('uidUser');
+    if (!uidUser) {
+      uidUser = 'user3';
+    }
+    this.getDeliveriesByUidUser();
+  }
 
   getDeliveriesByUidUser() {
-    const uidUser = this.getDeliveriesByUidUserForm.value.uidUser;
-    this.GetDeliveriesByUidUserUseCase.execute(uidUser).subscribe(
+    // const uidUser = this.getDeliveriesByUidUserForm.value.uidUser;
+    this.GetDeliveriesByUidUserUseCase.execute(this.uidUser).subscribe(
       (response: DeliveryModel[]) => {
         this.deliveryItems = response;
       },
       (error) => {
+        this.empty = true;
         console.log(error);
       }
     );
@@ -52,5 +70,9 @@ export class DeliveryByUidUserComponent implements OnInit {
     this.showDelivery = true;
     this.deliveryItem = deliveryItem;
     console.log(this.deliveryItem);
+  }
+
+  closeDeliveryDetails() {
+    this.showDelivery = false;
   }
 }
