@@ -7,6 +7,7 @@ import { GetAllLearnigPathUseCase } from 'src/bussiness/useCases/learningpath/ge
 import { updateLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpath/update-learningpath.usecase';
 import { NewLearningPathCommand } from 'src/domain/commands/learningpath/newLearningPathCommands';
 import { GetLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpath/get-learnigpath-by-id.usecase';
+import { DeleteLearnigPathUseCase } from 'src/bussiness/useCases/learningpath/delete-learningpath.usecase';
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
@@ -19,16 +20,20 @@ export class MainLearningpathsComponent {
  render!: boolean;
  frmFormReactive : FormGroup;
  form: FormGroup;
+ formD: FormGroup;
  learningPathContent: LearningPathModel[] | undefined;
  formConten: LearningPathModel | undefined;
  coachIDL: string | undefined;
 finalContent: NewLearningPathCommand | undefined;
 
 
- constructor(private taskById:GetLearningPathByIdUseCase,private taskUpdate: updateLearningPathByIdUseCase,private taskCreate: CreateLearningPathUseCase,private taskGetAll: GetAllLearnigPathUseCase , private router: Router) {
+ constructor(private taskDelete: DeleteLearnigPathUseCase ,private taskById:GetLearningPathByIdUseCase,private taskUpdate: updateLearningPathByIdUseCase,private taskCreate: CreateLearningPathUseCase,private taskGetAll: GetAllLearnigPathUseCase , private router: Router) {
    this.routeDashboard = ['../'];
    this.render = true;
    this.coachIDL = localStorage.getItem('uidUser') as string;
+   this.formD = new FormGroup({ 
+    pathD:new FormControl()
+   });
    this.frmFormReactive = new FormGroup({
 
     coachID:new FormControl(null),
@@ -107,7 +112,24 @@ ngOnInit(): void {
   });
 }
 
+sendDelete(pathId: string): void{
 
+  this.taskDelete.execute(pathId).subscribe({
+    next: (data) => {
+      console.log(data);
+      alert('LearningPath Delete successfully');
+      this.router.navigate(['./dashboard']);
+    },
+    error: (error) => {
+      console.log(error);
+    },
+    complete: () => {
+      console.log('complete');
+    }
+
+
+  });
+}
 
 
 
