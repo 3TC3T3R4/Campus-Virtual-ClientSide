@@ -18,9 +18,49 @@
   <div class="col m-5 mt-0 text-king-blue">
     <div class="collapse mb-3" id="createRegistrationCollapse">
       <div class="card card-body">
-        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the
-        user
-        activates the relevant trigger.
+        <form id="frmCreateRegistration" (ngSubmit)="sendData()" [formGroup]="frmCreateRegistration"
+          class="form-control bg-container-or-form mt-3 p-3 border-0 text-start text-king-blue shadow-lg">
+          <div class="row mb-3 mt-2 align-items-center">
+            <div class="col col-10 ms-lg-5">
+              <div class="row">
+                <div class="col-sm-1">
+                  <label for="uidUser" class="form-label">Trainne</label>
+                </div>
+                <div class="col-10">
+                  <select class="form-select" name="uidUser" id="uidUser" formControlName="uidUser" #uidUser>
+                    <option value="" selected disabled>Choose here</option>
+                    <option *ngFor="let user of usersList" [value]="user.uidUser">{{user.email}}</option>
+                  </select>
+                  <p class="text-purple mt-1" id="create-registration-user-required"
+                    *ngIf="frmCreateRegistration.get('uidUser')?.hasError('required') && frmCreateRegistration.get('uidUser')?.touched">
+                    You must indicate the trainee.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-sm-1">
+                  <label for="pathID" class="form-label">Learning path</label>
+                </div>
+                <div class="col-10">
+                  <select class="form-select" name="pathID" id="pathID" formControlName="pathID" #pathID>
+                    <option value="" selected disabled>Choose here</option>
+                    <option *ngFor="let path of pathsList" [value]="path.pathID">{{path.title}}</option>
+                  </select>
+                  <p class="text-purple mt-1" id="create-registration-path-required"
+                    *ngIf="frmCreateRegistration.get('pathID')?.hasError('required') && frmCreateRegistration.get('pathID')?.touched">
+                    You must indicate the learning path.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col ms-2">
+              <button type="submit" form="frmCreateRegistration" [disabled]="frmCreateRegistration.invalid"
+                id="btnSubmitFormCreateRegistration" class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
+                <i class="bi bi-person-add"> Create</i>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
     <div class="row w-auto">
@@ -42,15 +82,17 @@
             </tr>
           </thead>
           <tbody class="table-group-divider text-king-blue text-center">
-            <!-- <tr *ngIf=" empty;else datos" class="text-center">
+            <tr *ngIf=" empty;else datos" class="text-center">
               <th colspan="3">No hay elementos para mostrar</th>
             </tr>
             <ng-template #datos class="text-light">
-              <tr *ngFor="let item of inscriptionsList">
-                <td>{{item.createdAt | date }}</td>
-                <td>{{item.stateInscription | enumsNumberToStringPipe: 'stateInscription' }}</td>
+              <tr *ngFor="let reg of registrationsList">
+                <td>{{reg.uidUser }}</td>
+                <td>{{reg.pathID }}</td>
+                <td>{{reg.createdAt | date }}</td>
+                <td>{{reg.finalRating }}</td>
                 <td>
-                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-info text-light shadow me-1"
+                  <!-- <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-info text-light shadow me-1"
                     data-bs-toggle="modal" data-bs-target="#modal-inscription" (click)="modal(item.inscriptionID)">
                     <i class="bi bi-question-lg"></i>
                   </button>
@@ -58,10 +100,10 @@
                     data-bs-toggle="modal" data-bs-target="#modal-delete-inscription"
                     (click)="modal(item.inscriptionID)">
                     <i class="bi bi-trash3"></i>
-                  </button>
+                  </button> -->
                 </td>
               </tr>
-            </ng-template> -->
+            </ng-template>
           </tbody>
         </table>
       </div>

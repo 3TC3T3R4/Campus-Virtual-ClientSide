@@ -17,29 +17,53 @@ export class AuthService {
     private toastr: ToastrService,
     private getUserByEmailUseCase: GetUserByEmailUseCase,
     private createUserUseCase: CreateUserUseCase
-  ) { }
+  ) {
+    localStorage.removeItem('uidUserCreated');
+  }
 
   // Sign in with email/password
   SignIn(email: string, password: string) {
-    let userCreation: any;
-    userCreation = this.afAuth
+    let existingUser!: UserModel;
+    //consult if the user exists
+    let subGetUniqueUser = this.getUserByEmailUseCase.execute(email).subscribe({
+      next: user => {
+        existingUser = user;
+        if (existingUser != null) {
+          localStorage.setItem(
+            'email',
+            existingUser.email
+          );
+          localStorage.setItem('uidUser', existingUser.uidUser);
+          localStorage.setItem('role', existingUser.role.toString());
+        }
+      },
+      error: err => {
+        console.log("there is no user");
+      },
+      complete: () => {
+        subGetUniqueUser.unsubscribe();
+      }
+    });
+
+    this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then(result => {
-        localStorage.setItem(
-          'userName',
-          result.user?.displayName ? result.user?.displayName : 'User'
-        );
-        localStorage.setItem('uidUser', result.user?.uid as string);
         this.afAuth.authState.subscribe(user => {
           if (user) {
-            this.router.navigate(['dashboard']);
+            setTimeout(() => {
+              this.router.navigate(['dashboard']);
+            }, 3000);
           }
         });
       })
       .catch(error => {
-        window.alert(error.message);
+        this.toastr.info("You are no registered. Please contact with your coach :D", '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right',
+        });
       });
   }
+
   // Sign up with email/password
   SignUp(email: string, password: string, role: string) {
     let existingUser!: UserModel;
@@ -66,36 +90,28 @@ export class AuthService {
 
     //if the user does not exist, create it in firebase
     let userCreation: any;
-    console.log(existingUser);
     if (existingUser == undefined) {
       userCreation = this.afAuth
         .createUserWithEmailAndPassword(email, password)
         .then(result => {
-          localStorage.setItem(
-            'email',
-            result.user?.email ? result.user?.email : 'user@mersj-u.co'
-          );
-          localStorage.setItem('uidUser', result.user?.uid as string);
-          localStorage.setItem('role', role.toString());
+          localStorage.setItem('uidUserCreated', result.user?.uid as string);
 
           //create user in database
           setTimeout(() => {
             userToCreate = {
-              uidUser: localStorage.getItem('uidUser') as string,
+              uidUser: localStorage.getItem('uidUserCreated') as string,
               email: email,
               password: password,
               role: parseInt(role),
             }
             let subCreateUser = this.createUserUseCase.execute(userToCreate).subscribe({
               next: user => {
-                console.log(user);
                 this.toastr.success(`User created: ` + email, '', {
                   timeOut: 3000,
                   positionClass: 'toast-bottom-right',
                 });
               },
               error: err => {
-                console.log(err);
                 this.toastr.error(`Error creating user: ` + email, '', {
                   timeOut: 3000,
                   positionClass: 'toast-bottom-right',
@@ -118,6 +134,7 @@ export class AuthService {
   SignOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('uidUser');
+      localStorage.removeItem('uidUserCreated');
       localStorage.removeItem('email');
       localStorage.removeItem('role');
       this.router.navigate(['log-in']);

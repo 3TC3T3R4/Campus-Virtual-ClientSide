@@ -4,9 +4,9 @@ import { LearningPathRepository } from "src/bussiness/repositories/learningpath/
 import { LearningPathModel } from "src/domain/models/learningpath/learningpath";
 
 export class GetLearningPathByIdUseCase implements UseCase<string, LearningPathModel>{
-    constructor(private learningPathRepository: LearningPathRepository) { }
-  
-    execute(pathID: string): Observable<LearningPathModel> {
-      return this.learningPathRepository.getLearningPathByIdAsync(pathID);
-    }
+  constructor(private learningPathRepository: LearningPathRepository) { }
+
+  execute(pathID: string): Observable<LearningPathModel> {
+    return this.learningPathRepository.getLearningPathByIdAsync(pathID);
   }
+}

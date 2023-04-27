@@ -1,13 +1,14 @@
 import { RegistrationRepository } from 'src/bussiness/repositories/registration/registration.repository';
-import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/create-registration.usecase';
-import { GetAllRegistrationsUseCase } from 'src/bussiness/useCases/registration/get-all-registrations.usecase';
-import { GetRegistrationByIdUseCase } from 'src/bussiness/useCases/registration/get-registration-by-id.usecase';
-import { DeleteRegistrationUseCase } from 'src/bussiness/useCases/registration/delete-registration.usecase';
-import { AverageFinalRatingUseCase } from 'src/bussiness/useCases/registration/average-final-rating.usecase';
+
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { RegistrationImplementationRepository } from './registration-implementation-repository';
+import { AverageFinalRatingUseCase } from 'src/bussiness/useCases/registration/average-final-rating.usecase';
+import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/create-registration.usecase';
+import { DeleteRegistrationUseCase } from 'src/bussiness/useCases/registration/delete-registration.usecase';
+import { GetAllRegistrationsUseCase } from 'src/bussiness/useCases/registration/get-all-registrations.usecase';
+import { GetRegistrationByIdUseCase } from 'src/bussiness/useCases/registration/get-registration-by-id.usecase';
 
 const CreateRegistrationUseCaseFactory = (registrationRepo: RegistrationRepository) =>
   new CreateRegistrationUseCase(registrationRepo);

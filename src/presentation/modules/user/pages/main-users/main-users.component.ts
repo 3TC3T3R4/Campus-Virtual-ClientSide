@@ -33,7 +33,7 @@ export class MainUsersComponent implements OnInit {
 
   constructor(private getAllUsersUseCase: GetAllUsersUseCase, private $auth: AuthService) {
     this.routeDashboard = ['../'];
-    this.empty = false;
+    this.empty = true;
     this.frmCreateUser = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [
@@ -48,16 +48,15 @@ export class MainUsersComponent implements OnInit {
     }, 500);
     setTimeout(() => {
       this.render = true;
-    }, 1000);
+    }, 1500);
   }
 
   ngOnInit(): void {
   }
 
-  //#region
+  //#region create user
   sendData() {
     this.$auth.SignUp(this.frmCreateUser.value.email, this.frmCreateUser.value.password, this.frmCreateUser.value.role);
-    this.ngOnInit();
   }
   //#endregion
 
@@ -66,6 +65,7 @@ export class MainUsersComponent implements OnInit {
     let subGetUsers = this.getAllUsersUseCase.execute().subscribe({
       next: (data) => {
         this.usersList = data;
+        this.empty = false;
       },
       error: (error) => {
         this.empty = true;
