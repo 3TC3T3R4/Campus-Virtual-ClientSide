@@ -1,8 +1,9 @@
 export interface NewLearningPathCommand {
 
- CoachID:string;
- Title:string;
- Description:string;
+    
+    coachID: string;
+    title: string;
+    description: string;
 
 
 

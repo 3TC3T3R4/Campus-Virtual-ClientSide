@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 mx-auto">
+        <div class="card border-0 shadow rounded-3 my-5">
+          <div class="card-body p-4 p-sm-5">
+  
+                <div class="card-body p-5 ">
+                  <h2 class="text-uppercase text-center mb-5">CREATE COURSE</h2>
+    
+                  <form id="contentForm" (ngSubmit)="create()" [formGroup]="contentForm">
+  
+                    <div class="form-floating mb-3">
+                      <input type="text" class="form-control" id="floatingUser" placeholder="Title" formControlName="title">
+                      <label for="floatingInput">Title</label>
+                      <span class="form-text text-danger mensajeAlert" *ngIf="contentForm.get('title')?.hasError('required') && contentForm.get('title')?.touched ">
+                        Title Required
+                      </span>
+                    </div>
+  
+                    <div class="mb-3">
+                    <!--  <input type="email" class="form-control" id="floatingInput" placeholder="Description" formControlName="description"> -->
+                      <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
+                      <span class="form-text text-danger mensajeAlert" *ngIf="contentForm.get('description')?.hasError('required') && contentForm.get('description')?.touched ">
+                        Description Required
+                      </span>
+                    </div>
+    
+                    <div class="d-flex justify-content-center  m-3">
+                      <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit" form="contentForm" [disabled]="contentForm.invalid">Create</button>
+                    </div>
+    
+                    <p class="text-center text-muted mt-5 mb-0">Return <a routerLink="/dashboard/courses"
+                        class="fw-bold text-body"><u>Here</u></a></p>
+    
+                  </form>
+    
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

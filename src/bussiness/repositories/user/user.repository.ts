@@ -8,4 +8,6 @@ export abstract class UserRepository {
   abstract getAllUsersAsync(): Observable<UserModel[]>;
 
   abstract getUserByIdAsync(uidUser: string): Observable<UserModel>;
+
+  abstract getUserByEmailAsync(email: string): Observable<UserModel>;
 }

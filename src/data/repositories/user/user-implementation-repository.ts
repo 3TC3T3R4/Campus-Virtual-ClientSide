@@ -21,12 +21,17 @@ export class UserImplementationRepository extends UserRepository {
   }
   getAllUsersAsync(): Observable<UserModel[]> {
     return this.http.get<UserModel[]>(
-      `${environment.urlApiUsers}/Users`
+      `${environment.urlApiUsers}`
     );
   }
   getUserByIdAsync(uidUser: string): Observable<UserModel> {
     return this.http.get<UserModel>(
-      `${environment.urlApiUsers}/User?Id=${uidUser}`
+      `${environment.urlApiUsers}/ID?Id=${uidUser}`
+    );
+  }
+  getUserByEmailAsync(email: string): Observable<UserModel> {
+    return this.http.get<UserModel>(
+      `${environment.urlApiUsers}/Email?email=${email}`
     );
   }
 }

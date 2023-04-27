@@ -23,31 +23,35 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
     }
 
     createCourseAsync(course: NewCourseModel): Observable<NewCourseModel> {
-        return this.httpClient.post<NewCourseModel>(environment.urlApiCampus, course);
+        return this.httpClient.post<NewCourseModel>(`${environment.urlApiCourses + "/"}`, course);
     }
 
-    updateCourseAsync(course: UpdateCourseModel): Observable<UpdateCourseModel> {
-        return this.httpClient.put<UpdateCourseModel>(environment.urlApiCampus, course);
+    updateCourseAsync(updated: UpdateCourseModel): Observable<UpdateCourseModel> {
+        return this.httpClient.put<UpdateCourseModel>(`${environment.urlApiCourses}/`, updated);
     }
 
     getCourseByIdAsync(id: string): Observable<CourseModel> {
-        return this.httpClient.get<CourseModel>(`${environment.urlApiCampus+ "/GetCourseById?id=", id}`);
+        return this.httpClient.get<CourseModel>(`${environment.urlApiCourses}/GetCourseById/${id}`);
     }
 
     deleteCourseAsync(id : string): Observable<CourseModel> {
-        return this.httpClient.delete<CourseModel>(`${environment.urlApiCampus + "/DeleteCourse?id=", id}`);
+        return this.httpClient.delete<CourseModel>(`${environment.urlApiCourses}/${id}`);
     }
 
     configurePathAsync(path: AssingToPathModel): Observable<CourseModel> {
-        return this.httpClient.patch<CourseModel>(`${environment.urlApiCampus + "/ConfigurePath/"}`, path);
+        return this.httpClient.patch<CourseModel>(`${environment.urlApiCourses}/ConfigureToPath`, path);
     }
 
     getCoursesByPathIdAsync(id: string): Observable<CourseModel[]> {
-        return this.httpClient.get<CourseModel[]>(`${environment.urlApiCampus + "/GetCourseByPathId?pathId=", id}`);
+        return this.httpClient.get<CourseModel[]>(`${environment.urlApiCourses}/GetCoursesByPathId?id=${id}`);
     }
 
     updateDurationAsync(duration: UpdateDurationModel): Observable<CourseModel> {
-        return this.httpClient.put<CourseModel>(`${environment.urlApiCampus + "/UpdateDuration/"}`, duration);
+        return this.httpClient.put<CourseModel>(`${environment.urlApiCourses}/UpdateDuration`, duration);
+    }
+
+    getCoursesActiveAsync(): Observable<CourseModel[]> {
+        return this.httpClient.get<CourseModel[]>(`${environment.urlApiCourses}/Active`);
     }
   }
 
