@@ -23,7 +23,7 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
     }
 
     createCourseAsync(course: NewCourseModel): Observable<NewCourseModel> {
-        return this.httpClient.post<NewCourseModel>(`${environment.urlApiCourses + "/CreateCourse"}`, course);
+        return this.httpClient.post<NewCourseModel>(`${environment.urlApiCourses + "/"}`, course);
     }
 
     updateCourseAsync(updated: UpdateCourseModel): Observable<UpdateCourseModel> {

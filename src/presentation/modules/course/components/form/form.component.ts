@@ -18,17 +18,13 @@ export class FormComponent {
               private router: Router){
     this.totalDuration = 0;
     this.contentForm = new FormGroup({
-      courseId: new FormControl<string>(''),
       title: new FormControl<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),
       description: new FormControl<string>('', [Validators.required, Validators.minLength(1)]),
-      type: new FormControl<number | null>(null, Validators.required),
-      duration: new FormControl<number | null>(null, Validators.required),
     });
 
   }
 
   create(){
-    this.contentForm.get('type')?.setValue(JSON.parse(this.contentForm.get('type')?.value));
     console.log(this.contentForm.value)
 
     this.courseCreate.execute(this.contentForm.value).subscribe({
@@ -36,7 +32,7 @@ export class FormComponent {
       error:err => console.log(err),
       complete: () => {
         console.log('Complete');
-        this.router.navigate(["/dashboard/content/list"]);
+        this.router.navigate(["/dashboard/courses"]);
       }
     });
   }
