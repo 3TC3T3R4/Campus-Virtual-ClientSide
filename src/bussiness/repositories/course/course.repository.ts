@@ -11,6 +11,7 @@ export abstract class CourseRepository {
     abstract deleteCourseAsync(id: string): Observable<CourseModel>;
     abstract getCourseByIdAsync(id: string): Observable<CourseModel>;
     abstract getCoursesByPathIdAsync(id: string): Observable<CourseModel[]>;
+    abstract getCoursesActiveAsync(): Observable<CourseModel[]>;
     abstract updateDurationAsync(duration: UpdateDurationModel): Observable<CourseModel>;
     abstract configurePathAsync(path: AssingToPathModel): Observable<CourseModel>;
 }

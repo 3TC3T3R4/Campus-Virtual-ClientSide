@@ -9,6 +9,8 @@ import { RouteCourseComponent } from './pages/route-course/route-course.componen
 import { AssingPathComponent } from './pages/assing-path/assing-path.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from 'src/presentation/shared/shared.module';
+import { FormComponent } from './components/form/form.component';
+import { ListComponent } from './components/list/list.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { SharedModule } from 'src/presentation/shared/shared.module';
     GetCourseComponent,
     RouteCourseComponent,
     AssingPathComponent,
+    ListComponent,
+    FormComponent,
   ],
   imports: [
     CommonModule,

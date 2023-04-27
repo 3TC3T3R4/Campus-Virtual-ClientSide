@@ -9,6 +9,7 @@ import { GetLearningPathByCoachUseCase } from "src/bussiness/useCases/learningpa
 import { UpdateLearningPathDurationUseCase } from "src/bussiness/useCases/learningpath/update-learningpath-duration.usecase";
 import { LearningPathImplementationRepository } from "./learningpath-implementation-repository";
 import { NgModule } from "@angular/core";
+import { updateLearningPathByIdUseCase } from "src/bussiness/useCases/learningpath/update-learningpath.usecase";
 
 const CreateLearningPathUseCaseFactory = (learningRepo: LearningPathRepository) =>
   new CreateLearningPathUseCase(learningRepo);
@@ -59,9 +60,9 @@ export const UpdateLearningPathDurationUseCaseProvider = {
 };
 
 const UpdateLearningPathUseCaseFactory = (learningRepo: LearningPathRepository) =>
-  new UpdateLearningPathDurationUseCase(learningRepo);
+  new updateLearningPathByIdUseCase(learningRepo);
 export const UpdateLearningPathByIdUseCaseProvider = {
-  provide: UpdateLearningPathDurationUseCase,
+  provide: updateLearningPathByIdUseCase,
   useFactory: UpdateLearningPathUseCaseFactory,
   deps: [LearningPathRepository]
 };

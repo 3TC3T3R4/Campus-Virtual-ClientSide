@@ -20,11 +20,11 @@ const routes: Routes = [
           component: MainContentComponent,
         },
         {
-          path: 'list',
+          path: 'list/:id',
           component: ListContentComponent
         },
         {
-          path: 'create',
+          path: 'create/:id',
           component: CreateContentComponent
         },
         {

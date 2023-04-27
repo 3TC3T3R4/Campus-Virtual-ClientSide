@@ -14,16 +14,20 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: MainCourseComponent
+        component: GetCourseComponent
       },
       {
         path: 'create',
         component: CreateCourseComponent
       },
       {
-        path: 'get',
+        path: 'list/:id',
         component: GetCourseComponent
-      },
+      },/* 
+      {
+        path: 'list',
+        component: GetCourseComponent
+      }, */
       {
         path: 'path',
         component: AssingPathComponent
