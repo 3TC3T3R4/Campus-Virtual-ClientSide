@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: MainCourseComponent
+        component: GetCourseComponent
       },
       {
         path: 'create',

@@ -14,6 +14,7 @@ import { UpdateDurationCourseProfileUseCase } from 'src/bussiness/useCases/cours
 import { CourseImplementationRepository } from './course-implementation-repository';
 
 import { NgModule } from '@angular/core';
+import { GetCourseActiveUseCase } from 'src/bussiness/useCases/course/getCourseActive.usecase';
 
 
 const createCourseProfileUseCaseFactory =
@@ -72,6 +73,14 @@ export const updateDurationAsyncUseCaseProvider = {
     deps: [CourseRepository],
 };
 
+const getCoursesActiveAsyncUseCaseFactory =
+(courseRepo: CourseRepository) => new GetCourseActiveUseCase(courseRepo);
+export const getCoursesActiveAsyncUseCaseProvider = {
+    provide: GetCourseActiveUseCase,
+    useFactory: getCoursesActiveAsyncUseCaseFactory,
+    deps: [CourseRepository],
+};
+
 @NgModule({
     providers: [
         createCourseProfileUseCaseProvider,
@@ -81,6 +90,7 @@ export const updateDurationAsyncUseCaseProvider = {
         configurePathAsyncUseCaseProvider,
         getCoursesByPathIdAsyncUseCaseProvider,
         updateDurationAsyncUseCaseProvider,
+        getCoursesActiveAsyncUseCaseProvider,
 
         {provide: CourseRepository, useClass: CourseImplementationRepository },
     ],

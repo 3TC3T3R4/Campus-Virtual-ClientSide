@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="col-sm-9 mx-auto">
         <div class="card border-0 shadow rounded-3 my-5">
           <div class="card-body p-4 p-sm-5">
   
@@ -18,7 +18,7 @@
                     </div>
   
                     <div class="mb-3">
-                     <!--  <input type="email" class="form-control" id="floatingInput" placeholder="Description" formControlName="description"> -->
+                    <!--  <input type="email" class="form-control" id="floatingInput" placeholder="Description" formControlName="description"> -->
                       <label for="exampleFormControlTextarea1" class="form-label">Description</label>
                       <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" formControlName="description"></textarea>
                       <span class="form-text text-danger mensajeAlert" *ngIf="contentForm.get('description')?.hasError('required') && contentForm.get('description')?.touched ">

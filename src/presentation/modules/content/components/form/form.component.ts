@@ -9,12 +9,17 @@ import { CreateContentUseCase } from 'src/bussiness/useCases/content/commands/cr
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
-  @Input() courseId: string = '';
+
+  @Input() courseId: string;
+
   contentForm: FormGroup;
+
+  totalDuration : number;
 
   constructor(private contentCreate : CreateContentUseCase,
               private router: Router){
-
+    this.totalDuration = 0;
+    this.courseId = '';
     this.contentForm = new FormGroup({
       courseId: new FormControl<string>(''),
       title: new FormControl<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(50)]),

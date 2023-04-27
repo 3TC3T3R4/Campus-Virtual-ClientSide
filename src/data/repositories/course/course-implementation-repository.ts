@@ -49,6 +49,10 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
     updateDurationAsync(duration: UpdateDurationModel): Observable<CourseModel> {
         return this.httpClient.put<CourseModel>(`${environment.urlApiCampus + "/UpdateDuration"}`, duration);
     }
+
+    getCoursesActiveAsync(): Observable<CourseModel[]> {
+        return this.httpClient.get<CourseModel[]>(`${environment.urlApiCourses}/Active`);
+    }
   }
 
 
