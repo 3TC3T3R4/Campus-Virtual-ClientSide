@@ -52,7 +52,7 @@ export class MainRegistrationsComponent implements OnInit {
     });
     setTimeout(() => {
       this.render = true;
-    }, 1500);
+    }, 2000);
   }
 
   ngOnInit(): void {
@@ -78,7 +78,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('User may already be registered.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -102,7 +101,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('Registration was no deleted.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -126,7 +124,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.getAllRegistrations();
       },
       error: (error) => {
-        console.log(error);
         this.toastr.warning('Average final rating was no updated.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
@@ -137,6 +134,7 @@ export class MainRegistrationsComponent implements OnInit {
       }
     });
   }
+  //#endregion
 
   //#region consults
   getAllRegistrations(): void {
@@ -146,7 +144,6 @@ export class MainRegistrationsComponent implements OnInit {
         this.empty = false;
       },
       error: (error) => {
-        console.log(error);
         this.empty = true;
       },
       complete: () => {
@@ -160,9 +157,7 @@ export class MainRegistrationsComponent implements OnInit {
       next: (data) => {
         this.usersList = data;
       },
-      error: (error) => {
-        console.log(error);
-      },
+      error: (error) => { },
       complete: () => {
         subGetAllUsers.unsubscribe();
       }
@@ -174,9 +169,7 @@ export class MainRegistrationsComponent implements OnInit {
       next: (data) => {
         this.pathsList = data;
       },
-      error: (error) => {
-        console.log(error);
-      },
+      error: (error) => { },
       complete: () => {
         subGetLearningPathByCoach.unsubscribe();
       }
