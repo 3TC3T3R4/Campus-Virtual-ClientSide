@@ -21,16 +21,19 @@ export class MainLearningpathsComponent {
  frmFormReactive : FormGroup;
  form: FormGroup;
  formD: FormGroup;
+ formEx: FormGroup;
  learningPathContent: LearningPathModel[] | undefined;
  formConten: LearningPathModel | undefined;
  coachIDL: string | undefined;
-finalContent: NewLearningPathCommand | undefined;
+  finalContent: NewLearningPathCommand | undefined;
 
 
  constructor(private taskDelete: DeleteLearnigPathUseCase ,private taskById:GetLearningPathByIdUseCase,private taskUpdate: updateLearningPathByIdUseCase,private taskCreate: CreateLearningPathUseCase,private taskGetAll: GetAllLearnigPathUseCase , private router: Router) {
    this.routeDashboard = ['../'];
    this.render = true;
    this.coachIDL = localStorage.getItem('uidUser') as string;
+   this.formEx = new FormGroup({ 
+   });
    this.formD = new FormGroup({ 
     pathD:new FormControl()
    });
@@ -132,43 +135,50 @@ sendDelete(pathId: string): void{
 }
 
 
+sendIdPath(pathID: string){
+
+  this.router.navigate([`/dashboard/courses/list/${pathID}`]);
+
+
+}
+
 
 
 sendUpdate(pathId: string):void{
+  if (this.form.invalid) {
 
-this.taskById.execute(pathId).subscribe({
+    alert('You cant Update a LearningPath with items empty');
 
-  next: (data) => {
+  }else{
 
-    // this.form.setValue({
-
-    //   coachID: data.coachID,
-    //   title: data.title,
-    //   description: data.description
-
-
-    // });
-    
-    this.taskUpdate.execute({idContent: pathId, content: this.form.getRawValue()}).subscribe({
+    this.taskById.execute(pathId).subscribe({
 
       next: (data) => {
-        console.log(data);
-        alert('LearningPath updated successfully');
-        this.router.navigate(['./dashboard']);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: () => {
-        console.log('complete');
-      }
+        
+        this.taskUpdate.execute({idContent: pathId, content: this.form.getRawValue()}).subscribe({
+    
+          next: (data) => {
+            console.log(data);
+            alert('LearningPath updated successfully');
+            this.router.navigate(['./dashboard']);
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => {
+            console.log('complete');
+          }
+    
+        });
 
-    });
-
+    
   }
 
 
-});
+  });
+
+
+}
 
 
 
@@ -176,7 +186,12 @@ this.taskById.execute(pathId).subscribe({
 
 }
 
+exploreDeliveries(pathID: string):void {
 
+  this.router.navigate([`/dashboard/delivery-path-list/${pathID}`]);
+
+
+}
 
 
 
