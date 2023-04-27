@@ -14,7 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         SharedModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        
     ]
 })
 export class LearningpathModule { }

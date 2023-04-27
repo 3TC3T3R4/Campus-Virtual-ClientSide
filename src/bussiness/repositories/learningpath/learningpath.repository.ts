@@ -18,7 +18,7 @@ export abstract class LearningPathRepository{
    
     abstract deleteLearningPathAsync(pathID:string):Observable<string>;
 
-    abstract updateLearningPathByIdAsync(pathID:string,learningPath:LearningPathModel):Observable<LearningPathModel>;
+    abstract updateLearningPathByIdAsync(params : {idContent : string, content : LearningPathModel}):Observable<string>;
 
     abstract getLearningPathByCoahAsync(coachID:string):Observable<LearningPathModel[]>;
 
