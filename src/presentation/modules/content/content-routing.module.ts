@@ -24,7 +24,7 @@ const routes: Routes = [
           component: ListContentComponent
         },
         {
-          path: 'create',
+          path: 'create/:id',
           component: CreateContentComponent
         },
         {

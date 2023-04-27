@@ -40,10 +40,12 @@ export class FormComponent {
       error:err => console.log(err),
       complete: () => {
         console.log('Complete');
-        this.router.navigate(["/dashboard/content/list"]);
+        this.router.navigate([`/dashboard/content/list/${this.courseId}`]);
       }
     });
   }
 
-
+  return(){
+    this.router.navigate([`/dashboard/content/list/${this.courseId}`]);
+  }
 }

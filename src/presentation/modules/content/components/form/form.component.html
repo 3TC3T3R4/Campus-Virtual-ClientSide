@@ -52,7 +52,7 @@
                       <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit" form="contentForm" [disabled]="contentForm.invalid">Create</button>
                     </div>
     
-                    <p class="text-center text-muted mt-5 mb-0">Return <a href="/dashboard/content/list"
+                    <p class="text-center text-muted mt-5 mb-0">Return <a [routerLink]="['/dashboard/content/list/' + courseId ]"
                         class="fw-bold text-body"><u>Here</u></a></p>
     
                   </form>

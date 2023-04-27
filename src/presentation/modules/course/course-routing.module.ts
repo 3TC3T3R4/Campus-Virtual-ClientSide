@@ -21,7 +21,7 @@ const routes: Routes = [
         component: CreateCourseComponent
       },
       {
-        path: 'get',
+        path: 'list',
         component: GetCourseComponent
       },
       {
