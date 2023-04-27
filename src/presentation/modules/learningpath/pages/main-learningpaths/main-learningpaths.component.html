@@ -16,41 +16,42 @@
     </div>
   </div>
   <div class="col m-5 mt-0 text-king-blue">
-    
+
     <div class="collapse mb-3" id="createRegistrationCollapse">
       <div class="card card-body">
-      
+
         <form id="frmFormReactive" (ngSubmit)="sendData()" [formGroup]="frmFormReactive"
-        class="text-bg-dark p-3 border-3 border-primary text-start">
-        <div class="mb-3 row">
-          <label for="Título" class="col-sm-2 col-form-label">Coach-ID</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="coachID" placeholder="Firebase"  formControlName="coachID"
-              name="coachID" required>
+          class="text-bg-dark p-3 border-3 border-primary text-start">
+          <div class="mb-3 row">
+            <label for="Título" class="col-sm-2 col-form-label">Coach-ID</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="coachID" placeholder="Firebase" formControlName="coachID"
+                name="coachID" required>
               <div id="altoMensaje" *ngIf="frmFormReactive.get('coachID')?.hasError('required')
            && frmFormReactive.get('coachID')?.touched">Campo requerido, ingresar por favor</div>
+            </div>
           </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="Título" class="col-sm-2 col-form-label">Título</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"  formControlName="title"
-              name="title" required>
+          <div class="mb-3 row">
+            <label for="Título" class="col-sm-2 col-form-label">Título</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"
+                formControlName="title" name="title" required>
               <div id="altoMensaje" *ngIf="frmFormReactive.get('title')?.hasError('required')
            && frmFormReactive.get('title')?.touched">Campo requerido, ingresar por favor</div>
+            </div>
           </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="description" class="col-sm-2 col-form-label">Description</label>
-          <div class="col-sm-10">
-         <input type="date" class="form-control" id="description"
-            formControlName="description" name="description"required>
-         <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
+          <div class="mb-3 row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-10">
+              <input type="date" class="form-control" id="description" formControlName="description" name="description"
+                required>
+              <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
             && frmFormReactive.get('description')?.touched">Campo requerido, ingresar por favor</div>
+            </div>
           </div>
-        </div>
-   <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created LearningPath</button>
-  
+          <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created
+            LearningPath</button>
+
         </form>
 
       </div>
@@ -74,7 +75,7 @@
             </tr>
           </thead>
           <tbody class="table-group-divider text-king-blue text-center">
-            
+
           </tbody>
         </table>
       </div>

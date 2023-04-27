@@ -33,7 +33,6 @@ const routes: Routes = [
     // data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
 
-
   {
     path: 'dashboard/users',
     loadChildren: () =>
@@ -79,9 +78,9 @@ const routes: Routes = [
     loadChildren: () =>
       import('../presentation/modules/content/content.module').then(
         (module) => module.ContentModule
-      ),/*
+      ) /*
       canActivate: [AngularFireAuthGuard],
-      data: { authGuardPipe: redirectUnauthorizedToLogin }, */
+      data: { authGuardPipe: redirectUnauthorizedToLogin }, */,
   },
 
   {
@@ -93,7 +92,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'dashboard/delivery-path-list',
+    path: 'dashboard/delivery-path-list/:pathID',
     loadChildren: () =>
       import('../presentation/modules/delivery/delivery.module').then(
         (module) => module.DeliveryModule
@@ -101,7 +100,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'dashboard/delivery-iudUser-list',
+    path: 'dashboard/delivery-iudUser-list/:uidUser',
     loadChildren: () =>
       import('../presentation/modules/delivery/delivery.module').then(
         (module) => module.DeliveryModule
@@ -118,4 +117,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
