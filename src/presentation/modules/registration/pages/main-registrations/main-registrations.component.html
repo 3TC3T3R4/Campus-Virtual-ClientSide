@@ -56,7 +56,7 @@
             <div class="col ms-2">
               <button type="submit" form="frmCreateRegistration" [disabled]="frmCreateRegistration.invalid"
                 id="btnSubmitFormCreateRegistration" class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
-                <i class="bi bi-person-add"> Create</i>
+                <i class="bi bi-person-up"> Register</i>
               </button>
             </div>
           </div>
@@ -92,20 +92,60 @@
                 <td>{{reg.createdAt | date }}</td>
                 <td>{{reg.finalRating }}</td>
                 <td>
-                  <!-- <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-info text-light shadow me-1"
-                    data-bs-toggle="modal" data-bs-target="#modal-inscription" (click)="modal(item.inscriptionID)">
-                    <i class="bi bi-question-lg"></i>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-teal shadow me-1"
+                    data-bs-toggle="modal" data-bs-target="#modal-complete-registration"
+                    (click)="modal(reg.registrationID, reg.uidUser, reg.pathID)">
+                    <i class="bi bi-bookmark-check"></i>
                   </button>
-                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-danger text-light shadow"
-                    data-bs-toggle="modal" data-bs-target="#modal-delete-inscription"
-                    (click)="modal(item.inscriptionID)">
+                  <button class="btn btn-sm btn-outline-danger shadow" data-bs-toggle="modal"
+                    data-bs-target="#modal-delete-registration" (click)="modal(reg.registrationID)">
                     <i class="bi bi-trash3"></i>
-                  </button> -->
+                  </button>
                 </td>
               </tr>
             </ng-template>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal delete registration-->
+<div class="modal fade" id="modal-delete-registration" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5" id="delete"> Are you sure to delete this registration?
+        </h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <hr class="text-pink">
+      <div class="modal-footer border-0">
+        <a type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</a>
+        <a type="button" class="btn btn-outline-danger" (click)="deleteRegistration(registrationID)"
+          data-bs-dismiss="modal">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal complete registration-->
+<div class="modal fade" id="modal-complete-registration" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5" id="complete"> Are you sure to calculate and complete this registration?
+        </h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <hr class="text-pink">
+      <div class="modal-footer border-0">
+        <a type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</a>
+        <a type="button" class="btn btn-outline-teal" (click)="averageFinalRating()"
+          data-bs-dismiss="modal">Calculate</a>
       </div>
     </div>
   </div>

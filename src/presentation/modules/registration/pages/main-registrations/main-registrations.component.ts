@@ -7,6 +7,9 @@ import { GetLearningPathByCoachUseCase } from '../../../../../bussiness/useCases
 import { ToastrService } from 'ngx-toastr';
 import { UserModel } from 'src/domain/models/user/user.model';
 import { LearningPathModel } from 'src/domain/models/learningpath/learningpath';
+import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/create-registration.usecase';
+import { DeleteRegistrationUseCase } from '../../../../../bussiness/useCases/registration/delete-registration.usecase';
+import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
 
 @Component({
   selector: 'sofka-main-registrations',
@@ -21,6 +24,9 @@ export class MainRegistrationsComponent implements OnInit {
   render!: boolean;
   empty: boolean;
   registrationsList!: RegistrationModel[];
+  registrationID!: number;
+  uidUser!: string;
+  pathID!: string;
   usersList!: UserModel[];
   pathsList!: LearningPathModel[];
   coachID: string;
@@ -32,6 +38,9 @@ export class MainRegistrationsComponent implements OnInit {
     private getAllRegistrationsUseCase: GetAllRegistrationsUseCase,
     private getAllUsersUseCase: GetAllUsersUseCase,
     private getLearningPathByCoachUseCase: GetLearningPathByCoachUseCase,
+    private createRegistrationUseCase: CreateRegistrationUseCase,
+    private deleteRegistrationUseCase: DeleteRegistrationUseCase,
+    private averageFinalRatingUseCase: AverageFinalRatingUseCase,
     private toastr: ToastrService
   ) {
     this.coachID = localStorage.getItem('uidUser') as string;
@@ -41,23 +50,93 @@ export class MainRegistrationsComponent implements OnInit {
       uidUser: new FormControl('', [Validators.required]),
       pathID: new FormControl('', [Validators.required]),
     });
-    this.getAllRegistrations();
-    this.getAllUsers();
-    this.getLearningPathByCoach();
     setTimeout(() => {
       this.render = true;
     }, 1500);
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.getAllRegistrations();
+    this.getAllUsers();
+    this.getLearningPathByCoach();
+  }
+
+  modal(registrationID: number, uidUser?: string, pathID?: string): void {
+    this.registrationID = registrationID;
+    this.uidUser = uidUser as string;
+    this.pathID = pathID as string;
   }
 
   //#region create registration
   sendData(): void {
-
+    let subCreateRegistration = this.createRegistrationUseCase.execute(this.frmCreateRegistration.value).subscribe({
+      next: (data) => {
+        this.toastr.success('Registration successfully.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+        this.getAllRegistrations();
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastr.warning('User may already be registered.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+      },
+      complete: () => {
+        subCreateRegistration.unsubscribe();
+      }
+    });
   }
   //#endregion
+
+  //#region delete registration with modal
+  deleteRegistration(registrationID: number): void {
+    let subDeleteRegistration = this.deleteRegistrationUseCase.execute(registrationID).subscribe({
+      next: (data) => {
+        this.toastr.success('Registration successfully deleted.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+        this.getAllRegistrations();
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastr.warning('Registration was no deleted.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+      },
+      complete: () => {
+        subDeleteRegistration.unsubscribe();
+      }
+    });
+  }
+  //#endregion
+
+  //#region average final rating with modal
+  averageFinalRating(): void {
+    let subAverageFinalRating = this.averageFinalRatingUseCase.execute({ uidUser: this.uidUser, pathID: this.pathID }).subscribe({
+      next: (data) => {
+        this.toastr.success('Average final rating successfully.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+        this.getAllRegistrations();
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastr.warning('Average final rating was no updated.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right'
+        });
+      },
+      complete: () => {
+        subAverageFinalRating.unsubscribe();
+      }
+    });
+  }
 
   //#region consults
   getAllRegistrations(): void {

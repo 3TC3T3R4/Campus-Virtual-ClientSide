@@ -42,21 +42,22 @@ export class MainUsersComponent implements OnInit {
       ]),
       role: new FormControl('', [Validators.required]),
     });
-    this.getAllUsers();
-    setTimeout(() => {
-      this.calculatePages();
-    }, 500);
     setTimeout(() => {
       this.render = true;
     }, 1500);
   }
 
   ngOnInit(): void {
+    this.getAllUsers();
+    setTimeout(() => {
+      this.calculatePages();
+    }, 500);
   }
 
   //#region create user
   sendData() {
     this.$auth.SignUp(this.frmCreateUser.value.email, this.frmCreateUser.value.password, this.frmCreateUser.value.role);
+    this.getAllUsers();
   }
   //#endregion
 
