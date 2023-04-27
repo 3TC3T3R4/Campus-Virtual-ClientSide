@@ -24,6 +24,7 @@ export class DeliveryByPathIDComponent implements OnInit {
 
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
+  pathID!: string;
   showQualifyDelivery = false;
   qualifyDeliveryForm: FormGroup;
 
@@ -32,12 +33,12 @@ export class DeliveryByPathIDComponent implements OnInit {
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
     private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
-    private routerActive: ActivatedRoute,
+    private routeActive: ActivatedRoute,
     private router: Router
   ) {
     this.empty = false;
 
-    this.routeDashboard = ['../'];
+    this.routeDashboard = ['../../learningpaths'];
 
     this.qualifyDeliveryForm = new FormGroup({
       deliveryID: new FormControl(0, [Validators.required]),
@@ -50,7 +51,7 @@ export class DeliveryByPathIDComponent implements OnInit {
       contentID: '',
       uidUser: '',
       deliveryAt: new Date(),
-      DeliveryField: '',
+      deliveryField: '',
       rating: 0,
       comment: '',
       ratedAt: new Date(),
@@ -63,22 +64,25 @@ export class DeliveryByPathIDComponent implements OnInit {
   }
 
   getDeliveriesByPathID() {
-    var pathID = this.routerActive.snapshot.paramMap.get('pathID') ?? '';
-    this.GetDeliveriesByPathIdUseCase.execute(pathID).subscribe(
-      (response: DeliveryModel[]) => {
-        this.deliveryItems = response;
-      },
-      (error) => {
-        this.empty = true;
-        console.log(error);
-      }
-    );
+    if (this.routeActive.snapshot.params['pathID']) {
+      this.pathID = this.routeActive.snapshot.params['pathID'];
+      this.GetDeliveriesByPathIdUseCase.execute(this.pathID).subscribe(
+        (response: DeliveryModel[]) => {
+          this.deliveryItems = response;
+        },
+        (error) => {
+          this.empty = true;
+          console.log(error);
+        }
+      );
+    }
   }
 
   deleteDelivery(deliveryItem: DeliveryModel) {
     this.DeleteDeliveryUseCase.execute(deliveryItem.deliveryID).subscribe(
       (response) => {
         console.log(response);
+        this.ngOnInit();
       },
       (error) => {
         console.log(error);

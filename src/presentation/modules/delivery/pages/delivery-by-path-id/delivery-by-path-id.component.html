@@ -26,7 +26,7 @@
               <tr *ngFor="let item of deliveryItems">
                 <td>{{item.uidUser}}</td>
                 <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
-                <td><a href="{{item.DeliveryField}}">{{item.DeliveryField}}</a></td>
+                <td><a href="{{item.deliveryField}}">{{item.deliveryField}}</a></td>
                 <td>
                   <button type="button" class="btn btn-success" (click)="qualifyDelivery(item)">Qualify</button>
                   <button type="button" class="btn btn-danger" (click)="deleteDelivery(item)">Delete</button>

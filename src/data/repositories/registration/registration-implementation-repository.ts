@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RegistrationRepository } from 'src/bussiness/repositories/registration/registration.repository';
+import { RegistrationWithPaths } from 'src/domain/DTO/registration/registration-with-learningpaths';
 import { NewRegistrationCommand } from 'src/domain/commands/registration/new-registration-command';
 import { RegistrationModel } from 'src/domain/models/registration/registration.model';
 import { environment } from 'src/environments/environment';
@@ -22,8 +23,8 @@ export class RegistrationImplementationRepository extends RegistrationRepository
       newRegistrationCommand
     );
   }
-  getAllRegistrationsAsync(): Observable<RegistrationModel[]> {
-    return this.http.get<RegistrationModel[]>(
+  getAllRegistrationsAsync(): Observable<RegistrationWithPaths[]> {
+    return this.http.get<RegistrationWithPaths[]>(
       `${environment.urlApiCampus}Registration`
     );
   }

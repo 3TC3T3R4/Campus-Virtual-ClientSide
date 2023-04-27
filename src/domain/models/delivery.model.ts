@@ -3,7 +3,7 @@ export interface DeliveryModel {
   contentID: string;
   uidUser: string;
   deliveryAt: Date;
-  DeliveryField: string;
+  deliveryField: string;
   rating: number;
   comment: string;
   ratedAt: Date;
