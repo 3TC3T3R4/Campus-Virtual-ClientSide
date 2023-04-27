@@ -32,7 +32,7 @@ export class GetCourseComponent implements OnInit {
 
   ngOnInit(): void {
     //this.role = localStorage.getItem('role');
-    this.role = 1;
+    this.role = 2;
     if(this.routeActive.snapshot.params['id']){
       this.pathId = this.routeActive.snapshot.params['id'];
       this.getCoursePathIdUseCase.execute(this.pathId).subscribe({
