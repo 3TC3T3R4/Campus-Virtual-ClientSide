@@ -8,10 +8,15 @@ import { CourseModel } from 'src/domain/models/course/course.model';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent {
+  
   @Input() courses: CourseModel[];
 
   constructor(private router: Router){
     this.courses = [];
+  }
+
+  content(idCourse : string){
+    this.router.navigate([`/dashboard/content/list/${idCourse}`]);
   }
 
   detail(idCourse : string, type : number){
