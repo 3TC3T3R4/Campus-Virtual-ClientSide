@@ -10,7 +10,6 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">User</th>
             <th scope="col">Delivery at</th>
             <th scope="col">Delivery field</th>
           </tr>
@@ -21,9 +20,9 @@
           </tr>
           <ng-template #datosAll class="text-light">
             <tr *ngFor="let item of deliveryItems">
-              <td>{{item.uidUser}}</td>
               <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
-              <td><a href="{{item.deliveryField}}">{{item.deliveryField}}</a></td>
+              <td><a class="text-decoration-none text-pink" href="{{item.deliveryField}}"><strong>Content</strong></a>
+              </td>
               <td>
                 <button type="button" class="btn btn-primary" (click)="viewDeliveryDetails(item)">View</button>
               </td>

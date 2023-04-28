@@ -85,10 +85,11 @@
   color: #2A358C;
 }
 
-.text-teal{
+.text-teal {
   font-family: 'Cairo', sans-serif;
   color: $teal-500;
 }
+
 //end text colors
 
 //buttons
@@ -153,6 +154,19 @@
   color: white;
   background-color: $pink-500;
   border-color: $pink-500;
+}
+
+.btn-outline-orange {
+  color: $orange-700;
+  background-color: transparent;
+  background-image: none;
+  border-color: $orange-400;
+}
+
+.btn-outline-orange:hover {
+  color: white;
+  background-color: $orange-500;
+  border-color: $orange-500;
 }
 
 .btn-header {
