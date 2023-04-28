@@ -1,6 +1,5 @@
 <div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
-  role="status">
-</div>
+  role="status"></div>
 <div *ngIf="render">
   <div class="row w-100">
     <div class="col col-lg-1 p-4 ps-5">
@@ -8,162 +7,304 @@
     </div>
     <div class="col p-4 pe-5">
       <p class="float-end">
-        <button class="btn btn-blue" type="button" data-bs-toggle="collapse"
+        <button *sofkaShowForRoles="[1]" class="btn btn-blue" type="button" data-bs-toggle="collapse"
           data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
           Create LearningPath
         </button>
       </p>
+      <sofka-input-search class="float-end pe-2 w-25" (onValue)="searchByType($event)"
+        placeholder="Search by description..."></sofka-input-search>
     </div>
   </div>
   <div class="col m-5 mt-0 text-king-blue">
     <div class="collapse mb-3" id="createRegistrationCollapse">
       <div class="card card-body">
         <form id="frmFormReactive" (ngSubmit)="sendData()" [formGroup]="frmFormReactive"
-        class="p-3 border-3 border-primary text-start">
-        <div class="mb-3 row">
-          <label for="Título" class="col-sm-2 col-form-label">Título</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="Título" placeholder="Ruta frontend Develop"  formControlName="title"
-              name="title" required>
-              <div id="altoMensaje" *ngIf="frmFormReactive.get('title')?.hasError('required')
-           && frmFormReactive.get('title')?.touched">Campo requerido, ingresar por favor</div>
-          </div>
-        </div>
-        <div class="mb-3 row">
-          <label for="description" class="col-sm-2 col-form-label">Description</label>
-          <div class="col-sm-10">
-         <input type="text" class="form-control" id="description"
-            formControlName="description" name="description"required>
-         <div id="altoMensaje" *ngIf="frmFormReactive.get('description')?.hasError('required')
-            && frmFormReactive.get('description')?.touched">Campo requerido, ingresar por favor</div>
+          class="form-control bg-container-or-form mt-3 p-3 border-0 text-start text-king-blue shadow-lg">
+          <div class="row mb-3 mt-2 align-items-center">
+            <div class="col col-10 ms-lg-5">
+              <div class="row">
+                <div class="col-sm-1">
+                  <label for="Title" class="form-label">Title</label>
+                </div>
+                <div class="col-10">
+                  <input class="form-control" type="text" name="title" id="Title" formControlName="title"
+                    placeholder="Title of your path..." />
+                  <p class="text-purple mt-1" *ngIf="
+                                                                    form.get('title')?.hasError('required') &&
+                                                                    form.get('title')?.touched
+                                                                  ">
+                    Title is required.
+                  </p>
+                  <p class="text-purple mt-1" *ngIf="
+                                                                    form.get('title')?.hasError('minlength') &&
+                                                                    form.get('title')?.touched
+                                                                  ">
+                    Title must be longer than 6 characters.
+                  </p>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-1">
+                  <label for="Description" class="form-label">Description</label>
+                </div>
+                <div class="col-10">
+                  <input class="form-control" type="text" name="description" id="Description"
+                    formControlName="description" placeholder="Description of your path" />
+                  <p class="text-purple mt-1" *ngIf="
+                                                                                form.get('description')?.hasError('required') &&
+                                                                                form.get('description')?.touched
+                                                                              ">
+                    Description is required.
+                  </p>
+                  <p class="text-purple mt-1" *ngIf="
+                                                                                form.get('description')?.hasError('minlength') &&
+                                                                                form.get('description')?.touched
+                                                                              ">
+                    Description must be longer than 10 characters.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col ms-2">
+              <button type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid"
+                data-bs-toggle="collapse" data-bs-target="#createRegistrationCollapse" aria-expanded="false"
+                aria-controls="collapseExample" id="btnSubmitFormCreateRegistration"
+                class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
+                <i class="bi bi-folder-plus"> Create</i>
+              </button>
             </div>
           </div>
-          <button id="btnC" type="submit" form="frmFormReactive" [disabled]="frmFormReactive.invalid">Created
-            LearningPath</button>
-
         </form>
-
       </div>
     </div>
     <div class="row w-auto">
       <div class="col">
         <h2 class="mb-4">LearningPaths</h2>
       </div>
-      <div class=" table-responsive">
+      <div class="table-responsive">
         <table class="table table-hover">
           <thead class="text-center">
             <tr class="text-king-blue">
-              <th scope="col">CoachID</th>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
-              <th scope="col">Actions</th>
-              
+              <th scope="col">Duration</th>
+              <th *sofkaShowForRoles="[1]" scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider text-king-blue text-center">
-            <tr *ngFor="let ListlearningPath of learningPathContent" class="table-group-divider">
-              <td (click)="sendIdPath(ListlearningPath.pathID)"  style="cursor:pointer;" >{{ListlearningPath.coachID}}</td>
-              <td>{{ListlearningPath.title}}</td>
-              <td>{{ListlearningPath.description}}</td>
-              <td>
-
-                
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Update LearningPath</button>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Updated</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="form" (ngSubmit)="sendUpdate(ListlearningPath.pathID)" [formGroup]="form">
-
-          <div class="mb-3">
-              <input class="form-control" type="text" name="title" id="title"
-                        formControlName="title" placeholder="Ruta react fronted" />
-                      <p class="text-warning ms-4"
-                        *ngIf="form.get('title')?.hasError('required')&& form.get('title')?.touched">
-                        title is empty.
-                      </p>
-                    </div>
-
-                    <div class="mb-3">
-                      <input class="form-control" type="text" name="description" id="description"
-                                formControlName="description" placeholder="react, angular" />
-                              <p class="text-warning ms-4"
-                                *ngIf="form.get('description')?.hasError('required')&& form.get('description')?.touched">
-                                description is empty.
-                              </p>
-                            </div>
-                  </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" form="form" class="btn btn-primary">Update</button>
+          <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf="empty; else datosAll" class="text-center">
+              <th colspan="3">No hay elementos para mostrar</th>
+            </tr>
+            <ng-template #datosAll class="text-king-blue">
+              <tr *ngFor="let ListlearningPath of learningPathContent | slice
+                      : (page - 1) * pathsPerPageTable
+                      : (page - 1) * pathsPerPageTable +
+                          pathsPerPageTable">
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.title }}
+                </td>
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.description }}</td>
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.duration }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.title }}
+                </td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.description }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.duration }}</td>
+                <td *sofkaShowForRoles="[1]">
+                  <button type="button" class="btn btn-sm btn-outline-teal me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal5" (click)="modal(ListlearningPath.pathID)">
+                    <i class="bi bi-node-plus"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-orange me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="modal(ListlearningPath.pathID, ListlearningPath.title, ListlearningPath.description)">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-danger me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal2"
+                    (click)="modal(ListlearningPath.pathID, ListlearningPath.title, ListlearningPath.description)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                  <a type="button" class="btn btn-sm btn-outline-info border-1 shadow"
+                    (click)="exploreDeliveries(ListlearningPath.pathID)">
+                    <i class="bi bi-search"> </i> <i class="bi bi-list-task"> </i></a>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+          <tbody *ngIf="searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf="empty; else datosFiltered" class="text-center">
+              <th colspan="3">No hay elementos para mostrar</th>
+            </tr>
+            <ng-template #datosFiltered class="text-light">
+              <tr *ngFor="let ListlearningPath of filteredPaths | slice
+                      : (page - 1) * pathsPerPageTable
+                      : (page - 1) * pathsPerPageTable +
+                          pathsPerPageTable" (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer">
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.title }}
+                </td>
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.description }}</td>
+                <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
+                  ListlearningPath.duration }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.title }}
+                </td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.description }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.duration }}</td>
+                <td *sofkaShowForRoles="[1]">
+                  <button type="button" class="btn btn-sm btn-outline-teal me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal5" (click)="modal(ListlearningPath.pathID)">
+                    <i class="bi bi-node-plus"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-orange me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    (click)="modal(ListlearningPath.pathID, ListlearningPath.title, ListlearningPath.description)">
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button type="button" class="btn btn-sm btn-outline-danger me-1 shadow" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal2"
+                    (click)="modal(ListlearningPath.pathID, ListlearningPath.title, ListlearningPath.description)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                  <a type="button" class="btn btn-sm btn-outline-info border-1 shadow"
+                    (click)="exploreDeliveries(ListlearningPath.pathID)">
+                    <i class="bi bi-search"> </i> <i class="bi bi-list-task"> </i></a>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+        <nav class="row">
+          <ul class="col pagination align-self-center">
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = 1">First</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = page - 1">Previous</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = page + 1">Next</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = totalPages">Lastest</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
 </div>
-                
-              </td>
 
-              <td>
-
-                
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">Delete LearningPath</button>
-                <div class="modal fade" id="exampleModal2"  aria-labelledby="exampleModalLabel2" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel2">Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <form id="formD" (ngSubmit)="sendDelete(ListlearningPath.pathID)" [formGroup]="formD">
-                       </form>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" form="formD" class="btn btn-primary">Delete LearningPath</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                                
-                 </td>
-
-                              <td>
-                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">Explore Deliveries</button>
-                                <div class="modal fade" id="exampleModal3"  aria-labelledby="exampleModalLabel3" aria-hidden="true">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel3">Explore deliveries</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                      </div>
-                                      <div class="modal-body">
-                                        <form id="formEx" (ngSubmit)="exploreDeliveries(ListlearningPath.pathID)" [formGroup]="formEx">
-
-
-
-                                       </form>
-                                      </div>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" form="formEx" class="btn btn-primary">Explore Deliveries</button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                               </td>
-
-            </tr>
-          </tbody>
-        </table>
+<!-- Modal update path -->
+<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Update learning path
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body border-0">
+        <form id="form" (ngSubmit)="sendUpdate(pathID)" [formGroup]="form">
+          <div class="mb-3">
+            <input class="form-control" type="text" name="title" id="title" formControlName="title"
+              placeholder="Title of your path..." />
+            <p class="text-purple mt-1" *ngIf="
+                                                  form.get('title')?.hasError('required') &&
+                                                  form.get('title')?.touched
+                                                ">
+              Title is required.
+            </p>
+            <p class="text-purple mt-1" *ngIf="
+                                                  form.get('title')?.hasError('minlength') &&
+                                                  form.get('title')?.touched
+                                                ">
+              Title must be longer than 6 characters.
+            </p>
+          </div>
+          <div class="mb-3">
+            <input class="form-control" type="text" name="description" id="description" formControlName="description"
+              placeholder="Description of your path" />
+            <p class="text-purple mt-1" *ngIf="
+                                                              form.get('description')?.hasError('required') &&
+                                                              form.get('description')?.touched
+                                                            ">
+              Description is required.
+            </p>
+            <p class="text-purple mt-1" *ngIf="
+                                                              form.get('description')?.hasError('minlength') &&
+                                                              form.get('description')?.touched
+                                                            ">
+              Description must be longer than 10 characters.
+            </p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" form="form" class="btn btn-outline-orange" data-bs-dismiss="modal"
+          [disabled]="form.invalid">
+          Update
+        </button>
       </div>
     </div>
   </div>
+</div>
 
+<!-- Modal delete path -->
+<div class="modal fade" id="exampleModal2" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="exampleModalLabel2">
+          Are you sure to delete this learning path?
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body border-0" hidden>
+        <form id="formD" (ngSubmit)="sendDelete(pathID)" [formGroup]="formD"></form>
+      </div>
+      <hr class="text-pink" />
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="submit" form="formD" class="btn btn-outline-danger" data-bs-dismiss="modal"
+          [disabled]="formD.invalid">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal add course to path -->
+<div class="modal fade" id="exampleModal5" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel5">Courses Available</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form *ngFor="let ListlearningPathWithCourses of learningPathContentWithC"
+          (click)="selectedContent = ListlearningPathWithCourses" id="formAdd" (ngSubmit)="addCourses(pathID)"
+          [formGroup]="formAdd">
+          <section>
+            <button class="btn btn-blue" id="courseToAdd" data-bs-dismiss="modal"
+              *ngIf="ListlearningPathWithCourses.stateCourse === 1">{{ListlearningPathWithCourses.title}}</button><br>
+          </section>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

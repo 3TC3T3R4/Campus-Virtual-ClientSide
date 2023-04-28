@@ -34,9 +34,6 @@ export class ListContentComponent {
         complete: () => console.log('Complete')
       });
     }
-    /* this.getContentByCourse.execute('3f5ac9aa-1b09-4c39-9584-5aead893d301').subscribe({
-      next: content => (this.contents = content, console.log(content))
-    }); */
   }
 
   create(){

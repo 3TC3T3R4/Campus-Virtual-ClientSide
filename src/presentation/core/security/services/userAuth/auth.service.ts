@@ -26,29 +26,26 @@ export class AuthService {
     let existingUser!: UserModel;
     //consult if the user exists
     let subGetUniqueUser = this.getUserByEmailUseCase.execute(email).subscribe({
-      next: user => {
+      next: (user) => {
         existingUser = user;
         if (existingUser != null) {
-          localStorage.setItem(
-            'email',
-            existingUser.email
-          );
+          localStorage.setItem('email', existingUser.email);
           localStorage.setItem('uidUser', existingUser.uidUser);
           localStorage.setItem('role', existingUser.role.toString());
         }
       },
-      error: err => {
-        console.log("there is no user");
+      error: (err) => {
+        console.log('there is no user');
       },
       complete: () => {
         subGetUniqueUser.unsubscribe();
-      }
+      },
     });
 
     this.afAuth
       .signInWithEmailAndPassword(email, password)
-      .then(result => {
-        this.afAuth.authState.subscribe(user => {
+      .then((result) => {
+        this.afAuth.authState.subscribe((user) => {
           if (user) {
             setTimeout(() => {
               this.router.navigate(['dashboard']);
@@ -56,8 +53,8 @@ export class AuthService {
           }
         });
       })
-      .catch(error => {
-        this.toastr.info("You are no registered. Please contact with your coach :D", '', {
+      .catch((error) => {
+        this.toastr.warning('E-mail or password fields are wrong.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right',
         });
@@ -71,7 +68,7 @@ export class AuthService {
 
     //consult if the user exists
     let subGetUniqueUser = this.getUserByEmailUseCase.execute(email).subscribe({
-      next: user => {
+      next: (user) => {
         existingUser = user;
         if (existingUser != null) {
           this.toastr.info(`User already exist: ` + email, '', {
@@ -80,12 +77,12 @@ export class AuthService {
           });
         }
       },
-      error: err => {
-        console.log("there is no user");
+      error: (err) => {
+        console.log('there is no user');
       },
       complete: () => {
         subGetUniqueUser.unsubscribe();
-      }
+      },
     });
 
     //if the user does not exist, create it in firebase
@@ -93,7 +90,7 @@ export class AuthService {
     if (existingUser == undefined) {
       userCreation = this.afAuth
         .createUserWithEmailAndPassword(email, password)
-        .then(result => {
+        .then((result) => {
           localStorage.setItem('uidUserCreated', result.user?.uid as string);
 
           //create user in database
@@ -103,27 +100,29 @@ export class AuthService {
               email: email,
               password: password,
               role: parseInt(role),
-            }
-            let subCreateUser = this.createUserUseCase.execute(userToCreate).subscribe({
-              next: user => {
-                this.toastr.success(`User created: ` + email, '', {
-                  timeOut: 3000,
-                  positionClass: 'toast-bottom-right',
-                });
-              },
-              error: err => {
-                this.toastr.error(`Error creating user: ` + email, '', {
-                  timeOut: 3000,
-                  positionClass: 'toast-bottom-right',
-                });
-              },
-              complete: () => {
-                subCreateUser.unsubscribe();
-              }
-            });
+            };
+            let subCreateUser = this.createUserUseCase
+              .execute(userToCreate)
+              .subscribe({
+                next: (user) => {
+                  this.toastr.success(`User created: ` + email, '', {
+                    timeOut: 3000,
+                    positionClass: 'toast-bottom-right',
+                  });
+                },
+                error: (err) => {
+                  this.toastr.error(`Error creating user: ` + email, '', {
+                    timeOut: 3000,
+                    positionClass: 'toast-bottom-right',
+                  });
+                },
+                complete: () => {
+                  subCreateUser.unsubscribe();
+                },
+              });
           }, 500);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.message);
         });
     }

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GetDeliveriesByUidUserUseCase } from '../../../../../bussiness/useCases/delivery/get-deliveries-by-uiduser.usecase';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DeliveryModel } from 'src/domain/models/delivery.model';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -27,20 +26,15 @@ export class DeliveryByUidUserComponent implements OnInit {
     private router: Router
   ) {
     this.empty = false;
-    // this.getDeliveriesByUidUserForm = new FormGroup({
-    //   uidUser: new FormControl('', [Validators.required]),
-    // });
-
     this.routeDashboard = ['../'];
-
-    this.uidUser = 'user3';
+    this.uidUser = localStorage.getItem('uidUser') as string;
 
     this.deliveryItem = {
       deliveryID: 0,
       contentID: '',
       uidUser: '',
       deliveryAt: new Date(),
-      DeliveryField: '',
+      deliveryField: '',
       rating: 0,
       comment: '',
       ratedAt: new Date(),

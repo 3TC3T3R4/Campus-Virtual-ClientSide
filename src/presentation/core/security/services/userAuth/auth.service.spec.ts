@@ -52,9 +52,10 @@ describe('AuthService', () => {
   it('should call sign up method one time', () => {
     const email = 'pepito@test.com';
     const password = '123456';
+    const role = "1";
     const spy = spyOn(service, 'SignUp');
 
-    service.SignUp(email, password);
+    service.SignUp(email, password, role);
 
     expect(spy).toHaveBeenCalledTimes(1);
   });

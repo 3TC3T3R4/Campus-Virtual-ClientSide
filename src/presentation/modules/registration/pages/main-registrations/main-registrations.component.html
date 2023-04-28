@@ -1,6 +1,5 @@
 <div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
-  role="status">
-</div>
+  role="status"></div>
 <div *ngIf="render">
   <div class="row w-100">
     <div class="col col-lg-1 p-4 ps-5">
@@ -13,6 +12,8 @@
           Create Registration
         </button>
       </p>
+      <sofka-input-search class="float-end pe-2 w-25" (onValue)="searchByType($event)"
+        placeholder="Search by path..."></sofka-input-search>
     </div>
   </div>
   <div class="col m-5 mt-0 text-king-blue">
@@ -29,10 +30,16 @@
                 <div class="col-10">
                   <select class="form-select" name="uidUser" id="uidUser" formControlName="uidUser" #uidUser>
                     <option value="" selected disabled>Choose here</option>
-                    <option *ngFor="let user of usersList" [value]="user.uidUser">{{user.email}}</option>
+                    <option *ngFor="let user of usersListToRegister" [value]="user.uidUser">
+                      {{ user.email }}
+                    </option>
                   </select>
-                  <p class="text-purple mt-1" id="create-registration-user-required"
-                    *ngIf="frmCreateRegistration.get('uidUser')?.hasError('required') && frmCreateRegistration.get('uidUser')?.touched">
+                  <p class="text-purple mt-1" id="create-registration-user-required" *ngIf="
+                      frmCreateRegistration
+                        .get('uidUser')
+                        ?.hasError('required') &&
+                      frmCreateRegistration.get('uidUser')?.touched
+                    ">
                     You must indicate the trainee.
                   </p>
                 </div>
@@ -44,10 +51,16 @@
                 <div class="col-10">
                   <select class="form-select" name="pathID" id="pathID" formControlName="pathID" #pathID>
                     <option value="" selected disabled>Choose here</option>
-                    <option *ngFor="let path of pathsList" [value]="path.pathID">{{path.title}}</option>
+                    <option *ngFor="let path of pathsListToRegister" [value]="path.pathID">
+                      {{ path.title }}
+                    </option>
                   </select>
-                  <p class="text-purple mt-1" id="create-registration-path-required"
-                    *ngIf="frmCreateRegistration.get('pathID')?.hasError('required') && frmCreateRegistration.get('pathID')?.touched">
+                  <p class="text-purple mt-1" id="create-registration-path-required" *ngIf="
+                      frmCreateRegistration
+                        .get('pathID')
+                        ?.hasError('required') &&
+                      frmCreateRegistration.get('pathID')?.touched
+                    ">
                     You must indicate the learning path.
                   </p>
                 </div>
@@ -55,7 +68,9 @@
             </div>
             <div class="col ms-2">
               <button type="submit" form="frmCreateRegistration" [disabled]="frmCreateRegistration.invalid"
-                id="btnSubmitFormCreateRegistration" class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
+                data-bs-toggle="collapse" data-bs-target="#createRegistrationCollapse" aria-expanded="false"
+                aria-controls="collapseExample" id="btnSubmitFormCreateRegistration"
+                class="btn btn-action btn-lg shadow-lg bottom-0 end-0 w-auto">
                 <i class="bi bi-person-up"> Register</i>
               </button>
             </div>
@@ -67,37 +82,73 @@
       <div class="col">
         <h2 class="mb-4">Active registrations</h2>
       </div>
-      <div class=" table-responsive">
+      <div class="table-responsive">
         <table class="table table-hover">
           <caption>
             Active registrations
           </caption>
           <thead class="text-center">
             <tr class="text-king-blue">
-              <th scope="col">Trainee</th>
               <th scope="col">Learning path</th>
+              <th scope="col">Description</th>
               <th scope="col">Created at</th>
               <th scope="col">Final rating</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
-          <tbody class="table-group-divider text-king-blue text-center">
-            <tr *ngIf=" empty;else datos" class="text-center">
+          <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf="empty; else datosAll" class="text-center">
               <th colspan="3">No hay elementos para mostrar</th>
             </tr>
-            <ng-template #datos class="text-light">
-              <tr *ngFor="let reg of registrationsList">
-                <td>{{reg.uidUser }}</td>
-                <td>{{reg.pathID }}</td>
-                <td>{{reg.createdAt | date }}</td>
-                <td>{{reg.finalRating }}</td>
+            <ng-template #datosAll class="text-light">
+              <tr *ngFor="
+                  let reg of registrationsList
+                    | slice
+                      : (page - 1) * registrationsPerPageTable
+                      : (page - 1) * registrationsPerPageTable +
+                          registrationsPerPageTable
+                ">
+                <td>{{ reg.title }}</td>
+                <td>{{ reg.description }}</td>
+                <td>{{ reg.createdAt | date }}</td>
+                <td>{{ reg.finalRating }}</td>
                 <td>
                   <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-teal shadow me-1"
                     data-bs-toggle="modal" data-bs-target="#modal-complete-registration"
                     (click)="modal(reg.registrationID, reg.uidUser, reg.pathID)">
                     <i class="bi bi-bookmark-check"></i>
                   </button>
-                  <button class="btn btn-sm btn-outline-danger shadow" data-bs-toggle="modal"
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-danger shadow" data-bs-toggle="modal"
+                    data-bs-target="#modal-delete-registration" (click)="modal(reg.registrationID)">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+          <tbody *ngIf="searching" class="table-group-divider text-king-blue text-center">
+            <tr *ngIf="empty; else datosFiltered" class="text-center">
+              <th colspan="3">No hay elementos para mostrar</th>
+            </tr>
+            <ng-template #datosFiltered class="text-light">
+              <tr *ngFor="
+                  let reg of filteredRegistrations
+                    | slice
+                      : (page - 1) * registrationsPerPageTable
+                      : (page - 1) * registrationsPerPageTable +
+                          registrationsPerPageTable
+                ">
+                <td>{{ reg.title }}</td>
+                <td>{{ reg.description }}</td>
+                <td>{{ reg.createdAt | date }}</td>
+                <td>{{ reg.finalRating }}</td>
+                <td>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-teal shadow me-1"
+                    data-bs-toggle="modal" data-bs-target="#modal-complete-registration"
+                    (click)="modal(reg.registrationID, reg.uidUser, reg.pathID)">
+                    <i class="bi bi-bookmark-check"></i>
+                  </button>
+                  <button *sofkaShowForRoles="[1]" class="btn btn-sm btn-outline-danger shadow" data-bs-toggle="modal"
                     data-bs-target="#modal-delete-registration" (click)="modal(reg.registrationID)">
                     <i class="bi bi-trash3"></i>
                   </button>
@@ -106,6 +157,22 @@
             </ng-template>
           </tbody>
         </table>
+        <nav class="row">
+          <ul class="col pagination align-self-center">
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = 1">First</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == 1">
+              <a class="page-link" (click)="page = page - 1">Previous</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = page + 1">Next</a>
+            </li>
+            <li class="page-item" [class.disabled]="page == totalPages">
+              <a class="page-link" (click)="page = totalPages">Lastest</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -117,11 +184,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h1 class="modal-title fs-5" id="delete"> Are you sure to delete this registration?
+        <h1 class="modal-title fs-5" id="delete">
+          Are you sure to delete this registration?
         </h1>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <hr class="text-pink">
+      <hr class="text-pink" />
       <div class="modal-footer border-0">
         <a type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</a>
         <a type="button" class="btn btn-outline-danger" (click)="deleteRegistration(registrationID)"
@@ -137,11 +205,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header border-0">
-        <h1 class="modal-title fs-5" id="complete"> Are you sure to calculate and complete this registration?
+        <h1 class="modal-title fs-5" id="complete">
+          Are you sure to calculate and complete this registration?
         </h1>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <hr class="text-pink">
+      <hr class="text-pink" />
       <div class="modal-footer border-0">
         <a type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</a>
         <a type="button" class="btn btn-outline-teal" (click)="averageFinalRating()"

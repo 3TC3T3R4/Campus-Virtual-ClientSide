@@ -31,7 +31,7 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
     }
 
     getCourseByIdAsync(id: string): Observable<CourseModel> {
-        return this.httpClient.get<CourseModel>(`${environment.urlApiCourses}/GetCourseById/${id}`);
+        return this.httpClient.get<CourseModel>(`${environment.urlApiCourses}/GetCourseById?id=${id}`);
     }
 
     deleteCourseAsync(id : string): Observable<CourseModel> {

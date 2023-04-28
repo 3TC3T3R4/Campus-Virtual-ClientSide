@@ -21,17 +21,20 @@ export class HeaderComponent implements OnInit {
   routeMainUsers: string[];
   routeMainLearningPaths: string[];
   routeMainCourses: string[];
+  routeTraineeDeliveries: string[];
   email!: string | null;
+  traineeID!: string;
 
   constructor(
     private readonly auth$: AuthService,
     private router: Router
   ) {
-
+    this.traineeID = localStorage.getItem('uidUser') as string;
     this.routeMainRegistrations = ['registrations'];
     this.routeMainUsers = ['users'];
     this.routeMainLearningPaths = ['learningpaths'];
     this.routeMainCourses = ['courses'];
+    this.routeTraineeDeliveries = [`delivery-iudUser-list/${this.traineeID}`];
   }
   ngOnInit(): void {
     if (localStorage.getItem('email') !== null) {

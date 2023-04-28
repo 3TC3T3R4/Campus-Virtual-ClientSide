@@ -20,7 +20,7 @@ export class ContentImplementationRepository extends ContentRepository {
         return this.http.post<string>(`${environment.urlApiCampus}api/Content`, content);
     }
     UpdateContentAsync(params: { idContent: string; content: UpdateContentCommand; }): Observable<string> {
-        return this.http.put<string>(`${environment.urlApiCampus}api/Content/${params.idContent}`, params.content);
+        return this.http.put<string>(`${environment.urlApiCampus}api/Content?idContent=${params.idContent}`, params.content);
     }
     DeleteContentAsync(idContent: string): Observable<string> {
         return this.http.delete<string>(`${environment.urlApiCampus}api/Content/${idContent}`);

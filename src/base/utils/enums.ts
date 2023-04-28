@@ -4,7 +4,7 @@ export enum Roles {
   Trainee = 2,
 }
 
-export enum StateUser{
+export enum StateUser {
   Active = 1,
   Deleted = 2
 }
@@ -20,10 +20,13 @@ export enum StateContent {
   Deleted = 2
 }
 
-export enum TypeContent{
+export enum TypeContent {
   Workshop = 1,
   Lesson = 2,
   Challenge = 3,
 }
 
-
+export enum StatePath {
+  Active = 1,
+  Deleted = 2
+}

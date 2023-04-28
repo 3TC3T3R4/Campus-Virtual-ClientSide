@@ -23,11 +23,11 @@ const routes: Routes = [
       {
         path: 'list/:id',
         component: GetCourseComponent
-      },/* 
+      },
       {
-        path: 'list',
-        component: GetCourseComponent
-      }, */
+        path: 'update/:id',
+        component: CreateCourseComponent
+      },
       {
         path: 'path',
         component: AssingPathComponent

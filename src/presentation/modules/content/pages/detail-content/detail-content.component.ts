@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GetContentByIdUseCase } from 'src/bussiness/useCases/content/queries/getId-content.usecase';
+import { CreateDeliveryUseCase } from 'src/bussiness/useCases/delivery/create-delivery.usecase';
 import { ContentModel } from 'src/domain/models/content/content.model';
 
 @Component({
@@ -9,10 +11,17 @@ import { ContentModel } from 'src/domain/models/content/content.model';
   styleUrls: ['./detail-content.component.scss']
 })
 export class DetailContentComponent {
+
   id : string = '';
   type: number = 0;
   content : ContentModel;
-  constructor(private routeActive: ActivatedRoute, private getContentById: GetContentByIdUseCase){
+  deliveryForm : FormGroup;
+
+  constructor(private routeActive: ActivatedRoute,
+              private getContentById: GetContentByIdUseCase,
+              private createDelivery : CreateDeliveryUseCase,
+              private router : Router){
+
     this.content = {
       contentID : '',
       courseID : '',
@@ -22,6 +31,11 @@ export class DetailContentComponent {
       duration : 0,
       stateContent : 1,
     }
+    this.deliveryForm = new FormGroup({
+      contentID: new FormControl<string>(''),
+      uidUser: new FormControl<string>(''),
+      deliveryField: new FormControl<string>('',Validators.required)
+    });
   }
 
   ngOnInit(): void {
@@ -36,13 +50,18 @@ export class DetailContentComponent {
         complete: () => {console.log('Complete');}
       });
     }
-    else{
-      //this.createMode = true;
-    }
-    
-    console.log(this.id)
   }
 
-
+  send(){
+    this.deliveryForm.get('contentID')?.setValue(this.id);
+    this.deliveryForm.get('uidUser')?.setValue(localStorage.getItem('uidUser') as string);
+    console.log(this.deliveryForm.value)
+    this.createDelivery.execute(this.deliveryForm.value).subscribe({
+      next: result => console.log(result),
+      error:err => console.log(err),
+      complete: () => {
+        console.log('Complete');}
+    });
+  }
 
 }
