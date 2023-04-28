@@ -1,23 +1,48 @@
 <div class="p-5 mb-4 bg-body-tertiary rounded-3">
     <button type="button" class="btn" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Go Back</button>
     <div class="container-fluid py-5">
+
         <h1 class="display-5 fw-bold">{{content.title}}</h1>
         <p class="col-md-8 fs-4">{{content.description}}</p>
+        
         <button class="btn btn-primary btn-lg" type="button" *ngIf="type == 2" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Complete</button>
         <p>
             <button class="btn btn-primary" *ngIf="type == 1 || type == 3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
               Delivery
             </button>
-          </p>
-          <div style="min-height: 120px;">
-            <div class="collapse collapse-horizontal" id="collapseWidthExample" >
-                <label for="basic-url" class="form-label">Your repository URL</label>
-                <div class="input-group" style="width: 700px;">
-                  <span class="input-group-text" id="basic-addon3">https://github.com/</span>
-                  <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4">
+        </p>
+
+          <form id="deliveryForm" (ngSubmit)="send()" [formGroup]="deliveryForm">
+            <div style="min-height: 120px;">
+              <div class="collapse collapse-horizontal" id="collapseWidthExample" >
+
+                  <label for="basic-url" class="form-label">Your repository URL</label>
+
+                  <div class="form-floating input-group" style="width: 700px;">
+
+                    <span class="input-group-text" id="basic-addon3">https://github.com/</span>
+
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3 basic-addon4" formControlName="deliveryField">
+
+                    <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit"
+                            form="deliveryForm" [disabled]="deliveryForm.invalid">
+                            Create
+                    </button>
+
+                    <span class="form-text text-danger mensajeAlert" *ngIf="deliveryForm.get('deliveryField')?.hasError('required') && deliveryForm.get('deliveryField')?.touched ">
+                      URL Required
+                    </span>
+
+                  </div>
+
+                  <!-- <button class="btn btn-primary mt-2 p-2" type="submit" form="deliveryForm"
+                          [routerLink]="['/dashboard/content/list/' + content.courseID ]"
+                          >
+                    Send
+                  </button> -->
                 </div>
-                <button class="btn btn-primary mt-2 p-2" type="button" [routerLink]="['/dashboard/content/list/' + content.courseID ]">Send</button>
-              </div>
-          </div>
+            </div>
+          </form>
+          
     </div>
 </div>

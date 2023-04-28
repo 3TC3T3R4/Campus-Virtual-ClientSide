@@ -22,4 +22,12 @@ export class ListComponent {
   detail(idCourse : string, type : number){
     //this.router.navigate([`/dashboard/content/detail/${idCourse}/${type}`]);
   }
+
+  update(idCourse : string){
+    console.log(idCourse)
+  }
+
+  delete(idCourse : string){
+    console.log(idCourse)
+  }
 }

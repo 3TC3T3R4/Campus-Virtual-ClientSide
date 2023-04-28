@@ -4,12 +4,20 @@
     </div>
     <div class="col p-4 pe-5">
           <p class="float-end">
-            <button class="btn btn-blue" type="button" data-bs-toggle="collapse" (click)="create()"
+            <button class="btn btn-blue" type="button" data-bs-toggle="collapse" (click)="create()" *ngIf="courses.length > 0"
               data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
               Create Course
             </button>
           </p>
         </div>
 </div>
-
-<sofka-list [courses]="courses"></sofka-list>
+<div class="card position-absolute top-50 start-50 translate-middle" style="width: 18rem;" *ngIf="courses.length == 0">
+  <div class="card-body">
+    <h5 class="card-title">Empty course</h5>
+    <p class="card-text">The course is currently empty. Do you want to add content?</p>
+    <button type="button" class="btn btn-success" (click)="create()">Add</button>
+  </div>
+</div>
+<div>
+  <sofka-list [courses]="courses" *ngIf="courses.length > 0"></sofka-list>
+</div>
