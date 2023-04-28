@@ -11,6 +11,8 @@ import { QualifyDeliveryUseCase } from 'src/bussiness/useCases/delivery/qualify-
 import { DeleteDeliveryUseCase } from 'src/bussiness/useCases/delivery/delete-delivery.usecase';
 import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-delivery';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
 @Component({
   selector: 'sofka-delivery-by-path-id',
   templateUrl: './delivery-by-path-id.component.html',
@@ -22,9 +24,11 @@ export class DeliveryByPathIDComponent implements OnInit {
   //routes
   routeDashboard: string[];
 
+  //variables
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
   pathID!: string;
+  traineeID!: string;
   showQualifyDelivery = false;
   qualifyDeliveryForm: FormGroup;
 
@@ -33,8 +37,10 @@ export class DeliveryByPathIDComponent implements OnInit {
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
     private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
+    private averageFinalRatingUseCase: AverageFinalRatingUseCase,
     private routeActive: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
     this.empty = false;
 
@@ -79,42 +85,73 @@ export class DeliveryByPathIDComponent implements OnInit {
   }
 
   deleteDelivery(deliveryItem: DeliveryModel) {
-    this.DeleteDeliveryUseCase.execute(deliveryItem.deliveryID).subscribe(
+    let subDeleteDelivery = this.DeleteDeliveryUseCase.execute(
+      deliveryItem.deliveryID
+    ).subscribe(
       (response) => {
-        console.log(response);
-        this.ngOnInit();
+        this.toastr.success(response, '', {
+          timeOut: 2500,
+          positionClass: 'toast-bottom-right',
+        });
+        this.getDeliveriesByPathID();
       },
       (error) => {
-        console.log(error);
+        this.toastr.error('Delivery was no deleted.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right',
+        });
+      },
+      () => {
+        subDeleteDelivery.unsubscribe();
       }
     );
   }
 
   qualifyDelivery(deliveryItem: DeliveryModel) {
     this.showQualifyDelivery = true;
+    this.traineeID = deliveryItem.uidUser;
     const deliveryID = deliveryItem.deliveryID;
     localStorage.setItem('deliveryID', deliveryID.toString());
   }
 
   confirmQualify() {
-    const deliveryID = localStorage.getItem('deliveryID');
-    if (deliveryID != null) {
-      const command = new QualifyDeliveryCommand(
-        +deliveryID,
-        this.qualifyDeliveryForm.value.rating,
-        this.qualifyDeliveryForm.value.comment
-      );
-      this.QualifyDeliveryUseCase.execute(command).subscribe(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-      this.showQualifyDelivery = false;
-    } else {
-      console.log('No se pudo obtener el deliveryID');
-    }
+    const deliveryID = localStorage.getItem('deliveryID') as string;
+    const command = new QualifyDeliveryCommand(
+      +deliveryID,
+      this.qualifyDeliveryForm.value.rating,
+      this.qualifyDeliveryForm.value.comment
+    );
+    let subQualify = this.QualifyDeliveryUseCase.execute(command).subscribe(
+      (response) => {
+        this.toastr.success(response, '', {
+          timeOut: 2500,
+          positionClass: 'toast-bottom-right',
+        });
+        this.getDeliveriesByPathID();
+      },
+      (error) => {
+        this.toastr.error('Delivery was no qualified.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right',
+        });
+      },
+      () => {
+        subQualify.unsubscribe();
+        let subAverageRating = this.averageFinalRatingUseCase
+          .execute({ uidUser: this.traineeID, pathID: this.pathID })
+          .subscribe({
+            next: (response) => {
+              console.log(response);
+            },
+            error: (error) => {
+              console.log(error);
+            },
+            complete: () => {
+              subAverageRating.unsubscribe();
+            },
+          });
+      }
+    );
+    this.showQualifyDelivery = false;
   }
 }

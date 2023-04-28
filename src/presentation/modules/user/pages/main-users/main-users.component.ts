@@ -7,7 +7,7 @@ import { AuthService } from 'src/presentation/core/security/services/userAuth/au
 @Component({
   selector: 'sofka-main-users',
   templateUrl: './main-users.component.html',
-  styleUrls: ['./main-users.component.scss']
+  styleUrls: ['./main-users.component.scss'],
 })
 export class MainUsersComponent implements OnInit {
   //routes
@@ -30,21 +30,21 @@ export class MainUsersComponent implements OnInit {
 
   //forms
   frmCreateUser: FormGroup;
+  generatedPassword: string = '';
 
-  constructor(private getAllUsersUseCase: GetAllUsersUseCase, private $auth: AuthService) {
+  constructor(
+    private getAllUsersUseCase: GetAllUsersUseCase,
+    private $auth: AuthService
+  ) {
     this.routeDashboard = ['../'];
     this.empty = true;
     this.frmCreateUser = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
       role: new FormControl('', [Validators.required]),
     });
     setTimeout(() => {
       this.render = true;
-    }, 2000);
+    }, 1800);
   }
 
   ngOnInit(): void {
@@ -56,7 +56,11 @@ export class MainUsersComponent implements OnInit {
 
   //#region create user
   sendData() {
-    this.$auth.SignUp(this.frmCreateUser.value.email, this.frmCreateUser.value.password, this.frmCreateUser.value.role);
+    this.$auth.SignUp(
+      this.frmCreateUser.value.email,
+      this.generatePassword(12),
+      this.frmCreateUser.value.role
+    );
     this.getAllUsers();
   }
   //#endregion
@@ -73,31 +77,46 @@ export class MainUsersComponent implements OnInit {
       },
       complete: () => {
         subGetUsers.unsubscribe();
-      }
+      },
     });
   }
   //#endregion
 
   //#region util methods
   togglePassword(uidUser: string) {
-    const passwordUserTable = document.getElementById(uidUser) as HTMLInputElement;
-    if (passwordUserTable.type === "password") {
-      passwordUserTable.type = "text";
+    const passwordUserTable = document.getElementById(
+      uidUser
+    ) as HTMLInputElement;
+    if (passwordUserTable.type === 'password') {
+      passwordUserTable.type = 'text';
     } else {
-      passwordUserTable.type = "password";
+      passwordUserTable.type = 'password';
     }
   }
 
   calculatePages(): void {
     this.totalPages = Math.ceil(this.usersList.length / this.usersPerPageTable);
-    this.pages = Array(this.totalPages).fill(0).map((x, i) => i + 1);
+    this.pages = Array(this.totalPages)
+      .fill(0)
+      .map((x, i) => i + 1);
   }
 
   searchByType(term: string): void {
     this.searching = true;
-    this.filteredUsers = this.usersList.filter(user =>
+    this.filteredUsers = this.usersList.filter((user) =>
       user.email.toLowerCase().includes(term.toLowerCase())
     );
+  }
+
+  generatePassword(length: number): string {
+    const charset =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901234567890123456789';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      password += charset[randomIndex];
+    }
+    return password;
   }
   //#endregion
 }

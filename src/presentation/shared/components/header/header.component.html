@@ -22,10 +22,10 @@
         <a class="nav-link active btn-header" [routerLink]="routeMainLearningPaths">
           LearningPath
         </a>
-        <a class="nav-link active btn-header" [routerLink]="routeMainCourses">
+        <a *sofkaShowForRoles="[1]" class="nav-link active btn-header" [routerLink]="routeMainCourses">
           Courses
         </a>
-        <a class="nav-link active btn-header" [routerLink]="routeTraineeDeliveries">
+        <a *sofkaShowForRoles="[2]" class="nav-link active btn-header" [routerLink]="routeTraineeDeliveries">
           Deliveries
         </a>
       </ul>
