@@ -1,95 +1,52 @@
-<!-- <div *ngIf="!render" class="spinner-grow text-light position-absolute top-50 start-50 min-vw-75 min-vh-75"
-  role="status">
-</div>
-<div *ngIf="render" class="row pt-1 ps-3 pe-3 ms-3 me-2">
-  <div class="col-12 mt-3">
-    <h1 class="text-light mb-4" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">Dashboard</h1>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div *ngFor="let project of projects" class="col">
-        <div class="card h-100 bg-card-dashboard">
-          <div class="card-body">
-            <h5 class="card-title"><strong>{{project.name}}</strong></h5>
-            <p class="card-text">{{project.description}}</p>
-            <hr>
-            <div class="row">
-              <p class="card-text col-6"><strong>Open date:</strong> {{project.openDate | date: 'dd/MM/yyyy'}}</p>
-              <p class="card-text col-6"><strong>Deadline date:</strong> {{project.deadLine | date: 'dd/MM/yyyy'}}</p>
-            </div>
-            <p class="card-text text-center"><strong>Completed at:</strong> {{project.completedAt | date: 'dd/MM/yyyy'}}
-            </p>
-            <hr>
-            <div class="progress size-progress-bar">
-              <div class="progress-bar progress-bar-striped progress-bar-animated bg-progress-bar" role="progressbar"
-                aria-label="Animated striped example" [ariaValueNow]="project.efficiencyRate" aria-valuemin="0"
-                aria-valuemax="100" style="width: {{project.efficiencyRate}}%">
-                {{project.efficiencyRate}}%
-              </div>
-            </div>
-            <p class="card-text text-center mt-2"><strong>Efficiency rate</strong></p>
-          </div>
+<div class="carousel-container text-dark pt-3">
+  <div id="carouselExampleInterval" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="2500">
+        <img src="./../../../../../assets/go_transparent.png" class="d-block w-100" alt="...">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Your favorite virtual campus.</h5>
+          <p>if you can imagine it, you can program it. 💻</p>
         </div>
       </div>
-    </div>
-  </div>
-</div> -->
-<div class="carousel-container">
-  <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-   
-    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item">
-          <img src="./../../../../../assets/logo_transparent.png" class="d-block w-50" alt="...">
-        </div>
-        <div class="carousel-item">
-          <img src="./../../../../../assets/logo_traparent (1).png" class="d-block w-50" alt="...">
-        </div>
-        <div class="carousel-item active" data-bs-interval="2000">
-          <img src="./../../../../../assets/hg.png" class="d-block w-50" alt="...">
+      <div class="carousel-item" data-bs-interval="2500">
+        <img src="./../../../../../assets/hg.png" class="d-block w-100" alt="...">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>This is for you!! 💭</h5>
+          <p>We exist for your dreams.</p>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <div class="carousel-item" data-bs-interval="2500">
+        <img src="./../../../../../assets/twitter_header_photo_2.png" class="d-block w-100" alt="...">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Still here?</h5>
+          <p>No more.</p>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+        data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+        data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-
-
-
   </div>
-</div>
-
-
-
-
-<!-- 
-
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="./../../../../../assets/book_profile_image.png" class="d-block w-50" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="./../../../../../assets/go_transparent.png" class="d-block w-50" alt="...">
-    </div>
-    <div class="carousel-item">
-      <img src="./../../../../../assets/stagram_profile_image.png" class="d-block w-50" alt="...">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div> -->
