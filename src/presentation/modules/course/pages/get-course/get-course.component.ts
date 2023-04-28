@@ -10,6 +10,7 @@ import { CourseModel } from 'src/domain/models/course/course.model';
   styleUrls: ['./get-course.component.scss'],
 })
 export class GetCourseComponent implements OnInit {
+  render!: boolean;
   role: number | null;
   courses: CourseModel[];
   coursesFiltered!: CourseModel[];
@@ -29,6 +30,9 @@ export class GetCourseComponent implements OnInit {
     this.pathId = '';
     this.routeDashboardTrainee = ['/dashboard/learningpaths'];
     this.routeDashboardAdmin = ['../'];
+    setTimeout(() => {
+      this.render = true;
+    }, 1000);
   }
 
   ngOnInit(): void {
