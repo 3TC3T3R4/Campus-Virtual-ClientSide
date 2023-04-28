@@ -68,7 +68,6 @@ export class MainLearningpathsComponent {
     private toastr: ToastrService
   ) {
     this.routeDashboard = ['../'];
-    this.render = true;
     this.empty = false;
     this.role = localStorage.getItem('role') as string;
     this.coachIDL = localStorage.getItem('uidUser') as string;
@@ -103,6 +102,9 @@ export class MainLearningpathsComponent {
         Validators.minLength(10),
       ]),
     });
+    setTimeout(() => {
+      this.render = true;
+    }, 1000);
   }
 
   ngOnInit(): void {
@@ -199,7 +201,6 @@ export class MainLearningpathsComponent {
   //#endregion
 
   exploreDeliveries(pathID: string): void {
-    console.log(pathID);
     this.router.navigate([`/dashboard/delivery-path-list/${pathID}`]);
   }
 

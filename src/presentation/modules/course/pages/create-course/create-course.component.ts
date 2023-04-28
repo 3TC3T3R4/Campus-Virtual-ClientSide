@@ -11,40 +11,75 @@ import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.m
 @Component({
   selector: 'sofka-create-course',
   templateUrl: './create-course.component.html',
-  styleUrls: ['./create-course.component.scss']
+  styleUrls: ['./create-course.component.scss'],
 })
-
 export class CreateCourseComponent {
-
   courseToCreate: NewCourseModel[];
   courseToUpdate?: UpdateCourseModel;
   duration?: UpdateDurationModel;
 
-  frmFormulario : FormGroup;
+  frmFormulario: FormGroup;
   showMessage: boolean = false;
   message: string = '';
 
-  constructor(private createCourseUseCase: CreateCourseProfileUseCase,
+  constructor(
+    private createCourseUseCase: CreateCourseProfileUseCase,
     private updateCourseUseCase: UpdateCourseProfileUseCase,
     private updateDurationCourseUseCase: UpdateDurationCourseProfileUseCase,
-    private router: Router)
-   {
+    private router: Router
+  ) {
     this.courseToCreate = [];
     this.frmFormulario = new FormGroup({
       title: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
-      courseID : new FormControl('', [Validators.required]),
-      stateCourse : new FormControl('', [Validators.required]),
-      duration : new FormControl('', [Validators.required]),
+      courseID: new FormControl('', [Validators.required]),
+      stateCourse: new FormControl('', [Validators.required]),
+      duration: new FormControl('', [Validators.required]),
     });
-   }
+  }
 
-   createCourse() {
-    console.log(this.frmFormulario.getRawValue())
-    this.createCourseUseCase.execute(this.frmFormulario.getRawValue()).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Course created successfully';
+  createCourse() {
+    console.log(this.frmFormulario.getRawValue());
+    this.createCourseUseCase
+      .execute(this.frmFormulario.getRawValue())
+      .subscribe({
+        next: (Item) => {
+          this.message = 'Course created successfully';
+          this.showMessage = true;
+          this.frmFormulario.reset();
+          setTimeout(() => {
+            this.message = '';
+            this.showMessage = false;
+          }, 3000);
+        },
+      });
+  }
+
+  updateCourse() {
+    console.log(this.frmFormulario.getRawValue());
+    this.updateCourseUseCase
+      .execute(this.frmFormulario.getRawValue())
+      .subscribe({
+        next: (Item) => {
+          this.message = 'Course updated successfully';
+          this.showMessage = true;
+          this.frmFormulario.reset();
+          setTimeout(() => {
+            this.message = '';
+            this.showMessage = false;
+          }, 3000);
+        },
+      });
+  }
+
+  updateDuration() {
+    this.duration = {
+      courseID: this.frmFormulario.get('courseID')?.value,
+      duration: this.frmFormulario.get('duration')?.value,
+    };
+    this.updateDurationCourseUseCase.execute(this.duration).subscribe({
+      next: (Item) => {
+        this.message = 'Duration updated successfully';
         this.showMessage = true;
         this.frmFormulario.reset();
         setTimeout(() => {
@@ -54,43 +89,4 @@ export class CreateCourseComponent {
       },
     });
   }
-
-  updateCourse() {
-    console.log(this.frmFormulario.getRawValue())
-    this.updateCourseUseCase.execute(this.frmFormulario.getRawValue()).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Course updated successfully';
-        this.showMessage = true;
-        this.frmFormulario.reset();
-        setTimeout(() => {
-          this.message = '';
-          this.showMessage = false;
-        }, 3000);
-      }
-    });
-  }
-
-  updateDuration(){
-    this.duration = {
-      courseID: this.frmFormulario.get('courseID')?.value,
-      duration: this.frmFormulario.get('duration')?.value};
-    this.updateDurationCourseUseCase.execute(this.duration).subscribe({
-      next:(Item) =>{
-        console.log(Item);
-        this.message = 'Duration updated successfully';
-        this.showMessage = true;
-        this.frmFormulario.reset();
-        setTimeout(() => {
-          this.message = '';
-          this.showMessage = false;
-        }, 3000);
-      }
-    });
-  }
 }
-
-
-
-
-

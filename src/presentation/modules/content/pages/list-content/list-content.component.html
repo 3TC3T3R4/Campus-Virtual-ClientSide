@@ -1,25 +1,30 @@
-<div class="row">
+<div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
+  role="status"></div>
+<div *ngIf="render">
+  <div class="row">
     <div class="col col-lg-1 p-4 ps-5">
-        <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
+      <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
     </div>
     <div class="col p-4 pe-5" *sofkaShowForRoles="[1]">
-          <p class="float-end">
-            <button class="btn btn-blue" type="button" data-bs-toggle="collapse" (click)="create()" *ngIf="contents.length > 0"
-              data-bs-target="#createRegistrationCollapse" aria-expanded="false" aria-controls="collapseExample">
-              Create Content
-            </button>
-          </p>
+      <p class="float-end">
+        <button class="btn btn-blue" type="button" data-bs-toggle="collapse" (click)="create()"
+          *ngIf="contents.length > 0" data-bs-target="#createRegistrationCollapse" aria-expanded="false"
+          aria-controls="collapseExample">
+          Create Content
+        </button>
+      </p>
     </div>
-</div>
-<div class="card position-absolute top-50 start-50 translate-middle"
-    style="width: 18rem;" *ngIf="contents.length == 0">
-  <div class="card-body">
-    <h5 class="card-title">Empty course</h5>
-    <p class="card-text" *sofkaShowForRoles="[1]">The course is currently empty. Do you want to add content?</p>
-    <p class="card-text" *sofkaShowForRoles="[2]">The course is currently empty.</p>
-    <button type="button" class="btn btn-success" (click)="create()" *sofkaShowForRoles="[1]">Add</button>
   </div>
-</div>
-<div>
+  <div class="card position-absolute top-50 start-50 translate-middle" style="width: 18rem;"
+    *ngIf="contents.length == 0">
+    <div class="card-body">
+      <h5 class="card-title">Empty course</h5>
+      <p class="card-text" *sofkaShowForRoles="[1]">The course is currently empty. Do you want to add content?</p>
+      <p class="card-text" *sofkaShowForRoles="[2]">The course is currently empty.</p>
+      <button type="button" class="btn btn-success" (click)="create()" *sofkaShowForRoles="[1]">Add</button>
+    </div>
+  </div>
+  <div>
     <sofka-list [contents]="contents"></sofka-list>
+  </div>
 </div>

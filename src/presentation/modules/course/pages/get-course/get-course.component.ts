@@ -10,11 +10,14 @@ import { CourseModel } from 'src/domain/models/course/course.model';
   styleUrls: ['./get-course.component.scss'],
 })
 export class GetCourseComponent implements OnInit {
+  render!: boolean;
   role: number | null;
   courses: CourseModel[];
+  coursesFiltered!: CourseModel[];
   pathId: string;
   //routes
-  routeDashboard: string[];
+  routeDashboardTrainee: string[];
+  routeDashboardAdmin: string[];
 
   constructor(
     private getCourses: GetCourseActiveUseCase,
@@ -25,7 +28,11 @@ export class GetCourseComponent implements OnInit {
     this.courses = [];
     this.role = 0;
     this.pathId = '';
-    this.routeDashboard = ['/dashboard/learningpaths'];
+    this.routeDashboardTrainee = ['/dashboard/learningpaths'];
+    this.routeDashboardAdmin = ['../'];
+    setTimeout(() => {
+      this.render = true;
+    }, 1000);
   }
 
   ngOnInit(): void {
@@ -34,16 +41,21 @@ export class GetCourseComponent implements OnInit {
     if (this.routeActive.snapshot.params['id']) {
       this.pathId = this.routeActive.snapshot.params['id'];
       this.getCoursePathIdUseCase.execute(this.pathId).subscribe({
-        next: (course) => (this.courses = course),
+        next: (course) => {
+          this.coursesFiltered = course;
+        },
         error: (err) => console.log(err),
-        complete: () => console.log('Complete'),
       });
     }
     if (this.role == 1) {
       this.getCourses.execute().subscribe({
-        next: (course) => (this.courses = course),
+        next: (course) => {
+          this.courses = course;
+          this.coursesFiltered = this.courses.filter(
+            (course) => course.stateCourse !== 3
+          );
+        },
         error: (err) => console.log(err),
-        complete: () => console.log('Complete'),
       });
     }
   }
