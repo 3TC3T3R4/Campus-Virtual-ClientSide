@@ -25,10 +25,7 @@ export class HeaderComponent implements OnInit {
   email!: string | null;
   traineeID!: string;
 
-  constructor(
-    private readonly auth$: AuthService,
-    private router: Router
-  ) {
+  constructor(private readonly auth$: AuthService, private router: Router) {
     this.traineeID = localStorage.getItem('uidUser') as string;
     this.routeMainRegistrations = ['registrations'];
     this.routeMainUsers = ['users'];

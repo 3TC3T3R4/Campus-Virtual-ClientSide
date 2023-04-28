@@ -10,7 +10,6 @@ import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/c
 import { DeleteRegistrationUseCase } from '../../../../../bussiness/useCases/registration/delete-registration.usecase';
 import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
 import { RegistrationWithPaths } from 'src/domain/DTO/registration/registration-with-learningpaths';
-import { GetUserByIdUseCase } from '../../../../../bussiness/useCases/user/get-user-by-id.usecase';
 
 @Component({
   selector: 'sofka-main-registrations',
@@ -48,7 +47,6 @@ export class MainRegistrationsComponent implements OnInit {
   constructor(
     private getAllRegistrationsUseCase: GetAllRegistrationsUseCase,
     private getAllUsersUseCase: GetAllUsersUseCase,
-    private getUserByIdUseCase: GetUserByIdUseCase,
     private getLearningPathByCoachUseCase: GetLearningPathByCoachUseCase,
     private createRegistrationUseCase: CreateRegistrationUseCase,
     private deleteRegistrationUseCase: DeleteRegistrationUseCase,
