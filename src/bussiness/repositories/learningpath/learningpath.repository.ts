@@ -21,5 +21,5 @@ export abstract class LearningPathRepository {
 
   abstract getLearningPathByCoahAsync(coachID: string): Observable<LearningPathModel[]>;
 
-  abstract updateLearningPathDurationAsync(pathID: string, totalDuration: number): Observable<string>;
+  abstract updateLearningPathDurationAsync(params: {pathID: string, totalDuration: number}): Observable<string>;
 }

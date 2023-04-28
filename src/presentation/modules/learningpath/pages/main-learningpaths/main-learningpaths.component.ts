@@ -8,7 +8,15 @@ import { updateLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpa
 import { NewLearningPathCommand } from 'src/domain/commands/learningpath/newLearningPathCommands';
 import { GetLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpath/get-learnigpath-by-id.usecase';
 import { DeleteLearnigPathUseCase } from 'src/bussiness/useCases/learningpath/delete-learningpath.usecase';
+import { ConfigurePathCourseProfileUseCase } from '../../../../../bussiness/useCases/course/configurePath.usecase';
+import { GetCourseActiveUseCase } from 'src/bussiness/useCases/course/getCourseActive.usecase';
+import { CourseModel } from 'src/domain/models/course/course.model';
+import { GetCourseByIdProfileUseCase } from 'src/bussiness/useCases/course/getCourseById.usecase';
+import { AssingToPathModel } from 'src/domain/commands/course/assingToPath.model';
+import { UpdateLearningPathDurationUseCase } from 'src/bussiness/useCases/learningpath/update-learningpath-duration.usecase';
+import { GetCourseByPathIdProfileUseCase } from 'src/bussiness/useCases/course/getCoursesByPathId.usecase';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
@@ -24,6 +32,7 @@ export class MainLearningpathsComponent {
   frmFormReactive: FormGroup;
   form: FormGroup;
   formD: FormGroup;
+  formAdd: FormGroup;
   learningPathContent!: LearningPathModel[];
   pathID!: string;
   titleToUpdate: string = '';
@@ -32,8 +41,9 @@ export class MainLearningpathsComponent {
   formConten: LearningPathModel | undefined;
   coachIDL: string | undefined;
   finalContent: NewLearningPathCommand | undefined;
-
-  //search
+  learningPathContentWithC: CourseModel[] | undefined;
+  selectedContent: CourseModel | undefined;
+  objectPathAndCourse: AssingToPathModel | undefined; //search
   searching = false;
   filteredPaths!: LearningPathModel[];
 
@@ -44,12 +54,17 @@ export class MainLearningpathsComponent {
   totalPages: number = 0;
 
   constructor(
+    private taskCourseById: GetCourseByIdProfileUseCase,
+    private taskAddCourse: ConfigurePathCourseProfileUseCase,
+    private taskSearchCourse: GetCourseActiveUseCase,
     private taskDelete: DeleteLearnigPathUseCase,
     private taskById: GetLearningPathByIdUseCase,
     private taskUpdate: updateLearningPathByIdUseCase,
     private taskCreate: CreateLearningPathUseCase,
     private taskGetAll: GetAllLearnigPathUseCase,
     private router: Router,
+    private taskUpdateDuration: UpdateLearningPathDurationUseCase,
+    private taskByPath: GetCourseByPathIdProfileUseCase,
     private toastr: ToastrService
   ) {
     this.routeDashboard = ['../'];
@@ -58,6 +73,9 @@ export class MainLearningpathsComponent {
     this.role = localStorage.getItem('role') as string;
     this.coachIDL = localStorage.getItem('uidUser') as string;
     this.formD = new FormGroup({
+      pathD: new FormControl(),
+    });
+    this.formAdd = new FormGroup({
       pathD: new FormControl(),
     });
     this.frmFormReactive = new FormGroup({
@@ -99,6 +117,7 @@ export class MainLearningpathsComponent {
     this.pathID = pathID;
     this.form.get('title')?.setValue(titleToUpdate);
     this.form.get('description')?.setValue(descriptionToUpdate);
+    this.handlerDuration(this.pathID);
   }
 
   //#region  functionalities
@@ -189,6 +208,19 @@ export class MainLearningpathsComponent {
     let subGetAllTasks = this.taskGetAll.execute().subscribe({
       next: (data) => {
         this.learningPathContent = data;
+        let subFilter = this.taskSearchCourse.execute().subscribe({
+          next: (data2) => {
+            this.learningPathContentWithC = data2.filter(
+              (course) => course.stateCourse === 1
+            );
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => {
+            subFilter.unsubscribe();
+          },
+        });
         this.empty = false;
       },
       error: (error) => {
@@ -197,6 +229,39 @@ export class MainLearningpathsComponent {
       },
       complete: () => {
         subGetAllTasks.unsubscribe();
+      },
+    });
+  }
+
+  handlerDuration(pathID: string): void {
+    let subAllCoursesByPath = this.taskByPath.execute(pathID).subscribe({
+      next: (data) => {
+        let durationTotal = data.reduce(
+          (acumulador, data) => acumulador + data.duration,
+          0
+        );
+        let subUpdateDuration = this.taskUpdateDuration
+          .execute({
+            pathID: pathID,
+            totalDuration: durationTotal,
+          })
+          .subscribe({
+            next: (data) => {
+              this.getAllPaths();
+            },
+            error: (error) => {
+              console.log(error);
+            },
+            complete: () => {
+              subUpdateDuration.unsubscribe();
+            },
+          });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        subAllCoursesByPath.unsubscribe();
       },
     });
   }
@@ -219,4 +284,85 @@ export class MainLearningpathsComponent {
     );
   }
   //#endregion
+
+  addCourses(pathIDB: string): void {
+    if (this.selectedContent && this.selectedContent.courseID) {
+      let subGetUniqueCourse = this.taskCourseById
+        .execute(this.selectedContent.courseID)
+        .subscribe({
+          next: (data) => {
+            this.objectPathAndCourse = {
+              CourseID: data.courseID,
+              PathID: pathIDB,
+            };
+            let subAddCourse = this.taskAddCourse
+              .execute(this.objectPathAndCourse)
+              .subscribe({
+                next: (data) => {
+                  this.handlerDuration(pathIDB);
+                },
+                error: (error) => {
+                  this.toastr.error('Course was no added.', '', {
+                    timeOut: 3000,
+                    positionClass: 'toast-bottom-right',
+                  });
+                },
+                complete: () => {
+                  subAddCourse.unsubscribe();
+                },
+              });
+            console.log(data);
+            this.toastr.success('Course added successfully.', '', {
+              timeOut: 2500,
+              positionClass: 'toast-bottom-right',
+            });
+          },
+          error: (error) => {
+            console.log(error);
+          },
+          complete: () => {
+            subGetUniqueCourse.unsubscribe();
+          },
+        });
+    } else {
+      console.log('El contenido seleccionado es inválido.');
+      alert('You cant add a course with items empty');
+    }
+    // if (this.selectedContent && this.selectedContent.courseID) {
+    //     this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
+    //       next: (data) => {
+
+    //         console.log(data);
+
+    //         this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathIDB };
+
+    //     this.taskByPath.execute(pathIDB).subscribe({
+    //         next: (data) => {
+    //           let durationTotal = data.reduce((acumulador, data) => acumulador + data.duration, 0);
+    //         }
+
+    //     });
+    //        this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
+    //            next: (data) => {
+    //             this.taskUpdateDuration.execute({ pathID: pathIDB, totalDuration: data.duration}).subscribe({
+    //               next: (data) => {
+    //                 console.log(data);
+    //                 alert('Duration updated successfully');
+    //               }
+    //             })
+
+    //           }
+    //         });
+
+    //           console.log(data);
+    //           alert('Course added successfully');
+    //         }
+
+    //       });
+    //     } else {
+    //   // La variable content es undefined o no tiene una propiedad id_content
+    //   console.log('El contenido seleccionado es inválido.');
+    //   alert('You cant add a course with items empty');
+    // }
+  }
 }
