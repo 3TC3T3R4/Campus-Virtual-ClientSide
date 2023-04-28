@@ -11,6 +11,8 @@ import { ContentModel } from 'src/domain/models/content/content.model';
 })
 export class ListComponent {
   @Input() contents: ContentModel[];
+  contentID!: string;
+  index!: any;
 
   constructor(
     private router: Router,
@@ -18,6 +20,11 @@ export class ListComponent {
     private toastr: ToastrService
   ) {
     this.contents = [];
+  }
+
+  modal(contentID: string, i: any): void {
+    this.contentID = contentID;
+    this.index = i;
   }
 
   detail(idCourse: string, type: number) {

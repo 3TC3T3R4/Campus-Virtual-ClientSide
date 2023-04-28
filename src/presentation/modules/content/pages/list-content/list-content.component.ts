@@ -15,6 +15,9 @@ export class ListContentComponent {
   //routes
   routeDashboard!: string[];
 
+  //variables
+  render!: boolean;
+
   constructor(
     private getContentByCourse: GetContentByCourseUseCase,
     private getCourseByIdProfileUseCase: GetCourseByIdProfileUseCase,
@@ -23,6 +26,9 @@ export class ListContentComponent {
   ) {
     this.contents = [];
     this.courseID = '';
+    setTimeout(() => {
+      this.render = true;
+    }, 800);
   }
 
   ngOnInit(): void {
