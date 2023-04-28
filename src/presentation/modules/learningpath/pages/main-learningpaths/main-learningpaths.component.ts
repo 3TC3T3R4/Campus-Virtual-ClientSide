@@ -16,6 +16,7 @@ import { AssingToPathModel } from 'src/domain/commands/course/assingToPath.model
 import { UpdateLearningPathDurationUseCase } from 'src/bussiness/useCases/learningpath/update-learningpath-duration.usecase';
 import { GetCourseByPathIdProfileUseCase } from 'src/bussiness/useCases/course/getCoursesByPathId.usecase';
 import { ToastrService } from 'ngx-toastr';
+import { GetLearningPathByTraineeUseCase } from 'src/bussiness/useCases/learningpath/get-learningpath-by-trainee.usecase';
 
 @Component({
   selector: 'sofka-main-learningpaths',
@@ -40,6 +41,7 @@ export class MainLearningpathsComponent {
   role!: string;
   formConten: LearningPathModel | undefined;
   coachIDL: string | undefined;
+  traineeID: string;
   finalContent: NewLearningPathCommand | undefined;
   learningPathContentWithC: CourseModel[] | undefined;
   selectedContent: CourseModel | undefined;
@@ -62,6 +64,7 @@ export class MainLearningpathsComponent {
     private taskUpdate: updateLearningPathByIdUseCase,
     private taskCreate: CreateLearningPathUseCase,
     private taskGetAll: GetAllLearnigPathUseCase,
+    private taskGetByTrainee: GetLearningPathByTraineeUseCase,
     private router: Router,
     private taskUpdateDuration: UpdateLearningPathDurationUseCase,
     private taskByPath: GetCourseByPathIdProfileUseCase,
@@ -71,6 +74,7 @@ export class MainLearningpathsComponent {
     this.empty = false;
     this.role = localStorage.getItem('role') as string;
     this.coachIDL = localStorage.getItem('uidUser') as string;
+    this.traineeID = localStorage.getItem('uidUser') as string;
     this.formD = new FormGroup({
       pathD: new FormControl(),
     });
@@ -108,7 +112,14 @@ export class MainLearningpathsComponent {
   }
 
   ngOnInit(): void {
-    this.getAllPaths();
+    switch (this.role) {
+      case '1':
+        this.getAllPaths();
+        break;
+      case '2':
+        this.getAllPathsByTrainee();
+        break;
+    }
   }
 
   modal(
@@ -232,6 +243,24 @@ export class MainLearningpathsComponent {
         subGetAllTasks.unsubscribe();
       },
     });
+  }
+
+  getAllPathsByTrainee(): void {
+    let subGetAllTasks = this.taskGetByTrainee
+      .execute(this.traineeID)
+      .subscribe({
+        next: (data) => {
+          this.learningPathContent = data;
+          this.empty = false;
+        },
+        error: (error) => {
+          console.log(error);
+          this.empty = true;
+        },
+        complete: () => {
+          subGetAllTasks.unsubscribe();
+        },
+      });
   }
 
   handlerDuration(pathID: string): void {

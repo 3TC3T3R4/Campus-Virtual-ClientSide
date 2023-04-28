@@ -3,10 +3,8 @@ import { LearningPathModel } from '../../../domain/models/learningpath/learningp
 import { NewLearningPathCommand } from 'src/domain/commands/learningpath/newLearningPathCommands';
 
 export abstract class LearningPathRepository {
-
   abstract createLearningPathAsync(
     newLearningPathCommand: NewLearningPathCommand
-
   ): Observable<LearningPathModel>;
 
   abstract getAllLearningPathAsync(): Observable<LearningPathModel[]>;
@@ -15,11 +13,23 @@ export abstract class LearningPathRepository {
     pathID: string
   ): Observable<LearningPathModel>;
 
-  abstract updateLearningPathByIdAsync(params: { idContent: string, content: NewLearningPathCommand }): Observable<string>;
+  abstract updateLearningPathByIdAsync(params: {
+    idContent: string;
+    content: NewLearningPathCommand;
+  }): Observable<string>;
 
   abstract deleteLearningPathAsync(pathID: string): Observable<string>;
 
-  abstract getLearningPathByCoahAsync(coachID: string): Observable<LearningPathModel[]>;
+  abstract getLearningPathByCoahAsync(
+    coachID: string
+  ): Observable<LearningPathModel[]>;
 
-  abstract updateLearningPathDurationAsync(params: {pathID: string, totalDuration: number}): Observable<string>;
+  abstract getLearningPathByTraineeAsync(
+    traineeID: string
+  ): Observable<LearningPathModel[]>;
+
+  abstract updateLearningPathDurationAsync(params: {
+    pathID: string;
+    totalDuration: number;
+  }): Observable<string>;
 }
