@@ -24,7 +24,7 @@ export class ListComponent {
   }
 
   update(idCourse : string){
-    console.log(idCourse)
+    this.router.navigate([`/dashboard/courses/update/${idCourse}`]);
   }
 
   delete(idCourse : string){

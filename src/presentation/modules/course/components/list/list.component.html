@@ -1,14 +1,17 @@
-  <div>
-    <table class="table caption-top">
-      <thead>
-        <tr>
+<div class="col">
+  <h2 class="mb-4">Courses</h2>
+</div>
+  <div class=" table-responsive">
+    <table class="table table-hover">
+      <thead class="text-center">
+        <tr class="text-king-blue">
           <th scope="col">#</th>
           <th scope="col">Title</th>
           <th scope="col">Description</th>
           <th scope="col">Duration</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="table-group-divider text-king-blue text-center">
         <tr *ngFor="let course of courses; let i = index">
           <th scope="row">{{i+1}}</th>
           <td (click)="content(course.courseID)" class="pointer">{{course.title}}</td>
