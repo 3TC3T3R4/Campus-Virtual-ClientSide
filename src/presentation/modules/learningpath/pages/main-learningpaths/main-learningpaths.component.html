@@ -107,11 +107,11 @@
                 <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
                   ListlearningPath.description }}</td>
                 <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
-                  ListlearningPath.duration }}</td>
+                  ListlearningPath.duration | minsToHours }}</td>
                 <td [hidden]="role === '2'">{{ ListlearningPath.title }}
                 </td>
                 <td [hidden]="role === '2'">{{ ListlearningPath.description }}</td>
-                <td [hidden]="role === '2'">{{ ListlearningPath.duration }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.duration | minsToHours }}</td>
                 <td *sofkaShowForRoles="[1]">
                   <button type="button" class="btn btn-sm btn-outline-teal me-1 shadow" data-bs-toggle="modal"
                     data-bs-target="#exampleModal5" (click)="modal(ListlearningPath.pathID)">
@@ -149,11 +149,11 @@
                 <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
                   ListlearningPath.description }}</td>
                 <td (click)="sendIdPath(ListlearningPath.pathID)" style="cursor: pointer;" [hidden]="role === '1'">{{
-                  ListlearningPath.duration }}</td>
+                  ListlearningPath.duration | minsToHours }}</td>
                 <td [hidden]="role === '2'">{{ ListlearningPath.title }}
                 </td>
                 <td [hidden]="role === '2'">{{ ListlearningPath.description }}</td>
-                <td [hidden]="role === '2'">{{ ListlearningPath.duration }}</td>
+                <td [hidden]="role === '2'">{{ ListlearningPath.duration | minsToHours }}</td>
                 <td *sofkaShowForRoles="[1]">
                   <button type="button" class="btn btn-sm btn-outline-teal me-1 shadow" data-bs-toggle="modal"
                     data-bs-target="#exampleModal5" (click)="modal(ListlearningPath.pathID)">
