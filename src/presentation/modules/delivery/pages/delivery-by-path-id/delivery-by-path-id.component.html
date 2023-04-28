@@ -27,7 +27,7 @@
                 <tr *ngFor="let item of deliveryItems">
                   <td>{{item.deliveryAt | date }}</td>
                   <td><a class="text-decoration-none text-purple" href="{{item.deliveryField}}"
-                      target="_blank"><strong>Clic
+                      target="_blank"><strong>Click
                         here <i class="bi bi-box-arrow-up-right"> </i> </strong></a></td>
                   <td>
                     <button type="button" class="btn btn-sm btn-outline-success me-1" (click)="qualifyDelivery(item)"><i

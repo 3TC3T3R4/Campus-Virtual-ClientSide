@@ -107,7 +107,13 @@ export class FormComponent {
           positionClass: 'toast-bottom-right'
         });
       },
-      error:err => console.log(err),
+      error:err =>{
+        console.log(err),
+        this.toastr.warning('Create not made.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right',
+        });
+      },
       complete: () => {
         this.getContentsCourse();
         console.log('Complete');

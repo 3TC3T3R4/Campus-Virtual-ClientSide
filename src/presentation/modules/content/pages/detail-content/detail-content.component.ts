@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { GetContentByIdUseCase } from 'src/bussiness/useCases/content/queries/getId-content.usecase';
 import { CreateDeliveryUseCase } from 'src/bussiness/useCases/delivery/create-delivery.usecase';
 import { ContentModel } from 'src/domain/models/content/content.model';
@@ -20,7 +21,8 @@ export class DetailContentComponent {
   constructor(private routeActive: ActivatedRoute,
               private getContentById: GetContentByIdUseCase,
               private createDelivery : CreateDeliveryUseCase,
-              private router : Router){
+              private router : Router,
+              private toastr: ToastrService){
 
     this.content = {
       contentID : '',
@@ -57,10 +59,23 @@ export class DetailContentComponent {
     this.deliveryForm.get('uidUser')?.setValue(localStorage.getItem('uidUser') as string);
     console.log(this.deliveryForm.value)
     this.createDelivery.execute(this.deliveryForm.value).subscribe({
-      next: result => console.log(result),
-      error:err => console.log(err),
+      next: result =>{
+          this.toastr.success('Create delivery successfully.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right'
+          });
+      },
+      error:err =>{
+        console.log(err),
+        this.toastr.warning('Delivery not made.', '', {
+          timeOut: 3000,
+          positionClass: 'toast-bottom-right',
+        });
+      },
       complete: () => {
-        console.log('Complete');}
+        console.log('Complete');
+        this.router.navigate([`/dashboard/content/list/${this.content.courseID}`]);
+      }
     });
   }
 

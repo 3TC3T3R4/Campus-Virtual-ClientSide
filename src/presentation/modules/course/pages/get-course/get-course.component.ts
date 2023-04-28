@@ -29,7 +29,7 @@ export class GetCourseComponent implements OnInit {
     this.role = 0;
     this.pathId = '';
     this.routeDashboardTrainee = ['/dashboard/learningpaths'];
-    this.routeDashboardAdmin = ['../'];
+    this.routeDashboardAdmin = ['/dashboard'];
     setTimeout(() => {
       this.render = true;
     }, 1000);

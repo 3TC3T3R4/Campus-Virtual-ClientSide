@@ -81,9 +81,9 @@
           <thead class="text-center">
             <tr class="text-king-blue">
               <th scope="col">Email</th>
-              <th scope="col">Password</th>
+              <!-- <th scope="col">Password</th> -->
               <th scope="col">Role</th>
-              <th scope="col">Actions</th>
+              <!-- <th scope="col">Actions</th> -->
             </tr>
           </thead>
           <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
@@ -94,12 +94,12 @@
               <tr
                 *ngFor="let user of usersList | slice:((page-1)*usersPerPageTable):((page-1)*usersPerPageTable+usersPerPageTable)">
                 <td>{{user.email}}</td>
-                <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
+                <!-- <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
                     id="{{user.uidUser}}" [value]="user.password">
-                </td>
+                </td> -->
                 <td>{{user.role | enumsNumberToStringPipe: 'role' }}</td>
-                <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)"><i
-                      class="bi bi-eye"></i></button></td>
+                <!-- <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"><i
+                      class="bi bi-eye"></i></button></td> -->
               </tr>
             </ng-template>
           </tbody>
@@ -111,12 +111,12 @@
               <tr
                 *ngFor="let user of filteredUsers | slice:((page-1)*usersPerPageTable):((page-1)*usersPerPageTable+usersPerPageTable)">
                 <td>{{user.email}}</td>
-                <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
+                <!-- <td><input type="password" class="form-control border-0 bg-transparent" name="passwordUserTable"
                     id="{{user.uidUser}}" [value]="user.password">
-                </td>
+                </td> -->
                 <td>{{user.role | enumsNumberToStringPipe: 'role' }}</td>
-                <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)"><i
-                      class="bi bi-eye"></i></button></td>
+                <!-- <td><button class="btn btn-outline-teal" id=" toggleButton" (click)="togglePassword(user.uidUser)"><i
+                      class="bi bi-eye"></i></button></td> -->
               </tr>
             </ng-template>
           </tbody>
