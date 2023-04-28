@@ -84,20 +84,15 @@ export class FormComponent {
           this.contentForm.get('title')?.setValue(this.content.title);
           this.contentForm.get('description')?.setValue(this.content.description);
           this.contentForm.get('duration')?.setValue(this.content.duration);
+          this.courseId = this.content.courseID
         }
       });
-      
     }
     else{
       this.createMode = true;
-      
     }
-    
     console.log(this.idContent)
   }
-
-
-
 
   create(){
     this.contentForm.get('courseId')?.setValue(this.courseId);
@@ -107,7 +102,7 @@ export class FormComponent {
     this.contentCreate.execute(this.contentForm.value).subscribe({
       next: content =>{
         console.log(content),
-        this.toastr.success('Update Course successfully.', '', {
+        this.toastr.success('Create Content successfully.', '', {
           timeOut: 3000,
           positionClass: 'toast-bottom-right'
         });
@@ -143,6 +138,7 @@ export class FormComponent {
       },
       error:err => console.log(err),
       complete: () => {
+        this.getContentsCourse();
         console.log('Complete');
         this.router.navigate([`/dashboard/content/list/${this.content.courseID}`]);
       }
