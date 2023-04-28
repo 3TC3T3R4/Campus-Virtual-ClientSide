@@ -8,6 +8,11 @@ import { updateLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpa
 import { NewLearningPathCommand } from 'src/domain/commands/learningpath/newLearningPathCommands';
 import { GetLearningPathByIdUseCase } from 'src/bussiness/useCases/learningpath/get-learnigpath-by-id.usecase';
 import { DeleteLearnigPathUseCase } from 'src/bussiness/useCases/learningpath/delete-learningpath.usecase';
+import { ConfigurePathCourseProfileUseCase } from '../../../../../bussiness/useCases/course/configurePath.usecase';
+import { GetCourseActiveUseCase } from 'src/bussiness/useCases/course/getCourseActive.usecase';
+import { CourseModel } from 'src/domain/models/course/course.model';
+import { GetCourseByIdProfileUseCase } from 'src/bussiness/useCases/course/getCourseById.usecase';
+import { AssingToPathModel } from 'src/domain/commands/course/assingToPath.model';
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
@@ -21,13 +26,15 @@ export class MainLearningpathsComponent {
   frmFormReactive: FormGroup;
   form: FormGroup;
   formD: FormGroup;
+  formAdd: FormGroup;
   learningPathContent: LearningPathModel[] | undefined;
   formConten: LearningPathModel | undefined;
   coachIDL: string | undefined;
   finalContent: NewLearningPathCommand | undefined;
-
-
-  constructor(
+  learningPathContentWithC: CourseModel[] | undefined;
+  selectedContent: CourseModel | undefined;
+  objectPathAndCourse: AssingToPathModel | undefined;
+  constructor(private taskCourseById: GetCourseByIdProfileUseCase ,private taskAddCourse: ConfigurePathCourseProfileUseCase,private taskSearchCourse: GetCourseActiveUseCase,
     private taskDelete: DeleteLearnigPathUseCase, private taskById: GetLearningPathByIdUseCase, private taskUpdate: updateLearningPathByIdUseCase, private taskCreate: CreateLearningPathUseCase, private taskGetAll: GetAllLearnigPathUseCase,
     private router: Router
   ) {
@@ -35,6 +42,9 @@ export class MainLearningpathsComponent {
     this.render = true;
     this.coachIDL = localStorage.getItem('uidUser') as string;
     this.formD = new FormGroup({
+      pathD: new FormControl()
+    });
+    this.formAdd = new FormGroup({
       pathD: new FormControl()
     });
     this.frmFormReactive = new FormGroup({
@@ -101,8 +111,16 @@ export class MainLearningpathsComponent {
   }
   ngOnInit(): void {
     this.taskGetAll.execute().subscribe({
+
+
       next: (data) => {
         this.learningPathContent = data;
+        this.taskSearchCourse.execute().subscribe({
+          next: (data2) => {
+            this.learningPathContentWithC = data2.filter((course) => course.stateCourse === 1);
+            console.log(this.learningPathContentWithC);
+          }
+        });
       },
       error: (error) => {
         console.log(error);
@@ -111,6 +129,10 @@ export class MainLearningpathsComponent {
         console.log('complete');
       }
     });
+
+
+
+
   }
 
   sendDelete(pathId: string): void {
@@ -191,6 +213,38 @@ export class MainLearningpathsComponent {
 
 
   }
+
+
+
+  addCourses(pathID: string):void {
+
+    if (this.selectedContent && this.selectedContent.courseID) {
+        this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
+          next: (data) => {
+            console.log(data);
+        this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathID };
+           this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
+               next: (data) => {
+              console.log(data);
+              alert('Course added successfully');
+            }
+          });
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    } else {
+      // La variable content es undefined o no tiene una propiedad id_content
+      console.log('El contenido seleccionado es inválido.');
+      alert('You cant add a course with items empty');
+    }
+
+  }
+
+
+
+
 
 
 

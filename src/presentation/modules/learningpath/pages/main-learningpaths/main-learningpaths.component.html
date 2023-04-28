@@ -56,7 +56,9 @@
               <th scope="col">CoachID</th>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
+              <th scope="col">Duration</th>
               <th scope="col">Actions</th>
+
 
             </tr>
           </thead>
@@ -66,6 +68,7 @@
               </td>
               <td>{{ListlearningPath.title}}</td>
               <td>{{ListlearningPath.description}}</td>
+              <td>{{ListlearningPath.duration}}</td>
               <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
                   data-bs-whatever="@getbootstrap">Update LearningPath</button>
@@ -130,6 +133,39 @@
               <td>
                 <a type="button" class="btn btn-primary" (click)="exploreDeliveries(ListlearningPath.pathID)">Explore
                   Deliveries</a>
+              </td>
+              <td>
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal5"
+                  data-bs-whatever="@getbootstrap">Add Course to LearningPath</button>
+                <div class="modal fade" id="exampleModal5" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel5">Courses Available</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form *ngFor="let ListlearningPathWithCourses of learningPathContentWithC"  (click)="selectedContent = ListlearningPathWithCourses" id="formAdd" (ngSubmit)="addCourses(ListlearningPath.pathID)" [formGroup]="formAdd">
+                          
+                          <section>
+                            <button id="courseToAdd">{{ListlearningPathWithCourses.title}}</button><br>
+                          </section>
+                            
+                          
+                          
+                          
+                          
+                        </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+               
               </td>
             </tr>
           </tbody>
