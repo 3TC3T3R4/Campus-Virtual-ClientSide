@@ -29,11 +29,10 @@
                             Create
                     </button>
 
-                    <span class="form-text text-danger mensajeAlert" *ngIf="deliveryForm.get('deliveryField')?.hasError('required') && deliveryForm.get('deliveryField')?.touched ">
-                      URL Required
-                    </span>
-
                   </div>
+                  <span class="form-text text-danger mensajeAlert" *ngIf="deliveryForm.get('deliveryField')?.hasError('required') && deliveryForm.get('deliveryField')?.touched ">
+                    URL Required
+                  </span>
 
                   <!-- <button class="btn btn-primary mt-2 p-2" type="submit" form="deliveryForm"
                           [routerLink]="['/dashboard/content/list/' + content.courseID ]"
