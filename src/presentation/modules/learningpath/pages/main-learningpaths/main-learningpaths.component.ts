@@ -13,6 +13,7 @@ import { GetCourseActiveUseCase } from 'src/bussiness/useCases/course/getCourseA
 import { CourseModel } from 'src/domain/models/course/course.model';
 import { GetCourseByIdProfileUseCase } from 'src/bussiness/useCases/course/getCourseById.usecase';
 import { AssingToPathModel } from 'src/domain/commands/course/assingToPath.model';
+import { UpdateLearningPathDurationUseCase } from 'src/bussiness/useCases/learningpath/update-learningpath-duration.usecase';
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
@@ -36,7 +37,7 @@ export class MainLearningpathsComponent {
   objectPathAndCourse: AssingToPathModel | undefined;
   constructor(private taskCourseById: GetCourseByIdProfileUseCase ,private taskAddCourse: ConfigurePathCourseProfileUseCase,private taskSearchCourse: GetCourseActiveUseCase,
     private taskDelete: DeleteLearnigPathUseCase, private taskById: GetLearningPathByIdUseCase, private taskUpdate: updateLearningPathByIdUseCase, private taskCreate: CreateLearningPathUseCase, private taskGetAll: GetAllLearnigPathUseCase,
-    private router: Router
+    private router: Router, private taskUpdateDuration: UpdateLearningPathDurationUseCase
   ) {
     this.routeDashboard = ['../'];
     this.render = true;
@@ -216,15 +217,19 @@ export class MainLearningpathsComponent {
 
 
 
-  addCourses(pathID: string):void {
+  addCourses(pathIDB: string):void {
 
     if (this.selectedContent && this.selectedContent.courseID) {
         this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
           next: (data) => {
             console.log(data);
-        this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathID };
+        this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathIDB };
            this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
                next: (data) => {
+                this.taskUpdateDuration.execute({ pathID: pathIDB, totalDuration: data.duration}).subscribe({
+
+
+                });
               console.log(data);
               alert('Course added successfully');
             }

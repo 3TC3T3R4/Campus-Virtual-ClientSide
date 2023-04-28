@@ -147,15 +147,9 @@
                       </div>
                       <div class="modal-body">
                         <form *ngFor="let ListlearningPathWithCourses of learningPathContentWithC"  (click)="selectedContent = ListlearningPathWithCourses" id="formAdd" (ngSubmit)="addCourses(ListlearningPath.pathID)" [formGroup]="formAdd">
-                          
                           <section>
                             <button id="courseToAdd">{{ListlearningPathWithCourses.title}}</button><br>
                           </section>
-                            
-                          
-                          
-                          
-                          
                         </form>
                       </div>
                       <div class="modal-footer">
@@ -164,8 +158,6 @@
                     </div>
                   </div>
                 </div>
-              
-               
               </td>
             </tr>
           </tbody>
