@@ -10,11 +10,12 @@ import { CreateRegistrationUseCase } from 'src/bussiness/useCases/registration/c
 import { DeleteRegistrationUseCase } from '../../../../../bussiness/useCases/registration/delete-registration.usecase';
 import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
 import { RegistrationWithPaths } from 'src/domain/DTO/registration/registration-with-learningpaths';
+import { GetUserByIdUseCase } from '../../../../../bussiness/useCases/user/get-user-by-id.usecase';
 
 @Component({
   selector: 'sofka-main-registrations',
   templateUrl: './main-registrations.component.html',
-  styleUrls: ['./main-registrations.component.scss']
+  styleUrls: ['./main-registrations.component.scss'],
 })
 export class MainRegistrationsComponent implements OnInit {
   //routes
@@ -27,9 +28,19 @@ export class MainRegistrationsComponent implements OnInit {
   registrationID!: number;
   uidUser!: string;
   pathID!: string;
-  usersList!: UserModel[];
-  pathsList!: LearningPathModel[];
+  usersListToRegister!: UserModel[];
+  pathsListToRegister!: LearningPathModel[];
   coachID: string;
+
+  //search
+  searching = false;
+  filteredRegistrations!: RegistrationWithPaths[];
+
+  //pagination
+  registrationsPerPageTable: number = 6;
+  page: number = 1;
+  pages: number[] = [];
+  totalPages: number = 0;
 
   //forms
   frmCreateRegistration: FormGroup;
@@ -37,6 +48,7 @@ export class MainRegistrationsComponent implements OnInit {
   constructor(
     private getAllRegistrationsUseCase: GetAllRegistrationsUseCase,
     private getAllUsersUseCase: GetAllUsersUseCase,
+    private getUserByIdUseCase: GetUserByIdUseCase,
     private getLearningPathByCoachUseCase: GetLearningPathByCoachUseCase,
     private createRegistrationUseCase: CreateRegistrationUseCase,
     private deleteRegistrationUseCase: DeleteRegistrationUseCase,
@@ -52,7 +64,7 @@ export class MainRegistrationsComponent implements OnInit {
     });
     setTimeout(() => {
       this.render = true;
-    }, 2000);
+    }, 1800);
   }
 
   ngOnInit(): void {
@@ -69,111 +81,143 @@ export class MainRegistrationsComponent implements OnInit {
 
   //#region create registration
   sendData(): void {
-    let subCreateRegistration = this.createRegistrationUseCase.execute(this.frmCreateRegistration.value).subscribe({
-      next: (data) => {
-        this.toastr.success('Registration successfully.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-        this.getAllRegistrations();
-      },
-      error: (error) => {
-        this.toastr.warning('User may already be registered.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-      },
-      complete: () => {
-        subCreateRegistration.unsubscribe();
-      }
-    });
+    let subCreateRegistration = this.createRegistrationUseCase
+      .execute(this.frmCreateRegistration.value)
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Registration successfully.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right',
+          });
+          this.getAllRegistrations();
+        },
+        error: (error) => {
+          this.toastr.warning('User may already be registered.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right',
+          });
+        },
+        complete: () => {
+          subCreateRegistration.unsubscribe();
+        },
+      });
   }
   //#endregion
 
   //#region delete registration with modal
   deleteRegistration(registrationID: number): void {
-    let subDeleteRegistration = this.deleteRegistrationUseCase.execute(registrationID).subscribe({
-      next: (data) => {
-        this.toastr.success('Registration successfully deleted.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-        this.getAllRegistrations();
-      },
-      error: (error) => {
-        this.toastr.warning('Registration was no deleted.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-      },
-      complete: () => {
-        subDeleteRegistration.unsubscribe();
-      }
-    });
+    let subDeleteRegistration = this.deleteRegistrationUseCase
+      .execute(registrationID)
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Registration successfully deleted.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right',
+          });
+          this.getAllRegistrations();
+        },
+        error: (error) => {
+          this.toastr.warning('Registration was no deleted.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right',
+          });
+        },
+        complete: () => {
+          subDeleteRegistration.unsubscribe();
+        },
+      });
   }
   //#endregion
 
   //#region average final rating with modal
   averageFinalRating(): void {
-    let subAverageFinalRating = this.averageFinalRatingUseCase.execute({ uidUser: this.uidUser, pathID: this.pathID }).subscribe({
-      next: (data) => {
-        this.toastr.success('Average final rating successfully.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-        this.getAllRegistrations();
-      },
-      error: (error) => {
-        this.toastr.warning('Average final rating was no updated.', '', {
-          timeOut: 3000,
-          positionClass: 'toast-bottom-right'
-        });
-      },
-      complete: () => {
-        subAverageFinalRating.unsubscribe();
-      }
-    });
+    let subAverageFinalRating = this.averageFinalRatingUseCase
+      .execute({ uidUser: this.uidUser, pathID: this.pathID })
+      .subscribe({
+        next: (data) => {
+          this.toastr.success('Average final rating successfully.', '', {
+            timeOut: 3000,
+            positionClass: 'toast-bottom-right',
+          });
+          this.getAllRegistrations();
+        },
+        error: (error) => {
+          this.toastr.warning(
+            'Average final rating was no updated. There may be no deliveries.',
+            '',
+            {
+              timeOut: 3000,
+              positionClass: 'toast-bottom-right',
+            }
+          );
+        },
+        complete: () => {
+          subAverageFinalRating.unsubscribe();
+        },
+      });
   }
   //#endregion
 
   //#region consults
   getAllRegistrations(): void {
-    let subGetAllRegistrations = this.getAllRegistrationsUseCase.execute().subscribe({
-      next: (data) => {
-        this.registrationsList = data;
-        this.empty = false;
-      },
-      error: (error) => {
-        this.empty = true;
-      },
-      complete: () => {
-        subGetAllRegistrations.unsubscribe();
-      }
-    });
+    let subGetAllRegistrations = this.getAllRegistrationsUseCase
+      .execute()
+      .subscribe({
+        next: (data) => {
+          this.registrationsList = data;
+          this.empty = false;
+        },
+        error: (error) => (this.empty = true),
+        complete: () => {
+          subGetAllRegistrations.unsubscribe();
+        },
+      });
   }
 
   getAllUsers(): void {
     let subGetAllUsers = this.getAllUsersUseCase.execute().subscribe({
       next: (data) => {
-        this.usersList = data;
+        this.usersListToRegister = data;
       },
-      error: (error) => { },
+      error: (error) => {},
       complete: () => {
         subGetAllUsers.unsubscribe();
-      }
+      },
     });
   }
 
   getLearningPathByCoach(): void {
-    let subGetLearningPathByCoach = this.getLearningPathByCoachUseCase.execute(this.coachID).subscribe({
-      next: (data) => {
-        this.pathsList = data;
-      },
-      error: (error) => { },
-      complete: () => {
-        subGetLearningPathByCoach.unsubscribe();
-      }
-    });
+    let subGetLearningPathByCoach = this.getLearningPathByCoachUseCase
+      .execute(this.coachID)
+      .subscribe({
+        next: (data) => {
+          this.pathsListToRegister = data;
+        },
+        error: (error) => {},
+        complete: () => {
+          subGetLearningPathByCoach.unsubscribe();
+        },
+      });
+  }
+  //#endregion
+
+  //#region util methods
+  calculatePages(): void {
+    this.totalPages = Math.ceil(
+      this.registrationsList.length / this.registrationsPerPageTable
+    );
+    this.pages = Array(this.totalPages)
+      .fill(0)
+      .map((x, i) => i + 1);
+  }
+
+  searchByType(term: string): void {
+    this.searching = true;
+    this.filteredRegistrations = this.registrationsList.filter(
+      (registrer) =>
+        registrer.description.toLowerCase().includes(term.toLowerCase())
+      // registrer.title.toLowerCase().includes(term.toLowerCase())
+    );
   }
   //#endregion
 }

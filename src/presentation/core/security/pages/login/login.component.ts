@@ -11,8 +11,7 @@ import { AuthService } from '../../services/userAuth/auth.service';
 export class LoginComponent implements OnInit {
   routeLogIn: string[];
   frmLogin: FormGroup;
-  constructor(private readonly auth$: AuthService
-  ) {
+  constructor(private readonly auth$: AuthService) {
     this.clearLocalStorage();
     this.routeLogIn = ['log-in'];
     this.frmLogin = new FormGroup({
@@ -23,15 +22,11 @@ export class LoginComponent implements OnInit {
       ]),
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   signIn(user: string, password: string): void {
     this.auth$.SignIn(user, password);
   }
-
-  // signUp(user: string, password: string): void {
-  //   this.auth$.SignUp(user, password);
-  // }
 
   clearLocalStorage(): void {
     localStorage.removeItem('user');

@@ -5,12 +5,12 @@ import { LearningPathRepository } from "src/bussiness/repositories/learningpath/
 
 
 
-export class UpdateLearningPathDurationUseCase implements UseCase<[string, number], string>{
+export class UpdateLearningPathDurationUseCase implements UseCase<{pathID: string, totalDuration: number}, string>{
     constructor(private learningPathRepository: LearningPathRepository) { }
   
-    execute([pathID, totalDuration]: [string, number] ): Observable<string> {
+    execute(params: { pathID: string, totalDuration: number }): Observable<string> {
 
-      return this.learningPathRepository.updateLearningPathDurationAsync(pathID,totalDuration);
+      return this.learningPathRepository.updateLearningPathDurationAsync(params);
     
     }
   }
