@@ -14,6 +14,7 @@ import { CourseModel } from 'src/domain/models/course/course.model';
 import { GetCourseByIdProfileUseCase } from 'src/bussiness/useCases/course/getCourseById.usecase';
 import { AssingToPathModel } from 'src/domain/commands/course/assingToPath.model';
 import { UpdateLearningPathDurationUseCase } from 'src/bussiness/useCases/learningpath/update-learningpath-duration.usecase';
+import { GetCourseByPathIdProfileUseCase } from 'src/bussiness/useCases/course/getCoursesByPathId.usecase';
 @Component({
   selector: 'sofka-main-learningpaths',
   templateUrl: './main-learningpaths.component.html',
@@ -37,7 +38,7 @@ export class MainLearningpathsComponent {
   objectPathAndCourse: AssingToPathModel | undefined;
   constructor(private taskCourseById: GetCourseByIdProfileUseCase ,private taskAddCourse: ConfigurePathCourseProfileUseCase,private taskSearchCourse: GetCourseActiveUseCase,
     private taskDelete: DeleteLearnigPathUseCase, private taskById: GetLearningPathByIdUseCase, private taskUpdate: updateLearningPathByIdUseCase, private taskCreate: CreateLearningPathUseCase, private taskGetAll: GetAllLearnigPathUseCase,
-    private router: Router, private taskUpdateDuration: UpdateLearningPathDurationUseCase
+    private router: Router, private taskUpdateDuration: UpdateLearningPathDurationUseCase, private taskByPath: GetCourseByPathIdProfileUseCase
   ) {
     this.routeDashboard = ['../'];
     this.render = true;
@@ -220,30 +221,69 @@ export class MainLearningpathsComponent {
   addCourses(pathIDB: string):void {
 
     if (this.selectedContent && this.selectedContent.courseID) {
-        this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
-          next: (data) => {
-            console.log(data);
-        this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathIDB };
-           this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
-               next: (data) => {
-                this.taskUpdateDuration.execute({ pathID: pathIDB, totalDuration: data.duration}).subscribe({
-
-
+      this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathIDB };
+          this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
+            next: (data) => {
+              this.taskByPath.execute(pathIDB).subscribe({
+                  next: (data) => {
+                    let durationTotal = data.reduce((acumulador, data) => acumulador + data.duration, 0);
+                    this.taskUpdateDuration.execute({ pathID: pathIDB, totalDuration:durationTotal}).subscribe({
+                      next: (data) => {
+                        console.log(data);
+                        alert('Duration updated successfully');
+                      }
+                    })        
+                  }
                 });
-              console.log(data);
+              }
+            });
+             console.log(data);
               alert('Course added successfully');
-            }
-          });
-        },
-        error: (error) => {
-          console.log(error);
         }
       });
-    } else {
-      // La variable content es undefined o no tiene una propiedad id_content
-      console.log('El contenido seleccionado es inválido.');
-      alert('You cant add a course with items empty');
-    }
+   } else {
+        console.log('El contenido seleccionado es inválido.');
+        alert('You cant add a course with items empty');
+      }
+    // if (this.selectedContent && this.selectedContent.courseID) {
+    //     this.taskCourseById.execute(this.selectedContent.courseID).subscribe({
+    //       next: (data) => {
+        
+    //         console.log(data);
+        
+    //         this.objectPathAndCourse = { CourseID: data.courseID, PathID: pathIDB };
+
+    //     this.taskByPath.execute(pathIDB).subscribe({
+    //         next: (data) => {
+    //           let durationTotal = data.reduce((acumulador, data) => acumulador + data.duration, 0);
+    //         }
+
+    //     });
+    //        this.taskAddCourse.execute(this.objectPathAndCourse).subscribe({
+    //            next: (data) => {
+    //             this.taskUpdateDuration.execute({ pathID: pathIDB, totalDuration: data.duration}).subscribe({
+    //               next: (data) => {
+    //                 console.log(data);
+    //                 alert('Duration updated successfully');
+    //               }
+    //             })
+
+    //           }
+    //         });
+
+    //           console.log(data);
+    //           alert('Course added successfully');
+    //         }
+
+    //       });
+    //     } else {
+    //   // La variable content es undefined o no tiene una propiedad id_content
+    //   console.log('El contenido seleccionado es inválido.');
+    //   alert('You cant add a course with items empty');
+    // }
 
   }
 
