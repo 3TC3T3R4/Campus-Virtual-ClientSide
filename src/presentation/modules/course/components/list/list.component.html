@@ -12,7 +12,12 @@
         </tr>
       </thead>
       <tbody class="table-group-divider text-king-blue text-center">
-        <tr *ngFor="let course of courses; let i = index">
+        <tr *ngFor="
+        let course of courses
+          | slice
+            : (page - 1) * contentsPerPageTable
+            : (page - 1) * contentsPerPageTable +
+            contentsPerPageTable; let i = index">
           <th scope="row">{{i+1}}</th>
           <td (click)="content(course.courseID)" class="pointer">{{course.title}}</td>
           <td>{{course.description}}</td>
@@ -54,4 +59,20 @@
         </tr>
       </tbody>
     </table>
+    <nav class="row">
+      <ul class="col pagination align-self-center">
+        <li class="page-item" [class.disabled]="page == 1">
+          <a class="page-link" (click)="page = 1">First</a>
+        </li>
+        <li class="page-item" [class.disabled]="page == 1">
+          <a class="page-link" (click)="page = page - 1">Previous</a>
+        </li>
+        <li class="page-item" [class.disabled]="page == totalPages">
+          <a class="page-link" (click)="page = page + 1">Next</a>
+        </li>
+        <li class="page-item" [class.disabled]="page == totalPages">
+          <a class="page-link" (click)="page = totalPages">Lastest</a>
+        </li>
+      </ul>
+    </nav>
   </div>
