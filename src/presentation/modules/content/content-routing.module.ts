@@ -28,6 +28,10 @@ const routes: Routes = [
           component: CreateContentComponent
         },
         {
+          path: 'update/:idContent',
+          component: CreateContentComponent
+        },
+        {
           path: 'detail/:id/:type',
           component: DetailContentComponent
         },

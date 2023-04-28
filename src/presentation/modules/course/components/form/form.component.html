@@ -29,7 +29,7 @@
     
                     <div class="d-flex justify-content-center  m-3">
                       <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit" form="contentForm" [disabled]="contentForm.invalid" *ngIf="createMode">Create</button>
-                      <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" [disabled]="contentForm.invalid" form="contentForm" (click)="update()" *ngIf="!createMode">Update</button>
+                      <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="button" [disabled]="contentForm.invalid" (click)="update()" *ngIf="!createMode">Update</button>
                     </div>
     
                     <p class="text-center text-muted mt-5 mb-0">Return <a routerLink="/dashboard/courses"

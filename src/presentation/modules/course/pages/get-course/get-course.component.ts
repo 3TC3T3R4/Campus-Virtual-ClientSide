@@ -20,9 +20,9 @@ export class GetCourseComponent implements OnInit {
 
 
   constructor(private getCourses: GetCourseActiveUseCase,
-    private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
-    private router: Router,
-    private routeActive: ActivatedRoute) {
+              private getCoursePathIdUseCase: GetCourseByPathIdProfileUseCase,
+              private router: Router,
+              private routeActive: ActivatedRoute) {
     this.courses = [];
     this.role = 0;
     this.pathId = '';
