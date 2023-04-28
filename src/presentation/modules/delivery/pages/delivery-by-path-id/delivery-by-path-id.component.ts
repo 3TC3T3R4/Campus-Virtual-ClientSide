@@ -13,12 +13,15 @@ import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-del
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AverageFinalRatingUseCase } from '../../../../../bussiness/useCases/registration/average-final-rating.usecase';
+import { GetUserByIdUseCase } from '../../../../../bussiness/useCases/user/get-user-by-id.usecase';
+import { UserModel } from 'src/domain/models/user/user.model';
 @Component({
   selector: 'sofka-delivery-by-path-id',
   templateUrl: './delivery-by-path-id.component.html',
   styleUrls: ['./delivery-by-path-id.component.scss'],
 })
 export class DeliveryByPathIDComponent implements OnInit {
+  render!: boolean;
   empty: boolean;
   searching = false;
   //routes
@@ -29,6 +32,7 @@ export class DeliveryByPathIDComponent implements OnInit {
   deliveryItem: DeliveryModel;
   pathID!: string;
   traineeID!: string;
+  trainee!: UserModel;
   showQualifyDelivery = false;
   qualifyDeliveryForm: FormGroup;
 
@@ -38,12 +42,12 @@ export class DeliveryByPathIDComponent implements OnInit {
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
     private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
     private averageFinalRatingUseCase: AverageFinalRatingUseCase,
+    private getUserByIdUseCase: GetUserByIdUseCase,
     private routeActive: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService
   ) {
     this.empty = false;
-
     this.routeDashboard = ['../../learningpaths'];
 
     this.qualifyDeliveryForm = new FormGroup({
@@ -63,6 +67,10 @@ export class DeliveryByPathIDComponent implements OnInit {
       ratedAt: new Date(),
       stateDelivery: 1,
     };
+
+    setTimeout(() => {
+      this.render = true;
+    }, 1000);
   }
 
   ngOnInit(): void {
@@ -108,10 +116,25 @@ export class DeliveryByPathIDComponent implements OnInit {
   }
 
   qualifyDelivery(deliveryItem: DeliveryModel) {
-    this.showQualifyDelivery = true;
-    this.traineeID = deliveryItem.uidUser;
-    const deliveryID = deliveryItem.deliveryID;
-    localStorage.setItem('deliveryID', deliveryID.toString());
+    let subGetUser = this.getUserByIdUseCase
+      .execute(deliveryItem.uidUser)
+      .subscribe({
+        next: (response) => {
+          this.trainee = response;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+        complete: () => {
+          subGetUser.unsubscribe();
+        },
+      });
+    setTimeout(() => {
+      this.showQualifyDelivery = true;
+      this.traineeID = deliveryItem.uidUser;
+      const deliveryID = deliveryItem.deliveryID;
+      localStorage.setItem('deliveryID', deliveryID.toString());
+    }, 700);
   }
 
   confirmQualify() {

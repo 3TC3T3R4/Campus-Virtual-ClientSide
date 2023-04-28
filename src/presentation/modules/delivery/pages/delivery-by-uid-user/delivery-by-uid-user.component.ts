@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./delivery-by-uid-user.component.scss'],
 })
 export class DeliveryByUidUserComponent implements OnInit {
+  render!: boolean;
   empty: boolean;
   searching = false;
 
@@ -26,7 +27,7 @@ export class DeliveryByUidUserComponent implements OnInit {
     private router: Router
   ) {
     this.empty = false;
-    this.routeDashboard = ['../'];
+    this.routeDashboard = ['../../'];
     this.uidUser = localStorage.getItem('uidUser') as string;
 
     this.deliveryItem = {
@@ -40,6 +41,10 @@ export class DeliveryByUidUserComponent implements OnInit {
       ratedAt: new Date(),
       stateDelivery: 1,
     };
+
+    setTimeout(() => {
+      this.render = true;
+    }, 1000);
   }
 
   ngOnInit(): void {

@@ -1,53 +1,58 @@
-<div style="display: flex;">
+<div *ngIf="!render" class="spinner-grow text-bg-secondary position-absolute top-50 start-50 min-vw-75 min-vh-75"
+  role="status"></div>
+<div *ngIf="render" style="display: flex;">
   <div class="col col-lg-1 p-4 ps-5">
     <sofka-back-button [routeBack]="routeDashboard"></sofka-back-button>
   </div>
   <!-- Left Side -->
-  <div style="flex-grow: 1; padding-right: 10px;">
+  <div style="flex-grow: 1; padding-right: 10px; padding-top: 4%;">
     <!--Create a bottom to get deliveries by pathID with the input pathID-->
     <div>
       <!--Create a table with the list of deliveries obtained by pathID-->
-      <div class="row m-3">
-        <hr class="my-4" />
-        <h3>Deliveries</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">User</th>
-              <th scope="col">Delivery at</th>
-              <th scope="col">Delivery field</th>
-            </tr>
-          </thead>
-          <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
-            <tr *ngIf=" empty;else datosAll" class="text-center">
-              <th colspan="4">No delivery yet</th>
-            </tr>
-            <ng-template #datosAll class="text-light">
-              <tr *ngFor="let item of deliveryItems">
-                <td>{{item.uidUser}}</td>
-                <td>{{item.deliveryAt | date: 'dd/MM/yyyy'}}</td>
-                <td><a href="{{item.deliveryField}}">{{item.deliveryField}}</a></td>
-                <td>
-                  <button type="button" class="btn btn-success" (click)="qualifyDelivery(item)">Qualify</button>
-                  <button type="button" class="btn btn-danger" (click)="deleteDelivery(item)">Delete</button>
-                </td>
+      <div class="row m-3 text-king-blue">
+        <h2>Unqualified deliveries</h2>
+        <div class="table-responsive mt-3">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Delivery at</th>
+                <th scope="col">Delivery field</th>
               </tr>
-            </ng-template>
-          </tbody>
-        </table>
+            </thead>
+            <tbody *ngIf="!searching" class="table-group-divider text-king-blue text-center">
+              <tr *ngIf=" empty;else datosAll" class="text-center">
+                <th colspan="4">No deliveries yet</th>
+              </tr>
+              <ng-template #datosAll class="text-light">
+                <tr *ngFor="let item of deliveryItems">
+                  <td>{{item.deliveryAt | date }}</td>
+                  <td><a class="text-decoration-none text-purple" href="{{item.deliveryField}}"
+                      target="_blank"><strong>Clic
+                        here <i class="bi bi-box-arrow-up-right"> </i> </strong></a></td>
+                  <td>
+                    <button type="button" class="btn btn-sm btn-outline-success me-1" (click)="qualifyDelivery(item)"><i
+                        class="bi bi-clipboard-check"> </i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteDelivery(item)"><i
+                        class="bi bi-trash3"></i></button>
+                  </td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Right Side -->
-  <div style="flex-basis: 40%;">
+  <div style="flex-basis: 40%; padding-top: 4%; padding-right: 1.5%;">
     <!--Create a bottom to qualify a Delivery with deliveryID, rating and comment-->
-    <div class="col m-5 mt-0" *ngIf="showQualifyDelivery">
-      <h3>Qualify a Delivery</h3>
-      <form [formGroup]="qualifyDeliveryForm" id="qualifyDeliveryForm"
-        class="text-bg-light p-3 border-3 border-primary text-start">
+    <div class="row m-3 shadow-lg rounded-3 p-4 text-king-blue" *ngIf="showQualifyDelivery">
+      <h3>Qualify</h3>
+      <form [formGroup]="qualifyDeliveryForm" id="qualifyDeliveryForm" class="p-3 text-start mt-1">
         <div class="mb-3 row">
-          <div>
+          <h5 class="text-blue text-lg-start">Delivered by: {{trainee.email}}</h5>
+          <div class="mt-3">
             <label for="rating" id="rating">rating</label>
           </div>
           <div class="col-sm-10">
@@ -55,13 +60,13 @@
           </div>
           <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('rating')?.hasError('required') &&
         qualifyDeliveryForm.get('rating')?.touched">
-            <p class="text-bg-danger">
+            <p class="text-purple mt-1">
               rating is required
             </p>
           </div>
           <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('rating')?.hasError('min') &&
         qualifyDeliveryForm.get('rating')?.touched">
-            <p class="text-bg-danger">
+            <p class="text-purple mt-1">
               rating must be at least 1
             </p>
           </div>
@@ -73,14 +78,14 @@
           </div>
           <div id="altoMensaje" *ngIf="qualifyDeliveryForm.get('comment')?.hasError('required') &&
         qualifyDeliveryForm.get('comment')?.touched">
-            <p class="text-bg-danger">
+            <p class="text-purple mt-1">
               comment is required
             </p>
           </div>
         </div>
       </form>
       <div>
-        <button id="btnC" type="button" class="btn btn-success" [disabled]="!qualifyDeliveryForm.valid"
+        <button id="btnC" type="button" class="btn btn-outline-success" [disabled]="!qualifyDeliveryForm.valid"
           (click)="confirmQualify()">Proceed</button>
       </div>
     </div>
