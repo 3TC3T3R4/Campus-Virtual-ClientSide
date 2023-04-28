@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DeleteContentUseCase } from 'src/bussiness/useCases/content/commands/delete-content.usecase';
+import { GetContentByCourseUseCase } from 'src/bussiness/useCases/content/queries/getCourse-content.usecase';
+import { UpdateDurationCourseProfileUseCase } from 'src/bussiness/useCases/course/updateDuration.usecase';
+import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.model';
 import { ContentModel } from 'src/domain/models/content/content.model';
 
 @Component({
@@ -13,6 +16,8 @@ export class ListComponent {
 
   @Input() contents: ContentModel[];
 
+  durationUpdate : UpdateDurationModel;
+
 
    //pagination
    registrationsPerPageTable: number = 6;
@@ -23,8 +28,14 @@ export class ListComponent {
 
   constructor(private router: Router,
               private deleteContent: DeleteContentUseCase,
+              private updateDuration : UpdateDurationCourseProfileUseCase,
+              private getContentByCourse : GetContentByCourseUseCase,
               private toastr: ToastrService){
     this.contents = [];
+    this.durationUpdate = {
+      courseID: '',
+      duration: 0
+    }
   }
 
   detail(idCourse : string, type : number){
@@ -52,7 +63,7 @@ export class ListComponent {
           positionClass: 'toast-bottom-right'
         });
       },
-      complete: () => {console.log('Complete'), this.contents.splice(index, 1);}
+      complete: () => {console.log('Complete'), this.contents.splice(index, 1), this.updateDurationCourse();}
     });
   }
 
@@ -77,6 +88,27 @@ export class ListComponent {
   } */
   //#endregion
 
+  /* getContentsCourse(){
+    this.getContentByCourse.execute(this.courseId).subscribe({
+      next: content =>{this.contents = content ,console.log(content)},
+      error:err => console.log(err),
+      complete: () => {
+        this.updateDurationCourse();
+      }
+    });
+  } */
 
+
+  updateDurationCourse(){
+    this.durationUpdate.courseID = this.contents[0].courseID
+    this.contents.forEach(content => {
+      this.durationUpdate.duration += content.duration;
+    });
+    console.log(this.durationUpdate);
+    this.updateDuration.execute(this.durationUpdate).subscribe({
+      next: result =>{console.log(result)},
+      error:err => console.log(err)
+    });
+  }
 
 }
