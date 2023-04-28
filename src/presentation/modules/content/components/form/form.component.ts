@@ -128,17 +128,8 @@ export class FormComponent {
       error:err => console.log(err),
       complete: () => {
         console.log('Complete');
-        this.router.navigate([`/dashboard/content/list/${this.courseId}`]);
+        this.router.navigate([`/dashboard/content/list/${this.content.courseID}`]);
       }
     });
-
-    /* this.contentCreate.execute(this.contentForm.value).subscribe({
-      next: content => console.log(content),
-      error:err => console.log(err),
-      complete: () => {
-        console.log('Complete');
-        this.router.navigate([`/dashboard/content/list/${this.courseId}`]);
-      }
-    }); */
   }
 }
