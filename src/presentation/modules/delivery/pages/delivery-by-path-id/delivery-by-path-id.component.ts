@@ -10,6 +10,7 @@ import { DeliveryModel } from 'src/domain/models/delivery.model';
 import { QualifyDeliveryUseCase } from 'src/bussiness/useCases/delivery/qualify-delivery.usecase';
 import { DeleteDeliveryUseCase } from 'src/bussiness/useCases/delivery/delete-delivery.usecase';
 import { QualifyDeliveryCommand } from 'src/domain/commands/delivery/qualify-delivery';
+import { AverageFinalRatingUseCase } from 'src/bussiness/useCases/registration/average-final-rating.usecase';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'sofka-delivery-by-path-id',
@@ -25,6 +26,7 @@ export class DeliveryByPathIDComponent implements OnInit {
   deliveryItems: DeliveryModel[] = [];
   deliveryItem: DeliveryModel;
   pathID!: string;
+  uidUser!: string;
   showQualifyDelivery = false;
   qualifyDeliveryForm: FormGroup;
 
@@ -33,6 +35,7 @@ export class DeliveryByPathIDComponent implements OnInit {
     private GetDeliveriesByPathIdUseCase: GetDeliveriesByPathIdUseCase,
     private QualifyDeliveryUseCase: QualifyDeliveryUseCase,
     private DeleteDeliveryUseCase: DeleteDeliveryUseCase,
+    private AverageFinalRatingUseCase: AverageFinalRatingUseCase,
     private routeActive: ActivatedRoute,
     private router: Router
   ) {
@@ -97,6 +100,7 @@ export class DeliveryByPathIDComponent implements OnInit {
   }
 
   confirmQualify() {
+    this.uidUser = localStorage.getItem('uidUser') ?? '';
     const deliveryID = localStorage.getItem('deliveryID');
     if (deliveryID != null) {
       const command = new QualifyDeliveryCommand(
@@ -112,6 +116,18 @@ export class DeliveryByPathIDComponent implements OnInit {
           console.log(error);
         }
       );
+      this.AverageFinalRatingUseCase.execute({
+        uidUser: this.uidUser,
+        pathID: this.pathID,
+      }).subscribe(
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
       this.showQualifyDelivery = false;
     } else {
       console.log('No se pudo obtener el deliveryID');
