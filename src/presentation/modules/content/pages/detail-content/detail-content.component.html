@@ -20,7 +20,7 @@
 
           <h5 for="basic-url" class="form-label text-blue">Your repository URL</h5>
 
-          <div class="form-floating input-group" style="width: 700px;">
+          <div class="form-floating input-group pt-2" style="width: 700px;">
 
             <span class="input-group-text" id="basic-addon3">https://github.com/</span>
 
@@ -32,21 +32,14 @@
               Create
             </button>
 
-            <span class="form-text text-danger mensajeAlert"
-              *ngIf="deliveryForm.get('deliveryField')?.hasError('required') && deliveryForm.get('deliveryField')?.touched ">
-              URL Required
-            </span>
 
           </div>
-
-          <!-- <button class="btn btn-primary mt-2 p-2" type="submit" form="deliveryForm"
-                          [routerLink]="['/dashboard/content/list/' + content.courseID ]"
-                          >
-                    Send
-                  </button> -->
+          <p class="form-text text-danger mensajeAlert mt-1" style="font-size: 20px;"
+            *ngIf="deliveryForm.get('deliveryField')?.hasError('required') && deliveryForm.get('deliveryField')?.touched ">
+            URL Required
+          </p>
         </div>
       </div>
     </form>
-
   </div>
 </div>

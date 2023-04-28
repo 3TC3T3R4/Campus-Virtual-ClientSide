@@ -6,6 +6,10 @@ import { CreateContentUseCase } from 'src/bussiness/useCases/content/commands/cr
 import { UpdateContentUseCase } from 'src/bussiness/useCases/content/commands/update-content.usecase';
 import { GetContentByIdUseCase } from 'src/bussiness/useCases/content/queries/getId-content.usecase';
 import { UpdateContentCommand } from 'src/domain/commands/content/update-content.command';
+import { GetContentByCourseUseCase } from '../../../../../bussiness/useCases/content/queries/getCourse-content.usecase';
+import { ContentModel } from 'src/domain/models/content/content.model';
+import { UpdateDurationCourseProfileUseCase } from 'src/bussiness/useCases/course/updateDuration.usecase';
+import { UpdateDurationModel } from 'src/domain/commands/course/updateDuration.model';
 
 @Component({
   selector: 'sofka-form',
@@ -26,9 +30,15 @@ export class FormComponent {
 
   content : UpdateContentCommand;
 
+  contents : ContentModel[] = [];
+
+  durationUpdate : UpdateDurationModel;
+
   constructor(private contentCreate : CreateContentUseCase,
               private getContentId : GetContentByIdUseCase,
               private updateContent : UpdateContentUseCase,
+              private getContentByCourse : GetContentByCourseUseCase,
+              private updateDuration : UpdateDurationCourseProfileUseCase,
               private router: Router,
               private routeActive: ActivatedRoute,
               private toastr: ToastrService){
@@ -43,6 +53,10 @@ export class FormComponent {
       type : 1,
       duration : 0,
       stateContent : 1
+    }
+    this.durationUpdate = {
+      courseID: '',
+      duration: 0
     }
     this.contentForm = new FormGroup({
       courseId: new FormControl<string>(''),
@@ -76,6 +90,7 @@ export class FormComponent {
     }
     else{
       this.createMode = true;
+      
     }
     
     console.log(this.idContent)
@@ -99,6 +114,7 @@ export class FormComponent {
       },
       error:err => console.log(err),
       complete: () => {
+        this.getContentsCourse();
         console.log('Complete');
         this.router.navigate([`/dashboard/content/list/${this.courseId}`]);
       }
@@ -132,4 +148,32 @@ export class FormComponent {
       }
     });
   }
+
+
+  getContentsCourse(){
+    this.getContentByCourse.execute(this.courseId).subscribe({
+      next: content =>{this.contents = content ,console.log(content)},
+      error:err => console.log(err),
+      complete: () => {
+        this.updateDurationCourse();
+      }
+    });
+  }
+
+
+  updateDurationCourse(){
+    this.durationUpdate.courseID = this.courseId
+    this.contents.forEach(content => {
+      this.durationUpdate.duration += content.duration;
+    });
+    console.log(this.durationUpdate);
+    this.updateDuration.execute(this.durationUpdate).subscribe({
+      next: result =>{console.log(result)},
+      error:err => console.log(err)
+    });
+  }
+
+
+
+
 }

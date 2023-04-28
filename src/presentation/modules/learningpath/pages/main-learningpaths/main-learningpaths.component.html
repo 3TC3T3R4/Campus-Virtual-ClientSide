@@ -284,6 +284,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <p *ngIf="learningPathContentWithC?.length === 0">No courses available.</p>
           <form *ngFor="let ListlearningPathWithCourses of learningPathContentWithC"
             (click)="selectedContent = ListlearningPathWithCourses" id="formAdd" (ngSubmit)="addCourses(pathID)"
             [formGroup]="formAdd">
